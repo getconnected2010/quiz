@@ -18,12 +18,12 @@ function Add() {
                     .oneOf([Yup.ref('answer1'), Yup.ref('answer2'), Yup.ref('answer3'), Yup.ref('answer4')],'the correct answer must match one of the answer options')
     })
     const onSubmit=(values, onSubmitProps)=>{
-        console.log(values)
+        dispatch(addAction(values))
         onSubmitProps.resetForm()
     }
     return (
        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-        <div className='form'>
+        <div className='Add'>
             <h1>Question and Answers</h1>
            <Form>
                     <label htmlFor='question'>Question:</label>
