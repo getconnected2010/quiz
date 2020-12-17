@@ -1,0 +1,1 @@
+A full stack quiz app that uses React, Redux, Express & Mysql. A user can create questions with multiple choice answers and store them in the app. These are stored in a mysql database. When someone is ready to take the quiz, those questions are populated and displayed with multiple choice answers. After submitting answers, a score is automatically calculated and displayed.
