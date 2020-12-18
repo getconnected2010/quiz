@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
-import{useSelector} from 'react-redux'
+import React, {useState, useEffect} from 'react'
+import{useSelector, useDispatch} from 'react-redux'
 import Modal from 'react-modal';
+import {fetchAll} from '../actions/listActions';
 import './qaList.css';
 
-const List=()=>{
+const QaList=()=>{
+    const dispatch= useDispatch()
     const quiz= useSelector(state=>state.qa)
     const [answers, setAnswers] = useState({})
     const [score, setScore] = useState(0)
@@ -18,7 +20,7 @@ const List=()=>{
         radios.forEach(radio=>radio.checked=false)
         setOpenModal(true)
     }
-    console.log(answers)
+  
     Modal.setAppElement('#root')
     return(
     <div className='qaList'>
@@ -28,6 +30,7 @@ const List=()=>{
                 <button onClick={()=>setOpenModal(false)}>Close</button>
             </div>
         </Modal>
+        {/* Q & A list */}
         <form onSubmit={handleSubmit} onChange={handleChange}>
             {
                 quiz.map((qa, index)=>(
@@ -67,4 +70,4 @@ const List=()=>{
     </div>
     )
 }
-export default List;
+export default QaList;
