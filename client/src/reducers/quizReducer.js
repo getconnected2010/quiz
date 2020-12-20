@@ -3,7 +3,7 @@ const quizReducer=(state=[], action, payload)=>{
         case 'ADD':
             console.log('state', state)
             console.log('payload', action.payload)
-            return [...state, action.payload]
+            return [action.payload, ...state]
         case 'FETCH':
             return action.payload
         default:
