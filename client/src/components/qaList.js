@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import{useSelector, useDispatch} from 'react-redux'
 import Modal from 'react-modal';
-import {fetchAll} from '../actions/listActions';
 import './qaList.css';
+import {deleteQA} from '../actions/listActions'
 
 const QaList=()=>{
-    const dispatch= useDispatch()
     const quiz= useSelector(state=>state.qa)
+    const admin = useSelector(state=>state.admin)
+    const dispatch = useDispatch()
     const [answers, setAnswers] = useState({})
     const [score, setScore] = useState(0)
     const [openModal, setOpenModal] = useState(false)
@@ -20,7 +21,10 @@ const QaList=()=>{
         radios.forEach(radio=>radio.checked=false)
         setOpenModal(true)
     }
-  
+    const removeQA=(e)=>{
+        e.preventDefault()
+        dispatch(deleteQA(e.target.id))
+    }
     Modal.setAppElement('#root')
     return(
     <div className='qaList'>
@@ -31,41 +35,42 @@ const QaList=()=>{
             </div>
         </Modal>
         {/* Q & A list */}
-        <form onSubmit={handleSubmit} onChange={handleChange}>
+        <form onChange={handleChange}>
             {
-                quiz.map((qa, index)=>(
-                    <div key={index} className='qa'>
+                quiz.map(qa=>(
+                    <div key={qa.id} className='qa'>
                         {/* question */}
                         <div className='q'>
                            {qa.question}
+                           <button id={qa.id} onClick={removeQA}>Delete</button>
                         </div> 
                         {/* answers */}
                         <div className='a-parent'>
                             <div className='a'>
                                 <label>{qa.answer1}</label>
-                                <input type="radio" name={qa.question+index} value={qa.answer1===qa.correct}/>
+                                <input type="radio" name={qa.question+qa.id} value={qa.answer1===qa.correct}/>
                             </div>
 
                             <div className='a'>
                                 <label>{qa.answer2}</label>
-                                <input type="radio" name={qa.question+index} value={qa.answer2===qa.correct} />
+                                <input type="radio" name={qa.question+qa.id} value={qa.answer2===qa.correct} />
                             </div>
 
                             <div className='a'>
                                 <label>{qa.answer3}</label>
-                                <input type="radio" name={qa.question+index} value={qa.answer3===qa.correct} />
+                                <input type="radio" name={qa.question+qa.id} value={qa.answer3===qa.correct} />
                             </div>
 
                             <div className='a'>
                                 <label>{qa.answer4}</label>
-                                <input type="radio" name={qa.question+index} value={qa.answer4===qa.correct} />
+                                <input type="radio" name={qa.question+qa.id} value={qa.answer4===qa.correct} />
                             </div>
 
                         </div>
                     </div>
                 ))
             }
-            <button type='submit'>Submit Answers</button>
+            <button type='submit' onClick={handleSubmit}>Submit Answers</button>
         </form>
     </div>
     )

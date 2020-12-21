@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router()
 const db= require('../config/db')
 const quizController= require('../controller/quizController')
-const {qaBodyCheck, qaCheckResult} = require('../utility/addValidator')
+const {validateInputs, inputValidatoinResult} = require('../utility/addRouteValidator')
 
 router.get('/list', quizController.GetQa)
 
-router.post('/add', qaBodyCheck, qaCheckResult, quizController.AddQa)
+router.post('/add', validateInputs, inputValidatoinResult, quizController.AddQa)
+
+router.delete('/delete/:id', quizController.deleteQa)
 
 module.exports= router
