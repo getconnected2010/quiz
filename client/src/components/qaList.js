@@ -70,7 +70,8 @@ const QaList=()=>{
                     </div>
                 ))
             }
-            <button type='submit' onClick={handleSubmit}>Submit Answers</button>
+            {quiz.length>0 && <button type='submit' onClick={handleSubmit}>Submit Answers</button>}
+        
         </form>
     </div>
     )
