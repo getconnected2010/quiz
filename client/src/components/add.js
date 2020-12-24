@@ -23,7 +23,7 @@ function Add() {
     }
     return (
        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-        <div className='Add'>
+        <div className='Form'>
             <h1>Question and Answers</h1>
            <Form>
                     <label htmlFor='question'>Question:</label>

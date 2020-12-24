@@ -1,13 +1,13 @@
-.Add{
+.Form{
     background: linear-gradient(black, rgb(70, 15, 15));
     height: 100vh;
     padding-top: 1px;
 }
-.Add h1{
+.Form h1{
     color: red;
     text-align: center;
 }
-.Add form{
+.Form form{
     background: black;
     max-width: 500px;
     margin: 4px auto;
@@ -16,22 +16,22 @@
     padding: 15px 25px;
     border-radius: 10px;
 }
-.Add label, input{
+.Form label, input{
     display: block;
 }
-.Add label{
+.Form label{
     font-size: 1.5rem;
     font-weight: bold;
     color: rgb(214, 27, 27);
     padding-top: 10px;
 }
-.Add input{
+.Form input{
     width: 95%;
     height: 40px;
     border: 3px solid gray;
     border-radius: 15px;
 }
-.Add button{
+.Form button{
     margin: 20px;
     width: 90%;
     height: 40px;

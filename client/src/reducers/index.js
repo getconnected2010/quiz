@@ -1,8 +1,8 @@
 import{combineReducers} from 'redux'
 import quizReducer from './quizReducer'
-import adminReducer from './adminReducer'
+import userReducer from './userReducer'
 
 export default combineReducers({
     qa: quizReducer, 
-    admin: adminReducer
+    user: userReducer
 })

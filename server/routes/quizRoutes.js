@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db= require('../config/db')
 const quizController= require('../controller/quizController')
-const {validateInputs, inputValidatoinResult} = require('../utility/addRouteValidator')
+const {validateInputs, inputValidatoinResult} = require('../util/addRouteValidator')
 
 router.get('/list', quizController.GetQa)
 

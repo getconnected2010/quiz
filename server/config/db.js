@@ -17,4 +17,7 @@ db.connect((err)=>{
         console.log('connected to db')
     }
 })
+// db.end((err)=>{
+//     if(err) console.log('db end error', err)
+// })
 module.exports= db

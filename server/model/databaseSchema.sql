@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `quiz` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `quiz`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: quiz
@@ -33,7 +31,25 @@ CREATE TABLE `quiz_list` (
   `answer4` varchar(45) NOT NULL,
   `correct` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `admin` varchar(45) DEFAULT 'false',
+  `dob` varchar(4) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -45,4 +61,4 @@ CREATE TABLE `quiz_list` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-18  0:43:36"
+-- Dump completed on 2020-12-23 20:28:09

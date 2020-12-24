@@ -7,6 +7,7 @@ import QaList from './components/qaList';
 import Add from './components/add';
 import Home from './components/Home';
 import Nav from './components/Nav';
+import Signup from './components/Signup'
 
 
 const App=()=>{
@@ -20,8 +21,9 @@ const App=()=>{
       <Nav />
       <Switch>
           <Route path='/' exact component={Home} />
-          <Route path='/list' component={QaList} />
           <Route path='/add' component={Add} />
+          <Route path='/signup' component={Signup} />
+          <Route path='/list' component={QaList} />
       </Switch>
     </Router>
   );
