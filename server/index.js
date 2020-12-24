@@ -6,8 +6,25 @@ const quizRoutes= require('./routes/quizRoutes')
 const userRoutes = require('./routes/userRoutes')
 const cookieParser= require('cookie-parser')
 
+//resolves access-control-allow-origin header error for axios. add the 'corsOptions' obj in cors(corsOptions) middleware
+const whiteList=['http://localhost:3000', 'http://localhost:8000']
+const corsOptions={
+    origin: (origin, callback)=>{
+        if(whiteList.indexOf(origin)!== -1){
+            callback(null, true)
+        } else{
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
 
-app.use(cors())
+//resolves access-control-allow-credentials header error for axios
+app.use((req, res, next)=>{
+    res.header({'Access-Control-Allow-Credentials':true})
+    next()
+})
+
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(cookieParser())
 

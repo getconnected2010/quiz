@@ -6,7 +6,6 @@ import {deleteQA} from '../actions/listActions'
 
 const QaList=()=>{
     const quiz= useSelector(state=>state.qa)
-    const admin = useSelector(state=>state.admin)
     const dispatch = useDispatch()
     const [answers, setAnswers] = useState({})
     const [score, setScore] = useState(0)

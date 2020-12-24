@@ -1,15 +1,11 @@
-import axios from 'axios';
+import {fetchCookie, removeCookie} from '../services/cookies'
 
-export const signupAction=(data)=>{
-    axios.post('http://localhost:8000/user/signup', data)
-        .then((response)=>{
-            alert(response.data.msg)
-        })
-        .catch((error)=>{
-            if(error.response && error.response.status===422){
-                alert(error.response.data.msg)
-            }else{
-                alert('An error occured. Please try again. If error persists, contact admin.')
-            } 
-        })
+export const LoginAction=()=>async(dispatch)=>{
+    try {
+        const user= await fetchCookie()
+        dispatch({type:'SIGNIN', payload: user}) 
+    } catch (error) {
+        removeCookie()
+        console.log(error)
+    } 
 }

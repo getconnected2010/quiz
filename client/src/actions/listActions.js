@@ -21,7 +21,7 @@ export const fetchAll=()=>async(dispatch)=>{
 
 export const deleteQA= (data)=>async(dispatch)=>{
     try{
-        const result = await axios.delete(`http://localhost:8000/quiz/delete/${data}`)
+        await axios.delete(`http://localhost:8000/quiz/delete/${data}`)
         dispatch({type: 'DELETE', payload: data})
     } catch(error){
         if(error) throw error;

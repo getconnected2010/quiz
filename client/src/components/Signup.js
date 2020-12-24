@@ -1,11 +1,8 @@
 import React from 'react'
-import {Form, Formik, Field, ErrorMessage, FormikProvider} from 'formik'
-import {useDispatch} from 'react-redux'
+import {Form, Formik, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
-import {signupAction} from '../actions/userActions'
 
 const Signup = () => {
-    const dispatch = useDispatch()
     const initialValues={username:'', password:'', confirm:'', dob:''}
     const validationSchema= Yup.object({
         username: Yup.string()
@@ -16,12 +13,13 @@ const Signup = () => {
         dob: Yup.string().required('a four digit number required').length(4)
                 .matches(/^[0-9]+$/, "enter your birthday in two digit month and two digit day format")
     })
-    const onSubmit=(values, onSubmitProps)=>{
-        dispatch(signupAction(values))
+    const handleSubmit= async(values, onSubmitProps)=>{
+        
+        console.log('after dispatch in signup.js')
     }
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema}
-        onSubmit={onSubmit}>
+        onSubmit={handleSubmit}>
             {
                 formik=>(
                     <div className="Form">
@@ -43,7 +41,7 @@ const Signup = () => {
                             <Field type='text' name='dob' placeholder="we'll use this to retrieve forgotten passwords"/>
                             <span style={{color:'red'}}><ErrorMessage name='dob' /></span>
 
-                            <button type='submit'>{formik.isSubmitting?<>Submitting</>: <>Submit</>}</button>
+                            <button type='submit'>Sign up</button>
                         </Form>
                     </div>
                 )

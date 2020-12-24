@@ -24,24 +24,24 @@ exports.loginUser= async(req, res, next)=>{
     const userSql= "SELECT * FROM users WHERE username=?"
     db.query(userSql, [username], (err, result)=>{
         if(err){
-            res.status(400).json(err.code)
-        }else if(result.length===0){return res.status(400).json({msg:'not a registered username'})}
+            res.status(500).json({msg:'server error. If error persists, contact site admin.'})
+        }else if(result.length===0){return res.status(404).json({msg:'not a registered username'})}
         else if(result.length>1){return res.status(400).json({msg:'illegal attempt'})}
         else if(result.length===1){
             const dbPassword= result[0].password
             const check = bcrypt.compare(password, dbPassword, (err, same)=>{
                 if(err){
-                    return res.status(400).json({msg:'custom server error message'})
+                    return res.status(500).json({msg:'error processing password request.'})
                 }else if(same===true){
                     req.body.user_id= result[0].user_id
                     req.body.admin= result[0].admin
                     next()
                 }else { 
-                    res.status(400).json({msg:'wrong password'})
+                    res.status(401).json({msg:'wrong password'})
                 }
             })
         }
-    })
+    })   
 }
 
 exports.checkUser=(req, res, next)=>{
@@ -51,7 +51,7 @@ exports.checkUser=(req, res, next)=>{
         if(err){
             res.status(500).json({msg:'server error'})
         }
-        if(result.length===0){
+        if(result && result.length===0){
             next()
         }
         else{
