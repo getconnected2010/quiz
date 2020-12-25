@@ -19,7 +19,7 @@ exports.createUser=async(req, res)=>{
     }
 }
 
-exports.loginUser= async(req, res, next)=>{
+exports.signInUser= async(req, res, next)=>{
     const {username, password} = req.body
     const userSql= "SELECT * FROM users WHERE username=?"
     db.query(userSql, [username], (err, result)=>{

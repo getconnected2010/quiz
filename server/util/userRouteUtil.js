@@ -27,3 +27,20 @@ exports.assignCookies = (req, res)=>{
         res.status(400).json({msg: 'custom server error cookies'})
     }
 }
+
+exports.deleteCookies=(req, res)=>{
+    try {
+        res.cookie('accessToken', '', {
+            maxAge: 0
+        })
+        res.cookie('refreshToken', '', {
+            maxAge: 0
+        })
+        res.cookie('user', '',{
+            maxAge: 0
+        })
+        res.status(200).json({msg:'successfully logged out'})
+    } catch (error) {
+        res.status(500).json({msg:'server error logging you out'})
+    }
+}

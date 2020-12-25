@@ -1,22 +1,24 @@
+import {useHistory} from 'react-router-dom'
 import * as Yup from 'yup';
 import {Form, Field, Formik, ErrorMessage} from 'formik'
-import {useDispatch, useSelector} from 'react-redux';
-import {loginApi} from '../services/api/userApi'
-import {LoginAction} from '../actions/userActions'
+import {useDispatch} from 'react-redux';
+import {signInApi} from '../services/api/userApi'
+import {signInAction} from '../actions/userActions'
 
-const Login=()=>{
+
+const Signin=()=>{
     const dispatch = useDispatch()
-    const user= useSelector(state=>state.user)
-    console.log(user)
+    const history = useHistory()
     const initialValues={username:'', password:''}
     const validationSchema= Yup.object({
         username: Yup.string().required('please enter username'),
         password: Yup.string().required('please enter password')
     })
     const handleSubmit=async(values, onSubmitProps)=>{
-        await loginApi(values)
-        dispatch(LoginAction())
+        await signInApi(values)
+        dispatch(signInAction())
         onSubmitProps.resetForm()
+        history.push('/')
     }
     return(
         <Formik initialValues={initialValues} validationSchema={validationSchema}
@@ -43,4 +45,4 @@ const Login=()=>{
         </Formik>
     )
 }
-export default Login
+export default Signin

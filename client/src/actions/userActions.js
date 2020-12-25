@@ -1,6 +1,6 @@
 import {fetchCookie, removeCookie} from '../services/cookies'
 
-export const LoginAction=()=>async(dispatch)=>{
+export const signInAction=()=>async(dispatch)=>{
     try {
         const user= await fetchCookie()
         dispatch({type:'SIGNIN', payload: user}) 
@@ -8,4 +8,12 @@ export const LoginAction=()=>async(dispatch)=>{
         removeCookie()
         console.log(error)
     } 
+}
+
+export const signOutAction=()=>(dispatch)=>{
+    try {
+        dispatch({type: 'SIGNOUT'})
+    } catch (error) {
+        console.log(error)
+    }   
 }

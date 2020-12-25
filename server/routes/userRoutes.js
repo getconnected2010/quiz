@@ -8,6 +8,8 @@ route.use(cookieParser())
 
 route.post('/signup', userController.checkUser, userController.createUser)
 
-route.post('/login', userController.loginUser, userRouteUtil.assignCookies)
+route.post('/signin', userController.signInUser, userRouteUtil.assignCookies)
+
+route.post('/signout', userRouteUtil.deleteCookies)
 
 module.exports= route
