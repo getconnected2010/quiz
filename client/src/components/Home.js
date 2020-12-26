@@ -6,15 +6,13 @@ const Home = () => {
         <div className='HomePage'>
             <h1>Welcome to your quiz app</h1>
             <p>
-                Have you wanted to quiz someone else based on your knowledge? 
-                Well, this is exactly what this app will do.
-                Click on the 'Add to Quiz' tab and enter a question with four options for an answer.
-                Hint...one of the four questions should be the correct answer.
-                Enter as many questions and answers you like.
-                Then select 'Take Quiz' tab where you will find a list of all the questions and answer options.
-                Select an answer for each question and click 'Submit'. Your answers will be verified and a score will
-                display on the screen.
-                Happy playing...
+                Tests are part of learning. This quiz app has questions with multiple choice answers. 
+                Select 'Take Quiz' tab where you will find a list of all the questions and answer options.
+                Choose the correct answers for each question and click submit. 
+                Your score is automatically calculated and displayed. 
+            <br/><br/>
+                If your account has an admin privilege, you can add to the list of questions. 
+                Contact your admin to upgrade access level.
             </p>
         </div>
     )

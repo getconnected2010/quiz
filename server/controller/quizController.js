@@ -23,6 +23,6 @@ exports.deleteQa=(req, res)=>{
     const deleteSql= "DELETE FROM quiz_list WHERE id=?"
     db.query(deleteSql, [id], (err, result)=>{
         if(err) return res.status(400).json(err)
-        res.status(200).send(result)
+        res.status(200).json({msg: 'successfully deleted'})
     })
 }

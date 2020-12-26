@@ -29,7 +29,7 @@ exports.signInUser= async(req, res, next)=>{
         else if(result.length>1){return res.status(400).json({msg:'illegal attempt'})}
         else if(result.length===1){
             const dbPassword= result[0].password
-            const check = bcrypt.compare(password, dbPassword, (err, same)=>{
+            bcrypt.compare(password, dbPassword, (err, same)=>{
                 if(err){
                     return res.status(500).json({msg:'error processing password request.'})
                 }else if(same===true){

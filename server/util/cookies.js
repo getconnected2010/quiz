@@ -8,7 +8,7 @@ exports.assignCookies = (req, res)=>{
         const refreshToken= jwt.sign({user_id, admin}, process.env.JWT_REFRESH_TOKEN)
         const user= jwt.sign({user_id, admin}, process.env.JWT_USER_SET_TOKEN)
         res.cookie('accessToken', accessToken,{
-            maxAge: 30000,
+            maxAge: 60000,
             httpOnly: true,
             secure: false
         })
@@ -42,5 +42,35 @@ exports.deleteCookies=(req, res)=>{
         res.status(200).json({msg:'successfully logged out'})
     } catch (error) {
         res.status(500).json({msg:'server error logging you out'})
+    }
+}
+
+//verifies 'refresh' & 'user' tokens. 
+//Then compares user_id in tokens match in req body
+//Then verifies admin value in tokens
+exports.verifyAdminCookies=(req, res, next)=>{
+    try {
+        const refreshToken= req.cookies.refreshToken
+        const userToken = req.cookies.user
+        const refreshPayload= jwt.decode(refreshToken)
+        const userPayload= jwt.decode(userToken)
+        if(refreshToken && userToken 
+            && 
+            jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN) 
+            && 
+            jwt.verify(userToken, process.env.JWT_USER_SET_TOKEN) 
+            && 
+            userPayload.user_id===req.body.user_id
+            && 
+            refreshPayload.user_id===req.body.user_id
+            &&
+            refreshPayload.admin==='true' && userPayload.admin==='true'
+            ){
+                next()
+        }else{
+            res.status(401).json({msg: "you don't have admin priviledge"})
+        }
+    } catch (error) {
+        res.status(500).json({msg:'server error checking cookies'})
     }
 }

@@ -10,6 +10,9 @@ exports.inputValidatoinResult=(req, res, next)=>{
 }
 
 exports.validateInputs= [
+    check('user_id')
+        .trim()
+        .notEmpty().withMessage('not a logged user'),
     check('question')
         .trim()
         .notEmpty().withMessage('question is required'),

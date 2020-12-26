@@ -1,29 +1,34 @@
 import axios from 'axios';
+import {addToListApi, fetchAllListApi, deleteQaApi} from '../services/api'
 
 export const addAction=(data)=>async (dispatch)=>{
    try{
-       const result = await axios.post('http://localhost:8000/quiz/add', data)
-       data.id = result.data.insertId
+       const result = await addToListApi(data)
+       data.id = await result.data.insertId
        dispatch({type: 'ADD', payload: data})
+       alert('question successfully added')
    }catch(error){
        console.log(error)
+       alert('error adding to list')
    }
 }
 
 export const fetchAll=()=>async(dispatch)=>{
     try{
-        const result = await axios.get('http://localhost:8000/quiz/list')
+        const result = await fetchAllListApi()
         dispatch({type:'FETCH', payload: result.data}) 
     } catch(error){
         console.log(error)
+        alert ('error retrieving list of questions')
     }
 }
 
 export const deleteQA= (data)=>async(dispatch)=>{
     try{
-        await axios.delete(`http://localhost:8000/quiz/delete/${data}`)
+        await deleteQaApi(data)
         dispatch({type: 'DELETE', payload: data})
     } catch(error){
-        if(error) throw error;
+        console.log(error)
+        alert('error deleting this question')
     }
 }

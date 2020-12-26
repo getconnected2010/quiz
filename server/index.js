@@ -33,10 +33,6 @@ app.use('/quiz', quizRoutes)
 //user route
 app.use('/user', userRoutes)
 
-app.get('/', (req, res)=>{
-    res.send('Hello')
-})
-
 const PORT= 8000
 app.listen(PORT, ()=>{
     console.log(`Server running on port ${PORT}`)

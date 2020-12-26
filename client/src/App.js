@@ -10,6 +10,7 @@ import Home from './components/Home';
 import Nav from './components/Nav';
 import Signup from './components/Signup'
 import Signin from './components/Signin'
+import ProtectedRoutes from './services/ProtectedRoutes';
 
 
 const App=()=>{
@@ -24,7 +25,7 @@ const App=()=>{
       <Nav />
       <Switch>
           <Route path='/' exact component={Home} />
-          <Route path='/add' component={Add} />
+          <ProtectedRoutes path='/add' component={Add} />
           <Route path='/login' component={Signin} />
           <Route path='/signin' component={Signin} />
           <Route path='/signup' component={Signup} />

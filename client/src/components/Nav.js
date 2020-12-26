@@ -2,7 +2,7 @@ import React from 'react'
 import{Link, useHistory} from 'react-router-dom'
 import{useSelector, useDispatch} from 'react-redux'
 import './nav.css';
-import {signout} from '../services/api/userApi'
+import {signoutApi} from '../services/api'
 import {signOutAction} from '../actions/userActions'
 
 const Nav = () => {
@@ -13,7 +13,7 @@ const Nav = () => {
     const user_id= user.user_id
     const admin= user.admin
     const logout=async()=>{
-        await signout()
+        await signoutApi()
         dispatch(signOutAction())
         history.push('/')
     }
