@@ -10,7 +10,7 @@ import Home from './components/Home';
 import Nav from './components/Nav';
 import Signup from './components/Signup'
 import Signin from './components/Signin'
-import ProtectedRoutes from './services/ProtectedRoutes';
+import {AdminProtectedRoute, UserAlreadyLoggedRoute} from './services/ProtectedRoutes';
 
 
 const App=()=>{
@@ -25,9 +25,9 @@ const App=()=>{
       <Nav />
       <Switch>
           <Route path='/' exact component={Home} />
-          <ProtectedRoutes path='/add' component={Add} />
-          <Route path='/login' component={Signin} />
-          <Route path='/signin' component={Signin} />
+          <AdminProtectedRoute path='/add' component={Add} />
+          <UserAlreadyLoggedRoute path='/login' component={Signin} />
+          <UserAlreadyLoggedRoute path='/signin' component={Signin} />
           <Route path='/signup' component={Signup} />
           <Route path='/list' component={QaList} />
       </Switch>

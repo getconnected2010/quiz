@@ -4,7 +4,7 @@ import './home.css';
 const Home = () => {
     return (
         <div className='HomePage'>
-            <h1>Welcome to your quiz app</h1>
+            <h1>Welcome to quiz app</h1>
             <p>
                 Tests are part of learning. This quiz app has questions with multiple choice answers. 
                 Select 'Take Quiz' tab where you will find a list of all the questions and answer options.

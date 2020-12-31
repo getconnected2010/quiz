@@ -8,17 +8,17 @@ exports.assignCookies = (req, res)=>{
         const refreshToken= jwt.sign({user_id, admin}, process.env.JWT_REFRESH_TOKEN)
         const user= jwt.sign({user_id, admin}, process.env.JWT_USER_SET_TOKEN)
         res.cookie('accessToken', accessToken,{
-            maxAge: 60000,
+            maxAge: 180000,
             httpOnly: true,
             secure: false
         })
         res.cookie('refreshToken', refreshToken, {
-            maxAge: 60000,
+            maxAge: 180000,
             httpOnly: true,
             secure: false
         })
         res.cookie('user', user, {
-            maxAge: 60000,
+            maxAge: 180000,
             httpOnly: false,
             secure: false
         })

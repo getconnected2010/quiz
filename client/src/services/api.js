@@ -34,6 +34,10 @@ export const addToListApi=async(data)=>{
         data.user_id= user.user_id
         return await axios.post('http://localhost:8000/quiz/add', data, {withCredentials: true})
     } catch (error) {
+        if(error.message && error.response.data && error.response.data.msg){
+            alert(error.response.data.msg)
+            return error.response.data.msg
+        }
         console.log(error.response)
     }
 }
