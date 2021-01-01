@@ -3,9 +3,14 @@ import{useSelector, useDispatch} from 'react-redux'
 import Modal from 'react-modal';
 import './qaList.css';
 import {deleteQA} from '../actions/listActions'
+import Paginate from './Paginate'
 
 const QaList=()=>{
-    const quiz= useSelector(state=>state.qa)
+    const list= useSelector(state=>state.qa)
+    const [startIndex, setStartIndex] = useState(0)
+    const listPerPage = 5
+    const endIndex = startIndex + listPerPage
+    const quiz = list.slice(startIndex, endIndex)
     const dispatch = useDispatch()
     const [answers, setAnswers] = useState({})
     const [score, setScore] = useState(0)
@@ -70,8 +75,8 @@ const QaList=()=>{
                 ))
             }
             {quiz.length>0 && <button type='submit' onClick={handleSubmit}>Submit Answers</button>}
-        
         </form>
+        <Paginate list={list} setStartIndex={setStartIndex} startIndex={startIndex} listPerPage={listPerPage} />   
     </div>
     )
 }
