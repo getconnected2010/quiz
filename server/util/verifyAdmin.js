@@ -1,7 +1,7 @@
 const db = require("../config/db")
 
 const verifyAdmin=(req, res, next)=>{
-    const user_id= req.body.user_id
+    const user_id= req.params.user_id || req.body.user_id
     const sqlUser= "SELECT admin FROM users WHERE user_id=?"
     db.query(sqlUser, [user_id], (err, result)=>{
         if(err){

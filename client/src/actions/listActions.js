@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {addToListApi, fetchAllListApi, deleteQaApi} from '../services/api'
 
 export const addAction=(data)=>async (dispatch)=>{
@@ -25,7 +24,7 @@ export const fetchAll=()=>async(dispatch)=>{
 
 export const deleteQA= (data)=>async(dispatch)=>{
     try{
-        await deleteQaApi(data)
+        const result= await deleteQaApi(data)
         dispatch({type: 'DELETE', payload: data})
     } catch(error){
         console.log(error)

@@ -7,6 +7,8 @@ import Paginate from './Paginate'
 
 const QaList=()=>{
     const list= useSelector(state=>state.qa)
+    const user = useSelector(state=>state.user)
+    const admin = user.admin
     const [startIndex, setStartIndex] = useState(0)
     const listPerPage = 5
     const endIndex = startIndex + listPerPage
@@ -23,6 +25,9 @@ const QaList=()=>{
         setScore(Object.values(answers).filter(item=>item==="true").length)
         const radios = document.querySelectorAll("input[type='radio']")
         radios.forEach(radio=>radio.checked=false)
+        setStartIndex(endIndex)
+    }
+    const checkScore=(e)=>{
         setOpenModal(true)
     }
     const removeQA=(e)=>{
@@ -46,7 +51,7 @@ const QaList=()=>{
                         {/* question */}
                         <div className='q'>
                            {qa.question}
-                           <button id={qa.id} onClick={removeQA}>Delete</button>
+                           {admin==='true' && <button id={qa.id} onClick={removeQA}>Delete</button>}
                         </div> 
                         {/* answers */}
                         <div className='a-parent'>
@@ -74,8 +79,9 @@ const QaList=()=>{
                     </div>
                 ))
             }
-            {quiz.length>0 && <button type='submit' onClick={handleSubmit}>Submit Answers</button>}
+            {quiz.length>0 && <button type='submit' onClick={handleSubmit}>Submit Answers >>> </button>}
         </form>
+        {startIndex>list.length && <button onClick={checkScore}>Check Your Score</button>}
         <Paginate list={list} setStartIndex={setStartIndex} startIndex={startIndex} listPerPage={listPerPage} />   
     </div>
     )

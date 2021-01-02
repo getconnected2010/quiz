@@ -53,9 +53,13 @@ export const fetchAllListApi =async()=>{
 export const deleteQaApi =async(delData)=>{
     try {
         const user = await fetchCookie()
-        const data= user.user_id
-        return await axios.delete(`http://localhost:8000/quiz/delete/${delData}`, data, {withCredentials: true})
+        const user_id= user.user_id
+        return await axios.delete(`http://localhost:8000/quiz/delete/${delData}/${user_id}`, {withCredentials: true}, {headers: {"Content-type":"application/json"}} )
     } catch (error) {
+        if(error.response.data.msg){
+            alert(error.response.data.msg)
+        }
         console.log(error) 
+        return error
     }
 }

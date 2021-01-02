@@ -60,9 +60,9 @@ exports.verifyAdminCookies=(req, res, next)=>{
             && 
             jwt.verify(userToken, process.env.JWT_USER_SET_TOKEN) 
             && 
-            userPayload.user_id===req.body.user_id
+            userPayload.user_id===Number(req.params.user_id||req.body.user_id)
             && 
-            refreshPayload.user_id===req.body.user_id
+            refreshPayload.user_id===Number(req.params.user_id||req.body.user_id)
             &&
             refreshPayload.admin==='true' && userPayload.admin==='true'
             ){

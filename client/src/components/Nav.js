@@ -11,7 +11,6 @@ const Nav = () => {
     const user = useSelector(state=>state.user)
     console.log(user)
     const user_id= user.user_id
-    const admin= user.admin
     const logout=async()=>{
         await signoutApi()
         dispatch(signOutAction())

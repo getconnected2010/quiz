@@ -10,6 +10,6 @@ router.get('/list', quizController.GetQa)
 
 router.post('/add', cookies.verifyAdminCookies, verifyAdmin, validateInputs, inputValidatoinResult, quizController.AddQa)
 
-router.delete('/delete/:id', cookies.verifyAdminCookies, verifyAdmin, quizController.deleteQa)
+router.delete('/delete/:id/:user_id', cookies.verifyAdminCookies, verifyAdmin, quizController.deleteQa)
 
 module.exports= router
