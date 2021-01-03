@@ -1,6 +1,7 @@
 import React from 'react'
 import {Form, Formik, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
+import {InputField, ButtonComponent} from './FormComponents'
 
 const Signup = () => {
     const initialValues={username:'', password:'', confirm:'', dob:''}
@@ -16,6 +17,7 @@ const Signup = () => {
     const handleSubmit= async(values, onSubmitProps)=>{
         
         console.log('after dispatch in signup.js')
+        
     }
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema}
@@ -25,23 +27,16 @@ const Signup = () => {
                     <div className="Form">
                         <h1>Sign Up</h1>
                         <Form>
-                            <label htmlFor='username'>User name: </label>
-                            <Field type='text' name='username' placeholder='enter username'/>
-                            <span style={{color:'red'}}><ErrorMessage name='username' /></span>
+                            <InputField label={'User name: '} name={'username'} type={'text'} placeholder={'username'} />
 
-                            <label htmlFor='password'>Password: </label>
-                            <Field type='text' name='password' placeholder='enter password' />
-                            <span style={{color:'red'}}><ErrorMessage name='password' /></span>
+                            <InputField label={'Password: '} name={'password'} type={'password'} placeholder={'password'} />
+                            
+                            <InputField label={'Confirm password: '} name={'confirm'} type={'password'} placeholder={'confirm password'} />
+                            
+                            <InputField label={'Your birthday (MMDD): '} name={'dob'} type={'text'} placeholder={"we'll use this to retrieve forgotten passwords"} />
 
-                            <label htmlFor='confirm'>Confirm password: </label>
-                            <Field type='text' name='confirm' placeholder='confirm password' />
-                            <span style={{color:'red'}}><ErrorMessage name='confirm' /></span>
-
-                            <label htmlFor='dob'>Your birthday (MMDD): </label>
-                            <Field type='text' name='dob' placeholder="we'll use this to retrieve forgotten passwords"/>
-                            <span style={{color:'red'}}><ErrorMessage name='dob' /></span>
-
-                            <button type='submit'>Sign up</button>
+                            <ButtonComponent label={'Sign up'} type={'submit'} label={formik.isSubmitting?<>Submitting</>:<>Submit</>}/>
+                    
                         </Form>
                     </div>
                 )
