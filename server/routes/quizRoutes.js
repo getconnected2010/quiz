@@ -6,10 +6,11 @@ const {validateInputs, inputValidatoinResult} = require('../util/addRouteValidat
 const cookies= require('../util/cookies')
 const verifyAdmin = require('../util/verifyAdmin')
 
-router.get('/list', quizController.GetQa)
 
 router.post('/add', cookies.verifyAdminCookies, verifyAdmin, validateInputs, inputValidatoinResult, quizController.AddQa)
 
 router.delete('/delete/:id/:user_id', cookies.verifyAdminCookies, verifyAdmin, quizController.deleteQa)
+
+router.get('/list', quizController.GetQa)
 
 module.exports= router

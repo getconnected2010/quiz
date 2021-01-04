@@ -11,7 +11,7 @@ import Nav from './components/Nav';
 import Signup from './components/Signup'
 import Signin from './components/Signin'
 import {AdminProtectedRoute, UserAlreadyLoggedRoute} from './services/ProtectedRoutes';
-import RetrievePassword from './components/RetrievePassword';
+import ResetPassword from './components/ResetPassword';
 
 
 const App=()=>{
@@ -29,7 +29,7 @@ const App=()=>{
           <AdminProtectedRoute path='/add' component={Add} />
           <Route path='/list' component={QaList} />
           <UserAlreadyLoggedRoute path='/login' component={Signin} />
-          <UserAlreadyLoggedRoute path='/retrieve' component={RetrievePassword} />
+          <UserAlreadyLoggedRoute path='/retrieve' component={ResetPassword} />
           <UserAlreadyLoggedRoute path='/signin' component={Signin} />
           <Route path='/signup' component={Signup} />
       </Switch>

@@ -1,9 +1,12 @@
 import React from 'react'
+import{useHistory} from 'react-router-dom'
 import {Form, Formik, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import {InputField, ButtonComponent} from './FormComponents'
+import {signUpApi} from '../services/api'
 
 const Signup = () => {
+    const history = useHistory()
     const initialValues={username:'', password:'', confirm:'', dob:''}
     const validationSchema= Yup.object({
         username: Yup.string()
@@ -15,9 +18,11 @@ const Signup = () => {
                 .matches(/^[0-9]+$/, "enter your birthday in two digit month and two digit day format")
     })
     const handleSubmit= async(values, onSubmitProps)=>{
-        
-        console.log('after dispatch in signup.js')
-        
+        const status= await signUpApi(values)
+        onSubmitProps.resetForm()
+        if(status===200){
+            history.push('/signin')
+        }
     }
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema}

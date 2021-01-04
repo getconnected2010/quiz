@@ -16,10 +16,12 @@ const Signin=()=>{
         password: Yup.string().required('please enter password')
     })
     const handleSubmit=async(values, onSubmitProps)=>{
-        await signInApi(values)
+        const status = await signInApi(values)
         dispatch(signInAction())
         onSubmitProps.resetForm()
-        history.push('/')
+        if(status===200){
+            history.push('/')
+        }
     }
     return(
         <Formik initialValues={initialValues} validationSchema={validationSchema}
@@ -37,7 +39,7 @@ const Signin=()=>{
                             <span style={{color: 'gray'}}>
                                 Sign in with an admin account to add to quiz.
                                 <br/>
-                                Forgot password? Click <Link style={{color:'green', fontSize:'1.25em'}} to='/retrieve'>here</Link>.
+                                Forgot password or reset account? Click <Link style={{color:'green', fontSize:'1.25em'}} to='/retrieve'>here</Link>.
                             </span>
                         </Form>
                     </div>
