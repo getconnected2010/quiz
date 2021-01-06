@@ -15,11 +15,11 @@ import ResetPassword from './components/ResetPassword';
 
 
 const App=()=>{
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(signInAction())
-    dispatch(fetchAll())
-},[dispatch])
+//   const dispatch = useDispatch()
+//   useEffect(()=>{
+//     dispatch(signInAction())
+//     dispatch(fetchAll())
+// },[dispatch])
 
   return (
     <Router>

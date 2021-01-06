@@ -1,7 +1,23 @@
 import React from 'react'
+import {useDispatch} from 'react-redux'
 import './home.css';
+import{ButtonComponent} from './FormComponents'
+import {fetchQuizAction} from '../actions/listActions'
 
 const Home = () => {
+    const dispatch = useDispatch()
+    const fetchGeneral=(e)=>{
+        dispatch(fetchQuizAction(e.target.id))
+    }
+    const fetchGeography=(e)=>{
+        dispatch(fetchQuizAction(e.target.id))
+    }
+    const fetchScience=(e)=>{
+        dispatch(fetchQuizAction(e.target.id))
+    }
+    const fetchHistory=(e)=>{
+        dispatch(fetchQuizAction(e.target.id))
+    }
     return (
         <div className='HomePage'>
             <h1>Welcome to quiz app</h1>
@@ -14,6 +30,19 @@ const Home = () => {
                 If your account has an admin privilege, you can add to the list of questions. 
                 Contact your admin to upgrade access level.
             </p>
+            <div >
+                <h2>Pick a subject area from the options below</h2>
+                <div className='buttons'>
+                <ButtonComponent onClick={fetchGeneral} id={'general'} label={'General'} />
+
+                <ButtonComponent onClick={fetchGeography} id={'geography'} label={'Geography'} />
+                
+                <ButtonComponent onClick={fetchScience} id={'science'} label={'Science'}/>
+
+                <ButtonComponent onClick={fetchHistory} id={'history'} label={'History'}/>
+                
+                </div>
+            </div>
         </div>
     )
 }

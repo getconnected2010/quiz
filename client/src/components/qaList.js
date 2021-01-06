@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import './qaList.css';
 import {deleteQA} from '../actions/listActions'
 import Paginate from './Paginate'
+import {recordScoreApi} from '../services/api'
 
 const QaList=()=>{
     const list= useSelector(state=>state.qa)
@@ -15,10 +16,12 @@ const QaList=()=>{
     const quiz = list.slice(startIndex, endIndex)
     const dispatch = useDispatch()
     const [answers, setAnswers] = useState({})
+    const [subject, setSubject] = useState(null)
     const [score, setScore] = useState(0)
     const [openModal, setOpenModal] = useState(false)
     const handleChange =(e)=>{
         setAnswers({...answers, [e.target.name]: e.target.value})
+        setSubject(e.target.id)
     }
     const handleSubmit=(e)=>{
         e.preventDefault()
@@ -27,7 +30,8 @@ const QaList=()=>{
         radios.forEach(radio=>radio.checked=false)
         setStartIndex(endIndex)
     }
-    const checkScore=(e)=>{
+    const checkScore=async()=>{
+        await recordScoreApi({subject: subject, score: score})
         setOpenModal(true)
     }
     const removeQA=(e)=>{
@@ -57,22 +61,22 @@ const QaList=()=>{
                         <div className='a-parent'>
                             <div className='a'>
                                 <label>{qa.answer1}</label>
-                                <input type="radio" name={qa.question+qa.id} value={qa.answer1===qa.correct}/>
+                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer1===qa.correct}/>
                             </div>
 
                             <div className='a'>
                                 <label>{qa.answer2}</label>
-                                <input type="radio" name={qa.question+qa.id} value={qa.answer2===qa.correct} />
+                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer2===qa.correct} />
                             </div>
 
                             <div className='a'>
                                 <label>{qa.answer3}</label>
-                                <input type="radio" name={qa.question+qa.id} value={qa.answer3===qa.correct} />
+                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer3===qa.correct} />
                             </div>
 
                             <div className='a'>
                                 <label>{qa.answer4}</label>
-                                <input type="radio" name={qa.question+qa.id} value={qa.answer4===qa.correct} />
+                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer4===qa.correct} />
                             </div>
 
                         </div>

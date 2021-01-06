@@ -3,7 +3,7 @@ const {check, validationResult, body} = require ('express-validator')
 exports.inputValidatoinResult=(req, res, next)=>{
     const result= validationResult(req)
     if(!result.isEmpty()){
-        res.status(422).send(result)
+        res.status(422).json({msg:'one or more of your inputs is invalid.'})
         return
     }
     next()
@@ -13,6 +13,9 @@ exports.validateInputs= [
     check('user_id')
         .trim()
         .notEmpty().withMessage('not a logged user'),
+    check('subject')
+        .trim()
+        .notEmpty().withMessage('a subject area is required'),
     check('question')
         .trim()
         .notEmpty().withMessage('question is required'),

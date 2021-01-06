@@ -1,7 +1,6 @@
 const db= require('../config/db')
 const bcrypt= require('bcrypt')
-const FlagUser = require('../util/flagUser')
-const FlaggedUserReset = require('../util/flaggedUserReset')
+const flagUtil = require('../util/flagUtil')
 
 exports.checkUserExistsDb=(req, res, next)=>{
     const {username} = req.body
@@ -26,8 +25,10 @@ exports.checkUsernameDobMatchDb=(req, res, next)=>{
         if(err){
             res.status(500).json({msg:'server error resetting password'})
         } else if(result.length===0){
+            flagUtil.FlagUser(username)
             res.status(401).json({msg:"username and date of birth don't match our record"})
         } else if(result.length>1){
+            flagUtil.FlagUser(username)
             res.status(400).json({msg:"illegal attempt"})
         } else if(result.length===1){
             next()
@@ -35,11 +36,25 @@ exports.checkUsernameDobMatchDb=(req, res, next)=>{
     })
 }
 
+exports.checkUserTimeout=(req, res, next)=>{
+    const {username} = req.body
+    timeoutSql= "SELECT COUNT(*) AS flaggedCount FROM flagged WHERE username=? AND unix_timestamp(time)> unix_timestamp(now())-1800"
+    db.query(timeoutSql, [username], (err, result)=>{
+        if(err){
+            res.status(500).json({msg:'server error. Try again later or notify admin'})
+        }
+        if(result[0].flaggedCount>3){
+            res.status(401).json({msg:'Too many failed reset attempts. Your account is locked for 30 minutes.'})
+        } else{
+            next()
+        }  
+    })
+}
+
 exports.flaggedUserCheck= (req, res, next)=>{
     const{username} = req.body
     flagCheckSql= "SELECT COUNT(*) AS flaggedCount FROM flagged WHERE username=?"
     db.query(flagCheckSql, [username], (err, result)=>{
-        console.log(result)
         if(err){
             res.status(500).json({msg:'server error checking your IP'})
         }else if(result[0].flaggedCount<2){
@@ -60,7 +75,7 @@ exports.userReset=async(req, res)=>{
             if(err){
                 res.status(500).json({msg:'server error resetting password'})
             }else{
-                FlaggedUserReset(username)
+                flagUtil.FlaggedUserReset(username)
                 res.status(200).json({msg:'your password is reset. Continue to Login page.'})
             }
         })
@@ -95,7 +110,7 @@ exports.userSignIn= async(req, res, next)=>{
             res.status(500).json({msg:'server error. If error persists, contact site admin.'})
         }else if(result.length===0){ res.status(404).json({msg:'not a registered username'})}
         else if(result.length>1){
-            FlagUser(username)
+            flagUtil.FlagUser(username)
             res.status(400).json({msg:'illegal attempt'})
         }
         else if(result.length===1){
@@ -108,7 +123,7 @@ exports.userSignIn= async(req, res, next)=>{
                     req.body.admin= result[0].admin
                     next()
                 }else { 
-                    FlagUser(username)
+                    flagUtil.FlagUser(username)
                     res.status(401).json({msg:'wrong password'})
                 }
             })

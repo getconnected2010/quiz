@@ -8,17 +8,17 @@ exports.assignCookies = (req, res)=>{
         const refreshToken= jwt.sign({user_id, admin}, process.env.JWT_REFRESH_TOKEN)
         const user= jwt.sign({user_id, admin}, process.env.JWT_USER_SET_TOKEN)
         res.cookie('accessToken', accessToken,{
-            maxAge: 180000,
+            maxAge: 1000*60*30,
             httpOnly: true,
             secure: false
         })
         res.cookie('refreshToken', refreshToken, {
-            maxAge: 180000,
+            maxAge: 1000*60*45,
             httpOnly: true,
             secure: false
         })
         res.cookie('user', user, {
-            maxAge: 180000,
+            maxAge: 1000*60*30,
             httpOnly: false,
             secure: false
         })
@@ -73,4 +73,29 @@ exports.verifyAdminCookies=(req, res, next)=>{
     } catch (error) {
         res.status(500).json({msg:'server error checking cookies'})
     }
+}
+
+exports.verifyLoggedUserCookies=(req, res, next)=>{
+    try {
+        const refreshToken= req.cookies.refreshToken
+        const userToken = req.cookies.user
+        const refreshPayload= jwt.decode(refreshToken)
+        const userPayload= jwt.decode(userToken)
+        if(refreshToken && userToken 
+            && 
+            jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN) 
+            && 
+            jwt.verify(userToken, process.env.JWT_USER_SET_TOKEN) 
+            && 
+            userPayload.user_id===Number(req.params.user_id||req.body.user_id)
+            && 
+            refreshPayload.user_id===Number(req.params.user_id||req.body.user_id)){
+                next()
+            }else{
+                res.status(401).json({msg:"Your score will be displayed but not recorded. You have to be a logged-in user to record score."})
+            }
+    } catch (error) {
+        res.status(401).json({msg:"Your score couldn't be recorded. You have to be logged-in to be recorded. If problem persits, contact admin."})
+    }
+
 }

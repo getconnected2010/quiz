@@ -6,7 +6,7 @@ const cookieParser=require('cookie-parser')
 
 route.use(cookieParser())
 
-route.post('/reset', userController.checkUsernameDobMatchDb, userController.userReset)
+route.post('/reset',userController.checkUserTimeout, userController.checkUsernameDobMatchDb, userController.userReset)
 
 route.post('/signin', userController.flaggedUserCheck, userController.userSignIn, cookies.assignCookies)
 

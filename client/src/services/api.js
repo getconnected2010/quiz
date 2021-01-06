@@ -7,7 +7,7 @@ export const addToListApi=async(data)=>{
         data.user_id= user.user_id
         return await axios.post('http://localhost:8000/quiz/add', data, {withCredentials: true})
     } catch (error) {
-        if(error.message && error.response.data && error.response.data.msg){
+        if(error.response.data.msg){
             alert(error.response.data.msg)
             return error.response.data.msg
         }
@@ -29,11 +29,23 @@ export const deleteQaApi =async(delData)=>{
     }
 }
 
-export const fetchAllListApi =async()=>{
+export const fetchQuizApi =async(subject)=>{
     try {
-        return await axios.get('http://localhost:8000/quiz/list', {withCredentials: true})
+        return await axios.get(`http://localhost:8000/quiz/list/${subject}`, {withCredentials: true})
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const recordScoreApi=async(data)=>{
+    try {
+        const user= await fetchCookie()
+        data.user_id= user.user_id
+        await axios.post('http://localhost:8000/quiz/score', data, {withCredentials: true})
+    } catch (error) {
+        if(error.response && error.response.data.msg){
+            alert(error.response.data.msg)
+        }
     }
 }
 

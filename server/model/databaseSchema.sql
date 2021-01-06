@@ -31,7 +31,7 @@ CREATE TABLE `flagged` (
   UNIQUE KEY `flagged_id_UNIQUE` (`flagged_id`),
   KEY `username` (`username`),
   CONSTRAINT `flagged_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ DROP TABLE IF EXISTS `quiz_list`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `quiz_list` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `subject` varchar(45) NOT NULL,
   `question` varchar(45) NOT NULL,
   `answer1` varchar(45) NOT NULL,
   `answer2` varchar(45) NOT NULL,
@@ -50,7 +51,23 @@ CREATE TABLE `quiz_list` (
   `answer4` varchar(45) NOT NULL,
   `correct` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `score`
+--
+
+DROP TABLE IF EXISTS `score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `score` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `subject` varchar(45) NOT NULL,
+  `score` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,4 +97,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-03 23:05:41
+-- Dump completed on 2021-01-06  0:33:03

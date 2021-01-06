@@ -1,4 +1,4 @@
-import {addToListApi, fetchAllListApi, deleteQaApi} from '../services/api'
+import {addToListApi, fetchQuizApi, deleteQaApi} from '../services/api'
 
 export const addAction=(data)=>async (dispatch)=>{
    try{
@@ -12,9 +12,9 @@ export const addAction=(data)=>async (dispatch)=>{
    }
 }
 
-export const fetchAll=()=>async(dispatch)=>{
+export const fetchQuizAction=(subject)=>async(dispatch)=>{
     try{
-        const result = await fetchAllListApi()
+        const result = await fetchQuizApi(subject)
         dispatch({type:'FETCH', payload: result.data}) 
     } catch(error){
         console.log(error)
