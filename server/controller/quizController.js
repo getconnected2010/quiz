@@ -19,6 +19,18 @@ exports.deleteQa=(req, res)=>{
     })
 }
 
+exports.fetchScores=(req, res)=>{
+    const username= req.body.username
+    const scoresSql= "SELECT subject, score FROM score WHERE username=?"
+    db.query(scoresSql, [username], (err, result)=>{
+        if(err){
+            res.status(500).json({msg:'server error'})
+        }else{
+            res.status(200).json({result})
+        }
+    })
+}
+
 exports.GetQa = (req, res)=>{
     const subject = req.params.subject
     const listSql= "SELECT * FROM quiz_list WHERE subject=? ORDER BY id DESC";

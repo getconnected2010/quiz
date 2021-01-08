@@ -1,22 +1,29 @@
 import React from 'react'
+import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import './home.css';
 import{ButtonComponent} from './FormComponents'
 import {fetchQuizAction} from '../actions/listActions'
 
 const Home = () => {
+    const history= useHistory()
     const dispatch = useDispatch()
+
     const fetchGeneral=(e)=>{
         dispatch(fetchQuizAction(e.target.id))
+        history.push('/list')
     }
     const fetchGeography=(e)=>{
         dispatch(fetchQuizAction(e.target.id))
+        history.push('/list')
     }
     const fetchScience=(e)=>{
         dispatch(fetchQuizAction(e.target.id))
+        history.push('/list')
     }
     const fetchHistory=(e)=>{
         dispatch(fetchQuizAction(e.target.id))
+        history.push('/list')
     }
     return (
         <div className='HomePage'>

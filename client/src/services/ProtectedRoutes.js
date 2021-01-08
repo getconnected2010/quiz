@@ -1,7 +1,8 @@
 import { Redirect, Route } from 'react-router-dom'
 import {useSelector} from 'react-redux'
+import { Component } from 'react'
 
-export const AdminProtectedRoute=({component: Component, ...rest})=>{
+export const AdminOnly=({component: Component, ...rest})=>{
     const user = useSelector(state => state.user)
     const admin = user.admin
     const user_id= user.user_id
@@ -14,7 +15,18 @@ export const AdminProtectedRoute=({component: Component, ...rest})=>{
     )
 }
 
-export const UserAlreadyLoggedRoute =({component: Component, ...rest})=>{
+export const LoggedOnly=({component: Component, ...rest})=>{
+    const user = useSelector(state=>state.user)
+    const user_id = user.user_id
+    return(
+        <Route {...rest} render={(props)=>{
+            if(user_id!==null) return <Component {...props} />
+            if(user_id===null) return <Redirect to='/signin' />
+        }} />
+    )
+}
+
+export const UnloggedOnly =({component: Component, ...rest})=>{
     const user = useSelector(state=>state.user)
     const user_id= user.user_id
     return(

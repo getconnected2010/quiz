@@ -36,7 +36,7 @@ exports.checkUsernameDobMatchDb=(req, res, next)=>{
     })
 }
 
-exports.checkUserTimeout=(req, res, next)=>{
+exports.checkUserOnTimeout=(req, res, next)=>{
     const {username} = req.body
     timeoutSql= "SELECT COUNT(*) AS flaggedCount FROM flagged WHERE username=? AND unix_timestamp(time)> unix_timestamp(now())-1800"
     db.query(timeoutSql, [username], (err, result)=>{
@@ -56,11 +56,23 @@ exports.flaggedUserCheck= (req, res, next)=>{
     flagCheckSql= "SELECT COUNT(*) AS flaggedCount FROM flagged WHERE username=?"
     db.query(flagCheckSql, [username], (err, result)=>{
         if(err){
-            res.status(500).json({msg:'server error checking your IP'})
+            res.status(500).json({msg:'server error checking your username against blacklist'})
         }else if(result[0].flaggedCount<2){
             next()
         }else{
             res.status(401).json({msg:'your account is locked. Please reset your password'})
+        }
+    })
+ }
+
+ exports.updateUsername=(req, res)=>{
+    const {username, newUsername} = req.body
+    const updateSql="UPDATE users SET username=? WHERE username=?"
+    db.query(updateSql,[newUsername, username], (err)=>{
+        if(err){
+            res.status(500).json({msg:'server error updating username'})
+        }else{
+            res.status(200).json({msg:'username successfully updated'})
         }
     })
  }

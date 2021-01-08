@@ -13,6 +13,8 @@ router.delete('/delete/:id/:user_id', cookies.verifyAdminCookies, verify.verifyA
 
 router.get('/list/:subject', quizController.GetQa)
 
+router.get('/scores/:user_id', cookies.verifyLoggedUserCookies, verify.verifyUser, quizController.fetchScores)
+
 router.post('/score', cookies.verifyLoggedUserCookies, verify.verifyUser, quizController.recordScore)
 
 module.exports= router

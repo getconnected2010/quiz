@@ -9,8 +9,8 @@ const Nav = () => {
     const history= useHistory()
     const dispatch=useDispatch()
     const user = useSelector(state=>state.user)
-    const NavButton = {margin:'0px 15px', borderRadius:'10px', padding:'5px 15px', background:'green', border:'2px solid white', color:'white', fontWeight:'bolder'}
     const user_id= user.user_id
+    const admin= user.admin
     const logout=async()=>{
         await signoutApi()
         dispatch(signOutAction())
@@ -19,19 +19,22 @@ const Nav = () => {
     return (
         <div className='Nav'>
             <Link to='/'>Home</Link>
-            <Link to='/add'>Add to Quiz</Link>
-            <Link to='/list'>Take Quiz</Link>
-            <>
+            {
+                admin==='true' && <Link to='/add'>Add to Quiz</Link>
+            }
+
             {
                 user_id?
-                    <button style={NavButton} onClick={logout}>Logout</button>
+                <>
+                    <Link to='/profile'>Profile</Link>
+                    <button onClick={logout}>Logout</button>
+                </>
                     :
-                    <div>
-                    <button style={NavButton} onClick={()=>history.push('/signin')}>Login</button>
-                    <button style={NavButton} onClick={()=>history.push('/signup')}>Sign Up</button>
-                    </div>
+                    <>
+                    <button onClick={()=>history.push('/signin')}>Login</button>
+                    <button onClick={()=>history.push('/signup')}>Sign Up</button>
+                    </>
             }
-            </>
         </div>
     )
 }

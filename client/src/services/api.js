@@ -1,6 +1,8 @@
 import axios from 'axios'
 import{removeCookie, fetchCookie} from './cookies'
 
+const url= 'http://localhost:8000'
+
 export const addToListApi=async(data)=>{
     try {
         const user = await fetchCookie()
@@ -34,6 +36,21 @@ export const fetchQuizApi =async(subject)=>{
         return await axios.get(`http://localhost:8000/quiz/list/${subject}`, {withCredentials: true})
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const fetchScoresApi=async()=>{
+    const user= await fetchCookie()
+    const user_id= user.user_id
+    if(user_id!==null){
+        try {
+            const result= await axios.get(`http://localhost:8000/quiz/scores/${user_id}`, {withCredentials: true})
+            return result.data.result
+        } catch (error){
+            if(error.response && error.response.data.msg){
+                alert(error.response.data.msg)
+            }
+        }
     }
 }
 
@@ -110,5 +127,17 @@ export const signUpApi=async(data)=>{
             alert(error.response.data.msg)
         }
         console.log(error)
+    }
+}
+
+export const updateUsernameApi=async(data)=>{
+    const user= await fetchCookie()
+    data.user_id = user.user_id
+    try {
+        return await axios.post('http://localhost:8000/user/update/username', data, {withCredentials: true})
+    } catch (error) {
+        if(error.response&& error.response.data.msg){
+            alert(error.response.data.msg)
+        }
     }
 }

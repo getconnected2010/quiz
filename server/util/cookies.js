@@ -92,10 +92,10 @@ exports.verifyLoggedUserCookies=(req, res, next)=>{
             refreshPayload.user_id===Number(req.params.user_id||req.body.user_id)){
                 next()
             }else{
-                res.status(401).json({msg:"Your score will be displayed but not recorded. You have to be a logged-in user to record score."})
+                res.status(401).json({msg:"You are not a logged in user."})
             }
     } catch (error) {
-        res.status(401).json({msg:"Your score couldn't be recorded. You have to be logged-in to be recorded. If problem persits, contact admin."})
+        res.status(401).json({msg:"You are not a logged in user"})
     }
 
 }

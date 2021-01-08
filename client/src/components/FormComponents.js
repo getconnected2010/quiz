@@ -1,9 +1,9 @@
 import React from 'react'
 import {Field, ErrorMessage} from 'formik'
 
-export const ButtonComponent=({type, id, label, disabled, onClick})=>{
+export const ButtonComponent=({type, id, label, disabled, onClick, style})=>{
     return(
-        <button type={type} id={id} disabled={disabled} onClick={onClick}>{label}</button>
+        <button type={type} id={id} disabled={disabled} onClick={onClick} style={style}>{label}</button>
     )
 }
 
