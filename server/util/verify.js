@@ -35,11 +35,11 @@ exports.verifyUser=(req, res, next)=>{
 exports.verifyPasswords=(req, res, next)=>{
     const {username, password, dbPassword} = req.body
     bcrypt.compare(password, dbPassword, (err, same)=>{
-        if(err){
-            res.status(500).json({msg:'server error verifying your password'})
-        } else if(same){
+        if(err) return res.status(500).json({msg:'server error verifying your password'})
+        if(same) {
+            flagUtil.FlaggedUserReset(username)
             next()
-        }else{
+        } else{
             flagUtil.FlagUser(username)
             res.status(401).json({msg:'wrong password'})
         }

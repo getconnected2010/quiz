@@ -1,7 +1,7 @@
 import React from 'react'
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
-import './home.css';
+import './css/home.css';
 import{ButtonComponent} from './FormComponents'
 import {fetchQuizAction} from '../actions/listActions'
 
@@ -28,15 +28,7 @@ const Home = () => {
     return (
         <div className='HomePage'>
             <h1>Welcome to quiz app</h1>
-            <p>
-                Tests are part of learning. This quiz app has questions with multiple choice answers. 
-                Select 'Take Quiz' tab where you will find a list of all the questions and answer options.
-                Choose the correct answers for each question and click submit. 
-                Your score is automatically calculated and displayed. 
-            <br/><br/>
-                If your account has an admin privilege, you can add to the list of questions. 
-                Contact your admin to upgrade access level.
-            </p>
+           
             <div >
                 <h2>Pick a subject area from the options below</h2>
                 <div className='buttons'>

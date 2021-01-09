@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import{useSelector, useDispatch} from 'react-redux'
 import Modal from 'react-modal';
-import './qaList.css';
+import './css/qaList.css';
 import {deleteQA} from '../actions/listActions'
 import Paginate from './Paginate'
 import {recordScoreApi} from '../services/api'

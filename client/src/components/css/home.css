@@ -1,7 +1,7 @@
 .HomePage{
     height: 100vh;
     padding-top: 1px;
-    background-image: url(../assets/images/sky.jpg);
+    background-image: url(../../assets/images/sky.jpg);
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -20,18 +20,7 @@
     padding: 20px 0px;
     background: rgb(23, 28, 51);
 }
-.HomePage p{
-    width: 80%;
-    max-width: 500px;
-    background: rgb(21, 29, 71);
-    border: 1px solid rgb(168, 2, 2);
-    border-radius: 15px;
-    padding: 10px;
-    color: rgb(240, 231, 231);
-    font-weight: bold;
-    font-size: large;
-    opacity: 0.85;
-}
+
 .HomePage .buttons{
     display: flex;
     justify-content: center;

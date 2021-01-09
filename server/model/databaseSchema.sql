@@ -24,14 +24,16 @@ DROP TABLE IF EXISTS `flagged`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `flagged` (
   `flagged_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) NOT NULL,
+  `username` varchar(100) DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(100) DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`flagged_id`),
   UNIQUE KEY `flagged_id_UNIQUE` (`flagged_id`),
   KEY `username` (`username`),
-  CONSTRAINT `flagged_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `user_id_idx` (`user_id`),
+  CONSTRAINT `flagged_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +53,7 @@ CREATE TABLE `quiz_list` (
   `answer4` varchar(45) NOT NULL,
   `correct` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,11 +65,13 @@ DROP TABLE IF EXISTS `score`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `score` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) NOT NULL,
   `subject` varchar(45) NOT NULL,
   `score` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_idx` (`user_id`),
+  CONSTRAINT `user_score` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,4 +101,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-06  0:33:03
+-- Dump completed on 2021-01-09  2:39:22

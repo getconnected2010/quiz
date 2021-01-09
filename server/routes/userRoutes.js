@@ -9,12 +9,14 @@ route.use(cookieParser())
 
 route.post('/reset',userController.checkUserOnTimeout, userController.checkUsernameDobMatchDb, userController.userReset)
 
-route.post('/signin', userController.flaggedUserCheck, userController.userSignIn, cookies.assignCookies)
+route.post('/signin', userController.flaggedUserCheck, userController.userSignIn, verify.verifyPasswords, cookies.assignCookies)
 
 route.post('/signout', cookies.deleteCookies)
 
 route.post('/signup', userController.checkUserExistsDb, userController.userSignUp)
 
-route.post('/update/username', verify.verifyUser, userController.flaggedUserCheck, verify.verifyPasswords, userController.updateUsername)
+route.post('/update/password', cookies.verifyLoggedUserCookies, verify.verifyUser, userController.flaggedUserCheck, verify.verifyPasswords, userController.updatePassword)
+
+route.post('/update/username', cookies.verifyLoggedUserCookies, verify.verifyUser, userController.flaggedUserCheck, verify.verifyPasswords, userController.checkNewUsernameAvailable, userController.updateUsername)
 
 module.exports= route

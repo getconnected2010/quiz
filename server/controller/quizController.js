@@ -14,20 +14,17 @@ exports.deleteQa=(req, res)=>{
     const id= req.params.id
     const deleteSql= "DELETE FROM quiz_list WHERE id=?"
     db.query(deleteSql, [id], (err, result)=>{
-        if(err) return res.status(400).json(err)
+        if(err) return res.status(400).json(({msg:'server error deleting.'}))
         res.status(200).json({msg: 'successfully deleted'})
     })
 }
 
 exports.fetchScores=(req, res)=>{
-    const username= req.body.username
-    const scoresSql= "SELECT subject, score FROM score WHERE username=?"
-    db.query(scoresSql, [username], (err, result)=>{
-        if(err){
-            res.status(500).json({msg:'server error'})
-        }else{
-            res.status(200).json({result})
-        }
+    const user_id= req.params.user_id || req.body.user_id
+    const scoresSql= "SELECT subject, score FROM score WHERE user_id=?"
+    db.query(scoresSql, [user_id], (err, result)=>{
+        if(err) return res.status(500).json({msg:'server error retrieving your scores'})
+        res.status(200).json({result})
     })
 }
 
@@ -41,17 +38,12 @@ exports.GetQa = (req, res)=>{
 }
 
 exports.recordScore=(req, res)=>{
-    const {username, subject} = req.body
-    const scoreSql= "SELECT COUNT(*) as user FROM score WHERE username=? AND subject=?"
-    db.query(scoreSql, [username, subject], (err, result)=>{
-        if(err){
-            res.status(500).json({msg:'server error recording your score'})
-        } else if(result[0].user===1){
-            scoreUtil.updateScore(req, res)
-        } else if(result[0].user===0){
-            scoreUtil.recordScore(req, res)
-        } else{
-            res.status(401).json({msg:"invalid user detected. Your score can't be recorded."})
-        }
+    const {user_id, subject} = req.body
+    const scoreSql= "SELECT COUNT(*) as user FROM score WHERE user_id=? AND subject=?"
+    db.query(scoreSql, [user_id, subject], (err, result)=>{
+        if(err) return res.status(500).json({msg:'server error recording your score'})
+        if(result[0].user===1) return scoreUtil.updateScore(req, res)
+        if(result[0].user===0) return scoreUtil.recordScore(req, res)
+        res.status(401).json({msg:"invalid user detected. Your score can't be recorded."})
     })
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import{Link, useHistory} from 'react-router-dom'
 import{useSelector, useDispatch} from 'react-redux'
-import './nav.css';
+import './css/nav.css';
 import {signoutApi} from '../services/api'
 import {signOutAction} from '../actions/userActions'
 
@@ -19,6 +19,7 @@ const Nav = () => {
     return (
         <div className='Nav'>
             <Link to='/'>Home</Link>
+            <Link to='/about'>About</Link>
             {
                 admin==='true' && <Link to='/add'>Add to Quiz</Link>
             }
@@ -26,7 +27,7 @@ const Nav = () => {
             {
                 user_id?
                 <>
-                    <Link to='/profile'>Profile</Link>
+                    <Link to='/profile'>My Profile</Link>
                     <button onClick={logout}>Logout</button>
                 </>
                     :

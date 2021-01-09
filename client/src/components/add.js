@@ -3,7 +3,7 @@ import{useDispatch} from 'react-redux';
 import {addAction} from '../actions/listActions';
 import {Formik, Form} from 'formik';
 import * as Yup from 'yup';
-import './add.css';
+import './css/add.css';
 import{InputField, ButtonComponent, SelectField} from './FormComponents'
 
 function Add() {

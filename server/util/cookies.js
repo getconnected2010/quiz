@@ -24,7 +24,7 @@ exports.assignCookies = (req, res)=>{
         })
         res.status(200).json({msg:'Welcome'})
     } catch (error) {
-        res.status(400).json({msg: 'custom server error cookies'})
+        res.status(400).json({msg: 'server error with cookies'})
     }
 }
 
