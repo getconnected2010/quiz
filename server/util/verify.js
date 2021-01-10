@@ -3,12 +3,22 @@ const bcrypt = require('bcrypt')
 const flagUtil = require('../util/flagUtil')
 
 exports.adminDB=(req, res, next)=>{
-    const user_id= req.params.user_id || req.body.user_id
-    const sqlAdmin= "SELECT admin FROM users WHERE user_id=?"
+    const user_id = req.params.user_id || req.body.user_id
+    const sqlAdmin= "SELECT username, password, admin FROM users WHERE user_id=?"
     db.query(sqlAdmin, [user_id], (err, result)=>{
         if(err) return res.status(500).json({msg:'server error'})
-        if(result.length===1 && result[0].admin==='true') return next()
-        res.status(401).json({msg:'you dont have admin priviledge'})
+        if(result.length===1 && result[0].admin==='false'){
+            const username = result[0].username
+            flagUtil.flagUser(username)
+            res.status(401).json({msg:"you don't have admin priviledge"})
+        }
+        if(result.length===1 && result[0].admin==='true') {
+            req.body.username = result[0].username
+            req.body.dbPassword = result[0].password
+            next()
+        }else{
+            res.status(401).json({msg:"you don't have admin priviledge"})
+        }
     })
 }
 
@@ -27,10 +37,10 @@ exports.password=(req, res, next)=>{
     bcrypt.compare(password, dbPassword, (err, same)=>{
         if(err) return res.status(500).json({msg:'server error verifying your password'})
         if(same) {
-            flagUtil.FlaggedUserReset(username)
+            flagUtil.flaggedUserReset(username)
             next()
         } else{
-            flagUtil.FlagUser(username)
+            flagUtil.flagUser(username)
             res.status(401).json({msg:'wrong password'})
         }
     })
@@ -69,10 +79,10 @@ exports.usernameDobMatchDb=(req, res, next)=>{
         if(err){
             res.status(500).json({msg:'server error matching username and DOB'})
         } else if(result.length===0){
-            flagUtil.FlagUser(username)
+            flagUtil.flagUser(username)
             res.status(401).json({msg:"username and date of birth don't match record"})
         } else if(result.length>1){
-            flagUtil.FlagUser(username)
+            flagUtil.flagUser(username)
             res.status(400).json({msg:"illegal attempt"})
         } else if(result.length===1){
             next()

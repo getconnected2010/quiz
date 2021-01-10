@@ -1,6 +1,6 @@
 const db = require("../config/db")
 
-exports.FlagUser=(username)=>{
+exports.flagUser= (username)=>{
     const flagUserSql="INSERT INTO flagged (username) VALUES (?)"
     db.query(flagUserSql, [username], (err)=>{
         if(err){
@@ -9,7 +9,7 @@ exports.FlagUser=(username)=>{
     })
 }
 
-exports.FlaggedUserReset = (username)=>{
+exports.flaggedUserReset = async(username)=>{
     const flaggedUserResetSql="DELETE FROM flagged WHERE username=?"
     db.query(flaggedUserResetSql, [username], (err)=>{
         if(err){

@@ -18,9 +18,14 @@
     max-width: 500px;
     margin: 4px auto;
     text-align: start;
+    color: black;
     /* border: solid 3px rgb(194, 194, 194); */
     padding: 15px 25px;
     border-radius: 10px;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: gray;
+    opacity: .8;
 }
 .Form label, input{
     display: block;
@@ -28,7 +33,8 @@
 .Form label{
     font-size: 1.5rem;
     font-weight: bold;
-    color: rgb(182, 182, 182);
+    /* color: rgb(182, 182, 182); */
+    
     font-family: cursive;
     padding-top: 10px;
 }
@@ -38,9 +44,6 @@
     border: 3px solid gray;
     border-radius: 15px;
 }
-/* .Form select{
-    width: 50%;
-} */
 .Form button{
     margin: 20px;
     width: 90%;

@@ -27,6 +27,18 @@ export const deleteQaApi =async(delData)=>{
     }
 }
 
+export const delUserApi= async(data)=>{
+    try {
+        const user = await fetchCookie()
+        data.user_id= user.user_id
+        const result = await axios.post('http://localhost:8000/user/admin/delete', data, {withCredentials: true})
+        if(result.status===200) alert('username successfully deleted')
+    } catch (error) {
+        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
+        alert('error deleting username')
+    }
+}
+
 export const fetchQuizApi =async(subject)=>{
     try {
         return await axios.get(`http://localhost:8000/quiz/list/${subject}`, {withCredentials: true})
@@ -67,7 +79,7 @@ export const recordScoreApi=async(data)=>{
 
 export const resetPasswordApi= async(data)=>{
     try {
-        const response = await axios.post('http://localhost:8000/user/reset', data, {withCredentials: true})
+        const response = await axios.post('http://localhost:8000/user/self/reset', data, {withCredentials: true})
         if(response.data.msg){
             alert(response.data.msg)
         }
@@ -129,10 +141,22 @@ export const signUpApi=async(data)=>{
     }
 }
 
-export const updatePasswordApi=async(data)=>{
-    const user= await fetchCookie()
-    data.user_id = user.user_id
+export const unflagApi=async(data)=>{
     try {
+        const user = await fetchCookie()
+        data.user_id= user.user_id
+        const result = await axios.post('http://localhost:8000/user/admin/unflag', data, {withCredentials: true})
+        if(result.status===200) alert('username successfully unflagged')
+    } catch (error) {
+        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
+        alert('error unflagging username')
+    }
+}
+
+export const updatePasswordApi=async(data)=>{
+    try {
+        const user= await fetchCookie()
+        data.user_id = user.user_id
         const result = await axios.post('http://localhost:8000/user/update/password', data, {withCredentials: true})
         alert(result.data.msg)
     } catch (error) {
@@ -142,9 +166,9 @@ export const updatePasswordApi=async(data)=>{
 }
 
 export const updateUsernameApi=async(data)=>{
-    const user= await fetchCookie()
-    data.user_id = user.user_id
     try {
+        const user= await fetchCookie()
+        data.user_id = user.user_id
         const result= await axios.post('http://localhost:8000/user/update/username', data, {withCredentials: true})
         alert(result.data.msg)
     } catch (error) {

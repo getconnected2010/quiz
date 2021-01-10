@@ -55,10 +55,10 @@ const Profile = () => {
                     ))
                 }
                 </tbody>
-                {
-                    scores.length>0 && <Link onClick={()=>setScores([])}>Hide my scores</Link>
-                }
             </table>
+            {
+                    scores.length>0 && <Link to='#' onClick={()=>setScores([])}>Hide my scores</Link>
+                }
             
             <ButtonComponent disabled={submitting} onClick={fetchScores} label={submitting?'please wait...':'Get my scores'} />
 
@@ -73,15 +73,13 @@ const Profile = () => {
                                 <InputField name={'newUsername'} label={'New username: '} type={'text'} placeholder={'enter a new username'} />
                                 <InputField name={'password'} label={'Password: '} type={'password'} placeholder={'enter your password'} />
                                 <ButtonComponent disabled={submitting} type={'submit'} label={submitting?'please wait...':'update username'} />
-                                <Link onClick={()=>setHideUsernameForm(true)}>Hide form</Link>
+                                <Link to='#' onClick={()=>setHideUsernameForm(true)}>Hide form</Link>
                             </Form>
                         )
                     }
                 </Formik>
             }
-
             {
-
                 hidePasswordForm?
                 <ButtonComponent onClick={()=>setHidePasswordForm(false)} label={submitting?'please wait...':'Change my password'} disabled={submitting}/>
                 :
@@ -93,7 +91,7 @@ const Profile = () => {
                                 <InputField name={'newPassword'} label={'New Password: '} type={'password'} placeholder={'enter new password'} />
                                 <InputField name={'confirm'} label={'Confirm new password:'} type={'password'} placeholder={'confirm new password'} />
                                 <ButtonComponent disabled={submitting} type={'submit'} label={submitting?'please wait...':'update password'} />
-                                <Link onClick={()=>setHidePasswordForm(true)}>Hide form</Link>
+                                <Link to='#' onClick={()=>setHidePasswordForm(true)}>Hide form</Link>
                             </Form>
                         )
                     }

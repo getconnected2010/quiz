@@ -21,7 +21,11 @@ const Nav = () => {
             <Link to='/'>Home</Link>
             <Link to='/about'>About</Link>
             {
-                admin==='true' && <Link to='/add'>Add to Quiz</Link>
+                admin==='true' && 
+                <>
+                    <Link to='/add'>Add to Quiz</Link>
+                    <Link to='/admin'>Admin</Link>
+                </>
             }
 
             {

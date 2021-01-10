@@ -13,6 +13,7 @@ import Signin from './components/Signin'
 import {AdminOnly, LoggedOnly, UnloggedOnly} from './services/ProtectedRoutes';
 import ResetPassword from './components/ResetPassword';
 import Profile from './components/Profile'
+import AdminPage from './components/AdminPage'
 
 
 
@@ -29,6 +30,7 @@ const App=()=>{
           <Route path='/' exact component={Home} />
           <Route path='/about' component={About} />
           <AdminOnly path='/add' component={Add} />
+          <AdminOnly path='/admin' component={AdminPage} />
           <Route path='/list' component={QaList} />
           <UnloggedOnly path='/login' component={Signin} />
           <LoggedOnly path='/profile' component={Profile} />

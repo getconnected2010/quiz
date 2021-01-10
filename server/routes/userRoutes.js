@@ -7,7 +7,11 @@ const cookieParser=require('cookie-parser')
 
 route.use(cookieParser())
 
-route.post('/reset', verify.userNotTimeout, verify.usernameDobMatchDb, userController.userReset)
+route.post('/admin/delete', cookies.verifyAdmin, cookies.refresh, verify.adminDB, verify.password, userController.deleteUser)
+
+route.post('/admin/unflag', cookies.verifyAdmin, cookies.refresh, verify.adminDB, verify.password, userController.userAdminReset)
+
+route.post('/self/reset', verify.userNotTimeout, verify.usernameDobMatchDb, userController.userSelfReset)
 
 route.post('/signin', verify.userNotFlagged, userController.userSignIn, verify.password, cookies.assign)
 

@@ -36,7 +36,7 @@ const Signin=()=>{
 
                             <ButtonComponent type={'submit'} disabled={formik.isSubmitting} label={formik.isSubmitting?<>Loggin you in</>:<>Login</>} />
                             
-                            <span style={{color: 'gray'}}>
+                            <span>
                                 Sign in with an admin account to add to quiz.
                                 <br/>
                                 Forgot password or reset account? Click <Link style={{color:'green', fontSize:'1.25em'}} to='/reset'>here</Link>.

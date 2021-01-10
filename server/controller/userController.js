@@ -2,7 +2,15 @@ const db= require('../config/db')
 const bcrypt= require('bcrypt')
 const flagUtil = require('../util/flagUtil')
 
-
+exports.deleteUser=async(req, res)=>{
+    const {delUser}= req.body
+    const delSql= "DELETE FROM users WHERE username=?"
+    db.query(delSql, [delUser], (err, result)=>{
+        if(err) return res.status(500).json({msg:'error deleting username'})
+        flagUtil.flaggedUserReset(delUser)
+        res.status(200).json({msg:'username successfully deleted'})
+    })
+}
  exports.updatePassword=(req, res)=>{
      const {username, newPassword} = req.body
      const salt = Number(process.env.SALT)
@@ -24,8 +32,16 @@ const flagUtil = require('../util/flagUtil')
         res.status(200).json({msg:'username successfully updated'})
     })
  }
-
-exports.userReset=async(req, res)=>{
+exports.userAdminReset=async (req, res)=>{
+    try {
+        const {unflagUser}= req.body
+        await flagUtil.flaggedUserReset(unflagUser)
+        res.status(200).json({msg:'success resetting username'})
+    } catch (error) {
+        res.status(500).json({msg:'server error resetting username'})
+    }
+}
+exports.userSelfReset=async(req, res)=>{
     try {
         const{username, password} = req.body
         const salt= Number(process.env.SALT)
@@ -33,7 +49,7 @@ exports.userReset=async(req, res)=>{
         const resetSql="UPDATE users SET password=? WHERE username=?"
         db.query(resetSql, [hashedPass, username], (err)=>{
             if(err) return res.status(500).json({msg:'server error resetting password'})
-            flagUtil.FlaggedUserReset(username)
+            flagUtil.flaggedUserReset(username)
             res.status(200).json({msg:'your password is reset. Continue to Login page.'})
         })
     } catch (error) {
@@ -48,7 +64,7 @@ exports.userSignIn= (req, res, next)=>{
         if(err) return res.status(500).json({msg:'server error. If error persists, contact site admin.'})
         if(result.length===0) return res.status(404).json({msg:'not a registered username'})
         if(result.length>1){
-            flagUtil.FlagUser(username)
+            flagUtil.flagUser(username)
             res.status(400).json({msg:'illegal attempt'})
         }
         else if(result.length===1){
@@ -57,7 +73,7 @@ exports.userSignIn= (req, res, next)=>{
             req.body.admin= result[0].admin
             next()
         } else{
-            flagUtil.FlagUser(username)
+            flagUtil.flagUser(username)
             res.status(401).json({msg:'wrong password'})
         }
     })
