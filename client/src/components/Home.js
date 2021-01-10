@@ -27,11 +27,9 @@ const Home = () => {
     }
     return (
         <div className='HomePage'>
-            <h1>Welcome to quiz app</h1>
-           
-            <div >
-                <h2>Pick a subject area from the options below</h2>
-                <div className='buttons'>
+            <h1>Welcome to quiz app</h1>  
+            <div className='buttons'>
+                <h2>Pick a subject area from options below</h2>
                 <ButtonComponent onClick={fetchGeneral} id={'general'} label={'General'} />
 
                 <ButtonComponent onClick={fetchGeography} id={'geography'} label={'Geography'} />
@@ -39,8 +37,6 @@ const Home = () => {
                 <ButtonComponent onClick={fetchScience} id={'science'} label={'Science'}/>
 
                 <ButtonComponent onClick={fetchHistory} id={'history'} label={'History'}/>
-                
-                </div>
             </div>
         </div>
     )

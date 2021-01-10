@@ -7,16 +7,16 @@ const cookieParser=require('cookie-parser')
 
 route.use(cookieParser())
 
-route.post('/reset',userController.checkUserOnTimeout, userController.checkUsernameDobMatchDb, userController.userReset)
+route.post('/reset', verify.userNotTimeout, verify.usernameDobMatchDb, userController.userReset)
 
-route.post('/signin', userController.flaggedUserCheck, userController.userSignIn, verify.verifyPasswords, cookies.assignCookies)
+route.post('/signin', verify.userNotFlagged, userController.userSignIn, verify.password, cookies.assign)
 
-route.post('/signout', cookies.deleteCookies)
+route.post('/signout', cookies.delete)
 
-route.post('/signup', userController.checkUserExistsDb, userController.userSignUp)
+route.post('/signup', verify.usernameAvailable, userController.userSignUp)
 
-route.post('/update/password', cookies.verifyLoggedUserCookies, verify.verifyUser, userController.flaggedUserCheck, verify.verifyPasswords, userController.updatePassword)
+route.post('/update/password', cookies.verifyLoggedUser, cookies.refresh, verify.userInDB, verify.userNotFlagged, verify.password, userController.updatePassword)
 
-route.post('/update/username', cookies.verifyLoggedUserCookies, verify.verifyUser, userController.flaggedUserCheck, verify.verifyPasswords, userController.checkNewUsernameAvailable, userController.updateUsername)
+route.post('/update/username', cookies.verifyLoggedUser, cookies.refresh, verify.userInDB, verify.userNotFlagged, verify.password, verify.newUsernameAvailable, userController.updateUsername)
 
 module.exports= route

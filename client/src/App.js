@@ -32,7 +32,7 @@ const App=()=>{
           <Route path='/list' component={QaList} />
           <UnloggedOnly path='/login' component={Signin} />
           <LoggedOnly path='/profile' component={Profile} />
-          <UnloggedOnly path='/retrieve' component={ResetPassword} />
+          <UnloggedOnly path='/reset' component={ResetPassword} />
           <UnloggedOnly path='/signin' component={Signin} />
           <Route path='/signup' component={Signup} />
       </Switch>

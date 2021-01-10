@@ -39,7 +39,7 @@ const Signin=()=>{
                             <span style={{color: 'gray'}}>
                                 Sign in with an admin account to add to quiz.
                                 <br/>
-                                Forgot password or reset account? Click <Link style={{color:'green', fontSize:'1.25em'}} to='/retrieve'>here</Link>.
+                                Forgot password or reset account? Click <Link style={{color:'green', fontSize:'1.25em'}} to='/reset'>here</Link>.
                             </span>
                         </Form>
                     </div>

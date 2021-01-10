@@ -5,7 +5,7 @@ const cookie= new Cookies();
 
 export const fetchCookie=()=>{
     try {
-        const userJwt= cookie.get('user')
+        const userJwt= cookie.get('userToken')
         const user= jwt(userJwt)
         return user
     } catch (error) {
@@ -15,7 +15,7 @@ export const fetchCookie=()=>{
 
 export const removeCookie=()=>{
     try {
-        cookie.remove('user')
+        cookie.remove('userToken')
     } catch (error) {
         console.log(error)
     }

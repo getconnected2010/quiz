@@ -1,5 +1,6 @@
 import React from 'react'
 import './css/about.css'
+import {useSelector} from 'react-redux'
 
 const About = () => {
     return (

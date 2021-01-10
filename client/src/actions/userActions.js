@@ -6,7 +6,6 @@ export const signInAction=()=>async(dispatch)=>{
         dispatch({type:'SIGNIN', payload: user}) 
     } catch (error) {
         removeCookie()
-        console.log(error)
     } 
 }
 
@@ -14,6 +13,6 @@ export const signOutAction=()=>(dispatch)=>{
     try {
         dispatch({type: 'SIGNOUT'})
     } catch (error) {
-        console.log(error)
+        alert('error logging you out')
     }   
 }

@@ -1,34 +1,37 @@
 const jwt=require('jsonwebtoken')
 
-exports.assignCookies = (req, res)=>{
+exports.tokenToCookies= async(res, accessToken, refreshToken, userToken)=>{
+    res.cookie('accessToken', accessToken,{
+        maxAge: 1000*60*15,
+        httpOnly: true,
+        secure: false
+    })
+    res.cookie('refreshToken', refreshToken, {
+        maxAge: 1000*60*45,
+        httpOnly: true,
+        secure: false
+    })
+    res.cookie('userToken', userToken, {
+        maxAge: 1000*60*45,
+        httpOnly: false,
+        secure: false
+    })
+}
+
+exports.assign = async (req, res)=>{
     try {
-        const user_id= req.body.user_id
-        const admin = req.body.admin
+        const {user_id, admin}= req.body
         const accessToken= jwt.sign({user_id, admin}, process.env.JWT_ACCESS_TOKEN)
         const refreshToken= jwt.sign({user_id, admin}, process.env.JWT_REFRESH_TOKEN)
-        const user= jwt.sign({user_id, admin}, process.env.JWT_USER_SET_TOKEN)
-        res.cookie('accessToken', accessToken,{
-            maxAge: 1000*60*30,
-            httpOnly: true,
-            secure: false
-        })
-        res.cookie('refreshToken', refreshToken, {
-            maxAge: 1000*60*45,
-            httpOnly: true,
-            secure: false
-        })
-        res.cookie('user', user, {
-            maxAge: 1000*60*30,
-            httpOnly: false,
-            secure: false
-        })
+        const userToken= jwt.sign({user_id, admin}, process.env.JWT_USER_SET_TOKEN)
+        await this.tokenToCookies(res, accessToken, refreshToken, userToken)
         res.status(200).json({msg:'Welcome'})
     } catch (error) {
-        res.status(400).json({msg: 'server error with cookies'})
+        res.status(400).json({msg: 'server error with assigning cookies'})
     }
 }
 
-exports.deleteCookies=(req, res)=>{
+exports.delete=(req, res)=>{
     try {
         res.cookie('accessToken', '', {
             maxAge: 0
@@ -36,22 +39,37 @@ exports.deleteCookies=(req, res)=>{
         res.cookie('refreshToken', '', {
             maxAge: 0
         })
-        res.cookie('user', '',{
+        res.cookie('userToken', '',{
             maxAge: 0
         })
-        res.status(200).json({msg:'successfully logged out'})
+        res.status(200).json({msg:'You have been logged out'})
     } catch (error) {
-        res.status(500).json({msg:'server error logging you out'})
+        res.status(500).json({msg:'server error deleting cookies'})
     }
 }
 
-//verifies 'refresh' & 'user' tokens. 
-//Then compares user_id in tokens match in req body
-//Then verifies admin value in tokens
-exports.verifyAdminCookies=(req, res, next)=>{
+exports.refresh =async(req, res, next)=>{
     try {
-        const refreshToken= req.cookies.refreshToken
-        const userToken = req.cookies.user
+        let refreshToken= req.cookies.refreshToken
+        let accessToken= req.cookies.accessToken
+        if(accessToken) return next()
+        if(!accessToken){
+            const {user_id, admin}= jwt.decode(refreshToken)
+            accessToken= jwt.sign({user_id, admin}, process.env.JWT_ACCESS_TOKEN)
+            refreshToken = jwt.sign({user_id, admin}, process.env.JWT_REFRESH_TOKEN)
+            const userToken = jwt.sign({user_id, admin}, process.env.JWT_USER_SET_TOKEN)
+            await this.tokenToCookies(res, accessToken, refreshToken, userToken)
+            next()
+        }
+    } catch (error) {
+        res.status(500).json({msg:'server error with access cookies'})
+    }
+}
+
+exports.verifyAdmin=(req, res, next)=>{
+    try {
+        const {refreshToken}= req.cookies
+        const {userToken} = req.cookies
         const refreshPayload= jwt.decode(refreshToken)
         const userPayload= jwt.decode(userToken)
         if(refreshToken && userToken 
@@ -75,10 +93,10 @@ exports.verifyAdminCookies=(req, res, next)=>{
     }
 }
 
-exports.verifyLoggedUserCookies=(req, res, next)=>{
+exports.verifyLoggedUser=async (req, res, next)=>{
     try {
-        const refreshToken= req.cookies.refreshToken
-        const userToken = req.cookies.user
+        const {refreshToken}= req.cookies
+        const {userToken} = req.cookies
         const refreshPayload= jwt.decode(refreshToken)
         const userPayload= jwt.decode(userToken)
         if(refreshToken && userToken 
@@ -97,5 +115,5 @@ exports.verifyLoggedUserCookies=(req, res, next)=>{
     } catch (error) {
         res.status(401).json({msg:"You are not a logged in user"})
     }
-
 }
+

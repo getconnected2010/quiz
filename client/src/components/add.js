@@ -28,7 +28,7 @@ function Add() {
     return (
        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         <div className='Form'>
-            <h1>Question and Answers</h1>
+            <h1>Enter Question and Answers</h1>
             <Form>
                 <SelectField label={'Select a subject area : '} name={'subject'} selectOptions={selectOptions} />
 

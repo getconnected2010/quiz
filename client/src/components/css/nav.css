@@ -3,22 +3,28 @@
     width: 100vw;
     height: 10vh;
     display: flex;
-    flex-direction: row;
-    font-size: x-large;
-    font-weight: bold;
-    font-family: serif;
     border-bottom: 1px solid rgb(223, 186, 186);
 }
 .Nav a{
     margin: auto;
     text-decoration: none;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-shadow: 2px 2px white;
     font-size: 200%;
-    color: rgb(144, 4, 27);
+    color: white;
+}
+@media only screen and (max-width: 800px){
+    .Nav a{
+        font-size: x-large;
+    }
+}
+@media only screen and (max-width: 600px){
+    .Nav a{
+        font-size: large;
+    }
 }
 .Nav button{
     margin-right: 15px;
+    margin-bottom: 3px;
     border-radius: 10px;
     padding: 2px 15px;
     background: green;

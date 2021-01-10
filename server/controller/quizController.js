@@ -1,7 +1,7 @@
 const db= require('../config/db')
 const scoreUtil = require('../util/scoreUtil')
 
-exports.AddQa = (req, res)=>{
+exports.addQa = (req, res)=>{
     const {subject, question, answer1, answer2, answer3, answer4, correct} = req.body
     const sqlAdd = "INSERT INTO quiz_list (subject, question, answer1, answer2, answer3, answer4, correct) VALUES (?,?,?,?,?,?,?)";
     db.query(sqlAdd, [subject, question, answer1, answer2, answer3, answer4, correct], (err, result)=>{
@@ -21,14 +21,14 @@ exports.deleteQa=(req, res)=>{
 
 exports.fetchScores=(req, res)=>{
     const user_id= req.params.user_id || req.body.user_id
-    const scoresSql= "SELECT subject, score FROM score WHERE user_id=?"
+    const scoresSql= "SELECT subject, score FROM score WHERE user_id=? ORDER BY subject ASC"
     db.query(scoresSql, [user_id], (err, result)=>{
         if(err) return res.status(500).json({msg:'server error retrieving your scores'})
         res.status(200).json({result})
     })
 }
 
-exports.GetQa = (req, res)=>{
+exports.getQa = (req, res)=>{
     const subject = req.params.subject
     const listSql= "SELECT * FROM quiz_list WHERE subject=? ORDER BY id DESC";
     db.query(listSql,[subject], (err, results)=>{

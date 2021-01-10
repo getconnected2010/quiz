@@ -1,7 +1,11 @@
 .About{
     height: 100vh;
-    background-image: url(../../assets/images/abstract.jpg);
+    width: 100vw;
+    background-image: url(../../assets/images/search.jpg);
     background-size: cover;
+    background-position: bottom;
+    background-color: gray;
+    background-blend-mode: multiply;
     padding-top: 1px;
 }
 .About p{
@@ -9,11 +13,11 @@
     width: 80%;
     max-width: 500px;
     margin:10% auto;
-    background: rgb(38, 42, 61);
-    border: 1px solid rgb(168, 2, 2);
+    background: rgb(14, 19, 47);
+    border: 1px solid white;
     border-radius: 15px;
     padding: 10px;
-    color: rgb(240, 231, 231);
+    color: rgb(255, 255, 255);
     font-weight: bold;
     font-size: large;
     opacity: 0.85;

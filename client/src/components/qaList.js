@@ -1,20 +1,21 @@
 import React, {useState} from 'react'
 import{useSelector, useDispatch} from 'react-redux'
+import{Link} from 'react-router-dom'
 import Modal from 'react-modal';
 import './css/qaList.css';
-import {deleteQA} from '../actions/listActions'
+import {deleteAction} from '../actions/listActions'
 import Paginate from './Paginate'
 import {recordScoreApi} from '../services/api'
 
 const QaList=()=>{
+    const dispatch = useDispatch()
     const list= useSelector(state=>state.qa)
     const user = useSelector(state=>state.user)
-    const admin = user.admin
+    const {admin} = user
     const [startIndex, setStartIndex] = useState(0)
     const listPerPage = 5
     const endIndex = startIndex + listPerPage
     const quiz = list.slice(startIndex, endIndex)
-    const dispatch = useDispatch()
     const [answers, setAnswers] = useState({})
     const [subject, setSubject] = useState(null)
     const [score, setScore] = useState(0)
@@ -34,9 +35,9 @@ const QaList=()=>{
         await recordScoreApi({subject: subject, score: score})
         setOpenModal(true)
     }
-    const removeQA=(e)=>{
+    const deleteQA=(e)=>{
         e.preventDefault()
-        dispatch(deleteQA(e.target.id))
+        dispatch(deleteAction(e.target.id))
     }
     Modal.setAppElement('#root')
     return(
@@ -47,7 +48,13 @@ const QaList=()=>{
                 <button onClick={()=>setOpenModal(false)}>Close</button>
             </div>
         </Modal>
-        {/* Q & A list */}
+        {
+            list.length===0&& 
+                <h1>
+                    Questions unavailable. Choose another subject from
+                    {<Link to='/'> Home page</Link>}
+                </h1>
+        }
         <form onChange={handleChange}>
             {
                 quiz.map(qa=>(
@@ -55,7 +62,7 @@ const QaList=()=>{
                         {/* question */}
                         <div className='q'>
                            {qa.question}
-                           {admin==='true' && <button id={qa.id} onClick={removeQA}>Delete</button>}
+                           {admin==='true' && <button id={qa.id} onClick={deleteQA}>Delete</button>}
                         </div> 
                         {/* answers */}
                         <div className='a-parent'>
@@ -63,22 +70,18 @@ const QaList=()=>{
                                 <label>{qa.answer1}</label>
                                 <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer1===qa.correct}/>
                             </div>
-
                             <div className='a'>
                                 <label>{qa.answer2}</label>
                                 <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer2===qa.correct} />
                             </div>
-
                             <div className='a'>
                                 <label>{qa.answer3}</label>
                                 <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer3===qa.correct} />
                             </div>
-
                             <div className='a'>
                                 <label>{qa.answer4}</label>
                                 <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer4===qa.correct} />
                             </div>
-
                         </div>
                     </div>
                 ))

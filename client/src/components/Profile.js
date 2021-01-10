@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import {ButtonComponent, InputField} from './FormComponents'
 import {fetchScoresApi, updateUsernameApi, updatePasswordApi} from '../services/api'
 import './css/profile.css'
+import { Link } from 'react-router-dom'
 
 const Profile = () => {
     const initialValuesUsername={newUsername:'', password:''}
@@ -54,7 +55,11 @@ const Profile = () => {
                     ))
                 }
                 </tbody>
+                {
+                    scores.length>0 && <Link onClick={()=>setScores([])}>Hide my scores</Link>
+                }
             </table>
+            
             <ButtonComponent disabled={submitting} onClick={fetchScores} label={submitting?'please wait...':'Get my scores'} />
 
             {
@@ -68,6 +73,7 @@ const Profile = () => {
                                 <InputField name={'newUsername'} label={'New username: '} type={'text'} placeholder={'enter a new username'} />
                                 <InputField name={'password'} label={'Password: '} type={'password'} placeholder={'enter your password'} />
                                 <ButtonComponent disabled={submitting} type={'submit'} label={submitting?'please wait...':'update username'} />
+                                <Link onClick={()=>setHideUsernameForm(true)}>Hide form</Link>
                             </Form>
                         )
                     }
@@ -87,6 +93,7 @@ const Profile = () => {
                                 <InputField name={'newPassword'} label={'New Password: '} type={'password'} placeholder={'enter new password'} />
                                 <InputField name={'confirm'} label={'Confirm new password:'} type={'password'} placeholder={'confirm new password'} />
                                 <ButtonComponent disabled={submitting} type={'submit'} label={submitting?'please wait...':'update password'} />
+                                <Link onClick={()=>setHidePasswordForm(true)}>Hide form</Link>
                             </Form>
                         )
                     }

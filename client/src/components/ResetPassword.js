@@ -29,6 +29,7 @@ const ResetPassword = () => {
                 formik=>(
                     <div className="Form">
                         <Form>
+                            <h1>Reset your password</h1>
                             <InputField label={'User name: '} type={'text'} name={'username'} placeholder={'username'} />
                             <InputField label={'New password: '} type={'password'} name={'password'} placeholder={'password'} />
                             <InputField label={'Confirm password: '} type={'password'} name={'confirm'} placeholder={'confirm password'} />

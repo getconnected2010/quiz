@@ -22,10 +22,8 @@ export const deleteQaApi =async(delData)=>{
         const user_id= user.user_id
         return await axios.delete(`http://localhost:8000/quiz/delete/${delData}/${user_id}`, {withCredentials: true}, {headers: {"Content-type":"application/json"}} )
     } catch (error) {
-        if(error.response&&error.response.data.msg){
-            alert(error.response.data.msg)
-        } 
-        return error
+        if(error.response&&error.response.data.msg) return alert(error.response.data.msg)
+        alert('error deleting question')
     }
 }
 
@@ -33,7 +31,8 @@ export const fetchQuizApi =async(subject)=>{
     try {
         return await axios.get(`http://localhost:8000/quiz/list/${subject}`, {withCredentials: true})
     } catch (error) {
-        console.log(error)
+        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
+        alert('error fetching questions from database')
     }
 }
 
@@ -45,9 +44,8 @@ export const fetchScoresApi=async()=>{
             const result= await axios.get(`http://localhost:8000/quiz/scores/${user_id}`, {withCredentials: true})
             return result.data.result
         } catch (error){
-            if(error.response && error.response.data.msg){
-                alert(error.response.data.msg)
-            }
+            if(error.response && error.response.data.msg) return alert(error.response.data.msg)
+            alert('error retrieving your scores')
         }
     }
 }
