@@ -39,6 +39,18 @@ export const delUserApi= async(data)=>{
     }
 }
 
+export const dnGradeApi= async(data)=>{
+    try {
+        const user= await fetchCookie()
+        data.user_id = user.user_id
+        const result= await axios.post('http://localhost:8000/user/admin/dngrade', data, {withCredentials: true})
+        alert(result.data.msg)
+    } catch (error) {
+        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
+        alert('error down grading username')
+    }
+}
+
 export const fetchQuizApi =async(subject)=>{
     try {
         return await axios.get(`http://localhost:8000/quiz/list/${subject}`, {withCredentials: true})
@@ -48,7 +60,7 @@ export const fetchQuizApi =async(subject)=>{
     }
 }
 
-export const fetchScoresApi=async()=>{
+export const fetchMyScoresApi=async()=>{
     const user= await fetchCookie()
     const user_id= user.user_id
     if(user_id!==null){
@@ -59,6 +71,23 @@ export const fetchScoresApi=async()=>{
             if(error.response && error.response.data.msg) return alert(error.response.data.msg)
             alert('error retrieving your scores')
         }
+    }
+}
+
+export const adminFetchScoreApi=async(data)=>{
+    try {
+        const user= await fetchCookie()
+        const user_id= user.user_id
+        const {userScore} = data
+        const result= await axios.get(`http://localhost:8000/user/admin/scores/${user_id}/${userScore}`, {withCredentials: true})
+        if(result && result.data.result) return result.data.result
+    } catch (error) {
+        if(error.response&& error.response.data.msg) {
+            alert(error.response.data.msg)
+            return[]
+        }
+        alert('error down grading username')
+        return[]
     }
 }
 
@@ -174,5 +203,17 @@ export const updateUsernameApi=async(data)=>{
     } catch (error) {
         if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
         alert('error updating username')
+    }
+}
+
+export const upgradeApi= async(data)=>{
+    try {
+        const user= await fetchCookie()
+        data.user_id = user.user_id
+        const result= await axios.post('http://localhost:8000/user/admin/upgrade', data, {withCredentials: true})
+        alert(result.data.msg)
+    } catch (error) {
+        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
+        alert('error upgrading username')
     }
 }

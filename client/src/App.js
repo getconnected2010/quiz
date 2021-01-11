@@ -13,7 +13,7 @@ import Signin from './components/Signin'
 import {AdminOnly, LoggedOnly, UnloggedOnly} from './services/ProtectedRoutes';
 import ResetPassword from './components/ResetPassword';
 import Profile from './components/Profile'
-import AdminPage from './components/AdminPage'
+import AdminPage from './components/admin/AdminPage'
 
 
 

@@ -22,6 +22,11 @@
         font-size: large;
     }
 }
+@media only screen and (max-width: 460px){
+    .Nav a{
+        font-size: small;
+    }
+}
 .Nav button{
     margin-right: 15px;
     margin-bottom: 3px;

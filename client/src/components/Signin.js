@@ -29,6 +29,7 @@ const Signin=()=>{
             {
                 formik=>(
                     <div className="Form">
+                        <h1>Sign In</h1>
                         <Form>
                             <InputField label={'User name: '} name={'username'} type={'text'} placeholder={'username'} />
 

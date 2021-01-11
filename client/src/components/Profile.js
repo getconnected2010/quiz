@@ -2,9 +2,10 @@ import React, {useState} from 'react'
 import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
 import {ButtonComponent, InputField} from './FormComponents'
-import {fetchScoresApi, updateUsernameApi, updatePasswordApi} from '../services/api'
+import {fetchMyScoresApi, updateUsernameApi, updatePasswordApi} from '../services/api'
 import './css/profile.css'
 import { Link } from 'react-router-dom'
+import ScoreTable from './ScoreTable'
 
 const Profile = () => {
     const initialValuesUsername={newUsername:'', password:''}
@@ -24,7 +25,7 @@ const Profile = () => {
     const [hidePasswordForm, setHidePasswordForm] = useState(true)
     const fetchScores= async()=>{
         setSubmitting(true)
-        const result = await fetchScoresApi()
+        const result = await fetchMyScoresApi()
         if(result){setScores( result)}
         setSubmitting(false)
     }
@@ -44,21 +45,12 @@ const Profile = () => {
     }
     return (
         <div className='Profile'>
-            <table>
-                <tbody >
-                {
-                    scores.map(score=>(
-                            <tr key={score.subject}>
-                                <td>{score.subject}</td>
-                                <td>{score.score}</td>
-                            </tr>
-                    ))
-                }
-                </tbody>
-            </table>
             {
-                    scores.length>0 && <Link to='#' onClick={()=>setScores([])}>Hide my scores</Link>
-                }
+                scores.length>0 &&  <>
+                    <ScoreTable array={scores} />
+                    <Link to='#' onClick={()=>setScores([])}>Hide my scores</Link>
+                </>
+            }
             
             <ButtonComponent disabled={submitting} onClick={fetchScores} label={submitting?'please wait...':'Get my scores'} />
 

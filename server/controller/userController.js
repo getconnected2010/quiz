@@ -11,6 +11,31 @@ exports.deleteUser=async(req, res)=>{
         res.status(200).json({msg:'username successfully deleted'})
     })
 }
+
+exports.dnGradeUser=(req, res)=>{
+    const {dnUser} = req.body
+    const dnGradeSql = "UPDATE users SET admin= 'true' WHERE username=?"
+    db.query(dnGradeSql, [dnUser], (err)=>{
+        if(err) return res.status(500).json({msg:'error down-grading username to admin'})
+        res.status(200).json({msg:'if username exits in database, it has been down-graded from admin'})
+    })
+}
+
+exports.getUserId=(req, res, next)=>{
+    const userScore = req.params.userScore
+    const getUserIdSql="SELECT user_id FROM users WHERE username=?"
+    db.query(getUserIdSql, [userScore], (err, result)=>{
+        if(err) return res.status(500).json({msg:'server error fetching scores'})
+        if(result.length===0) return res.status(401).json({msg:"that username doesn't exist in database"})
+        if(result.length===1){
+            req.body.user_id= result[0].user_id
+            next()
+        }else{
+            res.status(400).json({msg:'server error fetching scores'})
+        }
+    })
+}
+
  exports.updatePassword=(req, res)=>{
      const {username, newPassword} = req.body
      const salt = Number(process.env.SALT)
@@ -31,6 +56,15 @@ exports.deleteUser=async(req, res)=>{
         if(err) return res.status(500).json({msg:'server error updating username'})
         res.status(200).json({msg:'username successfully updated'})
     })
+ }
+
+ exports.upgradeUser=(req, res)=>{
+     const {upUser} = req.body
+     const upgradeSql = "UPDATE users SET admin= 'true' WHERE username=?"
+     db.query(upgradeSql, [upUser], (err)=>{
+         if(err) return res.status(500).json({msg:'error up-grading username to admin'})
+         res.status(200).json({msg:'if username exits in database, it has been up-graded to admin'})
+     })
  }
 exports.userAdminReset=async (req, res)=>{
     try {
