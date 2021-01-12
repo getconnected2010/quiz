@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
 import{ButtonComponent} from '../FormComponents'
 import ScoreTable from '../ScoreTable'
 import UnflagUser from './UnflagUser'
@@ -26,7 +25,7 @@ const AdminPage = () => {
                 <ButtonComponent disabled={submitting} onClick={()=>setShowFlagged(true)} label={submitting?'please wait...':'Unflag a user? '}/>
             }
             {
-                showDelete ?  <DeleteUser submitting={submitting} setSubmitting={setSubmitting} setShowDelete={setShowDelete}/>
+                showDelete ?  <DeleteUser showDelete={showDelete} submitting={submitting} setSubmitting={setSubmitting} setShowDelete={setShowDelete}/>
                 :
                 <ButtonComponent disabled={submitting} onClick={()=>setShowDelete(true)} label={submitting?'please wait...':'Delete a user?'}/>
             }

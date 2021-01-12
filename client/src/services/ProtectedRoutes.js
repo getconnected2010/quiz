@@ -1,6 +1,5 @@
 import { Redirect, Route } from 'react-router-dom'
 import {useSelector} from 'react-redux'
-import { Component } from 'react'
 
 export const AdminOnly=({component: Component, ...rest})=>{
     const user = useSelector(state => state.user)

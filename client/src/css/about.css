@@ -4,16 +4,17 @@
     background-image: url(../assets/images/search.jpg);
     background-size: cover;
     background-position: bottom;
-    background-color: gray;
+    background-color: rgb(211, 209, 209);
     background-blend-mode: multiply;
     padding-top: 1px;
+    animation: pageLoad 1s linear;
 }
 .About p{
     color: white;
     width: 80%;
     max-width: 500px;
     margin:10% auto;
-    background: rgb(14, 19, 47);
+    background: rgb(22, 29, 71);
     border: 1px solid white;
     border-radius: 15px;
     padding: 10px;

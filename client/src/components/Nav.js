@@ -2,7 +2,7 @@ import React from 'react'
 import{Link, useHistory} from 'react-router-dom'
 import{useSelector, useDispatch} from 'react-redux'
 import '../css/nav.css';
-import {signoutApi} from '../services/api'
+import {signoutApi} from '../services/api/userApi'
 import {signOutAction} from '../actions/userActions'
 
 const Nav = () => {

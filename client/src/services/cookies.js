@@ -3,10 +3,10 @@ import jwt from 'jwt-decode'
 
 const cookie= new Cookies();
 
-export const fetchCookie=()=>{
+export const fetchCookie=async ()=>{
     try {
-        const userJwt= cookie.get('userToken')
-        const user= jwt(userJwt)
+        const userJwt= await cookie.get('userToken')
+        const user= await jwt(userJwt)
         return user
     } catch (error) {
         return {user_id: null, admin: false}
@@ -17,6 +17,6 @@ export const removeCookie=()=>{
     try {
         cookie.remove('userToken')
     } catch (error) {
-        console.log(error)
+        alert('error removing cookies from your browser')
     }
 }

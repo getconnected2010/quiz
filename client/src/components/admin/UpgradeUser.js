@@ -3,7 +3,7 @@ import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
-import {upgradeApi} from '../../services/api'
+import {upgradeApi} from '../../services/api/userApi'
 
 const UpgradeUser = ({setShowUpgrade, submitting, setSubmitting}) => {
     const upgradeInit={upUser:'', password:''}

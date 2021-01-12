@@ -1,3 +1,60 @@
 .App {
   text-align: center;
 }
+
+@keyframes formLoad{
+  0%{
+    opacity: .1;
+    height: 2vh;
+  }
+  25%{
+    opacity: .25;
+    height: 10vh;
+  }
+  50%{
+    opacity: .5;
+    height: 15vh;
+  }
+  90%{
+    opacity: .8;
+    height: 30vh;
+  }
+}
+
+@keyframes pageLoad {
+  0%{
+      opacity: .1;
+      height: 10vh;
+  }
+  25%{
+      opacity: .25;
+      height: 25vh;
+  }
+  50%{
+      opacity: .5;
+      height: 50vh;
+  }
+  80%{
+      opacity: .8;
+      height: 80vh;
+  }
+}
+
+@keyframes tableLoad{
+  0%{
+    opacity: .1;
+    width: 10%;
+  }
+  25%{
+    opacity: .25;
+    width: 20%;
+  }
+  50%{
+    opacity: .5;
+    width: 30%;
+  }
+  80%{
+    opacity: .75;
+    width: 40%;
+  }
+}

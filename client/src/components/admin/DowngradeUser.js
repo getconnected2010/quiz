@@ -3,7 +3,7 @@ import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
-import {dnGradeApi} from '../../services/api'
+import {dnGradeApi} from '../../services/api/userApi'
 
 const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
     const dnGradeInit={dnUser:'', password:''}

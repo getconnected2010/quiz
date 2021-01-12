@@ -3,7 +3,7 @@ import {useHistory, Link} from 'react-router-dom'
 import * as Yup from 'yup';
 import {Form, Formik} from 'formik'
 import {useDispatch} from 'react-redux';
-import {signInApi} from '../services/api'
+import {signInApi} from '../services/api/userApi'
 import {signInAction} from '../actions/userActions'
 import {InputField, ButtonComponent} from './FormComponents'
 import AlertModal from './AlertModal';

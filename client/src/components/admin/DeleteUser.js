@@ -3,7 +3,8 @@ import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
-import {delUserApi} from '../../services/api'
+import {delUserApi} from '../../services/api/userApi'
+import {Transition} from 'react-transition-group'
 
 const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
     const delInit={delUser:'', password:''}
@@ -19,7 +20,8 @@ const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
         onSubmitProps.resetForm()
         setSubmitting(false)
     }
-    return (
+    const duration = 30000
+    return (  
         <Formik initialValues={delInit} validationSchema={delSchema} onSubmit={delSubmit}>
             {
                 formik=>(

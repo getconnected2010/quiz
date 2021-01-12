@@ -4,7 +4,7 @@ import{Link} from 'react-router-dom'
 import '../css/qaList.css';
 import {deleteAction} from '../actions/listActions'
 import Paginate from './Paginate'
-import {recordScoreApi} from '../services/api'
+import {recordScoreApi} from '../services/api/quizApi'
 import AlertModal from './AlertModal';
 
 const QaList=()=>{

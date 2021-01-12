@@ -3,7 +3,7 @@ import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
-import {adminFetchScoreApi} from '../../services/api'
+import {adminFetchScoreApi} from '../../services/api/userApi'
 
 const AdminFetchScores = ({setScores, setShowScores, submitting, setSubmitting}) => {
     const gtScoreInit={userScore:''}

@@ -1,4 +1,4 @@
-import {addToListApi, fetchQuizApi, deleteQaApi} from '../services/api'
+import {addToListApi, fetchQuizApi, deleteQaApi} from '../services/api/quizApi'
 
 export const addAction=(data)=>async (dispatch)=>{
    try{

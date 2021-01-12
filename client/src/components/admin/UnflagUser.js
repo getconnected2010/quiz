@@ -3,7 +3,7 @@ import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
-import {unflagApi} from '../../services/api'
+import {unflagApi} from '../../services/api/userApi'
 
 const UnflagUser = ({setShowFlagged, submitting, setSubmitting}) => {
     const unflagInit={unflagUser:'', password:''}

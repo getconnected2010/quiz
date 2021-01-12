@@ -3,7 +3,7 @@ import{useHistory} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import {InputField, ButtonComponent} from './FormComponents'
-import {resetPasswordApi} from '../services/api'
+import {resetPasswordApi} from '../services/api/userApi'
 
 
 const ResetPassword = () => {
