@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {useHistory, Link} from 'react-router-dom'
 import * as Yup from 'yup';
 import {Form, Formik} from 'formik'
@@ -5,25 +6,29 @@ import {useDispatch} from 'react-redux';
 import {signInApi} from '../services/api'
 import {signInAction} from '../actions/userActions'
 import {InputField, ButtonComponent} from './FormComponents'
+import AlertModal from './AlertModal';
 
 
 const Signin=()=>{
     const dispatch = useDispatch()
     const history = useHistory()
+    const [openModal, setOpenModal] = useState(false)
+    const [status, setStatus] = useState()
     const initialValues={username:'', password:''}
     const validationSchema= Yup.object({
         username: Yup.string().required('please enter username'),
         password: Yup.string().required('please enter password')
     })
     const handleSubmit=async(values, onSubmitProps)=>{
-        const status = await signInApi(values)
+        setStatus(await signInApi(values))
         dispatch(signInAction())
         onSubmitProps.resetForm()
-        if(status===200){
-            history.push('/')
-        }
+        if(status===200) return history.push('/')
+        setOpenModal(true)
     }
     return(
+        <>
+        <AlertModal openModal={openModal} setOpenModal={setOpenModal} message={status} style={'Error'} />
         <Formik initialValues={initialValues} validationSchema={validationSchema}
         onSubmit={handleSubmit}>
             {
@@ -47,6 +52,7 @@ const Signin=()=>{
                 )
             }
         </Formik>
+        </>
     )
 }
 export default Signin

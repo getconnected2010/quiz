@@ -1,0 +1,40 @@
+.Nav{
+    background: black;
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    border-bottom: 1px solid rgb(223, 186, 186);
+}
+.Nav a{
+    margin: auto;
+    text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 200%;
+    color: white;
+}
+@media only screen and (max-width: 800px){
+    .Nav a{
+        font-size: x-large;
+    }
+}
+@media only screen and (max-width: 600px){
+    .Nav a{
+        font-size: large;
+    }
+}
+@media only screen and (max-width: 460px){
+    .Nav a{
+        font-size: small;
+    }
+}
+.Nav button{
+    margin-right: 15px;
+    margin-bottom: 3px;
+    border-radius: 10px;
+    padding: 2px 15px;
+    background: green;
+    border: 2px solid white;
+    color: white;
+    font-weight: bolder;
+    align-self: flex-end;
+}

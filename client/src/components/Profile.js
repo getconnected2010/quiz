@@ -3,7 +3,7 @@ import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
 import {ButtonComponent, InputField} from './FormComponents'
 import {fetchMyScoresApi, updateUsernameApi, updatePasswordApi} from '../services/api'
-import './css/profile.css'
+import '../css/profile.css'
 import { Link } from 'react-router-dom'
 import ScoreTable from './ScoreTable'
 

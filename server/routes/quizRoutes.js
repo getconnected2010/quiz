@@ -7,9 +7,9 @@ const cookies= require('../util/cookies')
 const verify = require('../util/verify')
 
 
-router.post('/add', cookies.verifyLoggedUser, cookies.verifyAdmin, cookies.refresh, verify.adminDB, validateInputs, inputValidatoinResult, quizController.addQa)
+router.post('/add', cookies.verifyAdmin, cookies.refresh, verify.adminDB, validateInputs, inputValidatoinResult, quizController.addQa)
 
-router.delete('/delete/:id/:user_id', cookies.verifyLoggedUser, cookies.verifyAdmin, cookies.refresh, verify.adminDB, quizController.deleteQa)
+router.delete('/delete/:id/:user_id', cookies.verifyAdmin, cookies.refresh, verify.adminDB, quizController.deleteQa)
 
 router.get('/list/:subject', quizController.getQa)
 

@@ -7,7 +7,7 @@ import DeleteUser from './DeleteUser'
 import UpgradeUser from './UpgradeUser'
 import DowngradeUser from './DowngradeUser'
 import AdminFetchScores from './AdminFetchScores'
-import '../css/adminPage.css'
+import '../../css/adminPage.css'
 
 const AdminPage = () => {
     const [scores, setScores] = useState([])
@@ -16,36 +16,37 @@ const AdminPage = () => {
     const [showUpgrade, setShowUpgrade] = useState(false)
     const [showDowngrade, setShowDowngrade] = useState(false)
     const [showScores, setShowScores] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
     
     return (
         <div className='Admin'>
             {
-                showFlagged ? <UnflagUser setShowFlagged={setShowFlagged}/>
+                showFlagged ? <UnflagUser submitting={submitting} setSubmitting={setSubmitting} setShowFlagged={setShowFlagged}/>
                 :
-                <ButtonComponent onClick={()=>setShowFlagged(true)} label={'Unflag a user? '}/>
+                <ButtonComponent disabled={submitting} onClick={()=>setShowFlagged(true)} label={submitting?'please wait...':'Unflag a user? '}/>
             }
             {
-                showDelete ?  <DeleteUser setShowDelete={setShowDelete}/>
+                showDelete ?  <DeleteUser submitting={submitting} setSubmitting={setSubmitting} setShowDelete={setShowDelete}/>
                 :
-                <ButtonComponent onClick={()=>setShowDelete(true)} label={'Delete a user?'}/>
+                <ButtonComponent disabled={submitting} onClick={()=>setShowDelete(true)} label={submitting?'please wait...':'Delete a user?'}/>
             }
             {
-                showUpgrade ? <UpgradeUser setShowUpgrade={setShowUpgrade}/>
+                showUpgrade ? <UpgradeUser submitting={submitting} setSubmitting={setSubmitting} setShowUpgrade={setShowUpgrade}/>
                 :
-                <ButtonComponent onClick={()=>setShowUpgrade(true)} label={'Up-grade a user?'}/>
+                <ButtonComponent disabled={submitting} onClick={()=>setShowUpgrade(true)} label={submitting?'please wait...':'Upgrade a user?'}/>
             }
             {
-                showDowngrade ? <DowngradeUser setShowDowngrade={setShowDowngrade}/>
+                showDowngrade ? <DowngradeUser submitting={submitting} setSubmitting={setSubmitting} setShowDowngrade={setShowDowngrade}/>
                 :
-                <ButtonComponent  onClick={()=>setShowDowngrade(true)} label={'Down-grade a user?'}/>
+                <ButtonComponent disabled={submitting} onClick={()=>setShowDowngrade(true)} label={submitting?'please wait...':'Down-grade a user?'}/>
             }
             {
                 scores.length>0 && <ScoreTable array={scores} onClick={()=>setScores([])}/>
             }
             {
-                showScores ? <AdminFetchScores setShowScores={setShowScores} setScores={setScores}/>
+                showScores ? <AdminFetchScores submitting={submitting} setSubmitting={setSubmitting} setShowScores={setShowScores} setScores={setScores}/>
                 :
-                <ButtonComponent onClick={()=>setShowScores(true)} label={'Get scores of a user?'}/>
+                <ButtonComponent disabled={submitting} onClick={()=>setShowScores(true)} label={submitting?'please wait...':'Get scores of a user?'}/>
             }
         </div>
     )

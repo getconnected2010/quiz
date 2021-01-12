@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import{useSelector, useDispatch} from 'react-redux'
 import{Link} from 'react-router-dom'
-import Modal from 'react-modal';
-import './css/qaList.css';
+import '../css/qaList.css';
 import {deleteAction} from '../actions/listActions'
 import Paginate from './Paginate'
 import {recordScoreApi} from '../services/api'
+import AlertModal from './AlertModal';
 
 const QaList=()=>{
     const dispatch = useDispatch()
@@ -39,15 +39,16 @@ const QaList=()=>{
         e.preventDefault()
         dispatch(deleteAction(e.target.id))
     }
-    Modal.setAppElement('#root')
+    //Modal.setAppElement('#root')
     return(
     <div className='qaList'>
-        <Modal isOpen={openModal} >
+        <AlertModal style={'Score'} openModal={openModal} setOpenModal={setOpenModal} message={`Your score is ${score}`}/>
+        {/* <Modal isOpen={openModal} >
             <div className='Modal'>
                 <h1>Your score is {score}</h1>
                 <button onClick={()=>setOpenModal(false)}>Close</button>
             </div>
-        </Modal>
+        </Modal> */}
         {
             list.length===0&& 
                 <h1>

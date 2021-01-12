@@ -22,7 +22,7 @@ route.post('/self/reset', verify.userNotTimeout, verify.usernameDobMatchDb, user
 
 route.post('/signin', verify.userNotFlagged, userController.userSignIn, verify.password, cookies.assign)
 
-route.post('/signout', cookies.delete)
+route.get('/signout', cookies.delete)
 
 route.post('/signup', verify.usernameAvailable, userController.userSignUp)
 

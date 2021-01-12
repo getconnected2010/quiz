@@ -29,6 +29,7 @@ exports.fetchScores=(req, res)=>{
 }
 
 exports.getQa = (req, res)=>{
+    const { refreshToken} = req.cookies
     const subject = req.params.subject
     const listSql= "SELECT * FROM quiz_list WHERE subject=? ORDER BY id DESC";
     db.query(listSql,[subject], (err, results)=>{

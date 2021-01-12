@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
 import {delUserApi} from '../../services/api'
 
-const DeleteUser = ({setShowDelete}) => {
+const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
     const delInit={delUser:'', password:''}
 
     const delSchema= Yup.object({
@@ -14,8 +14,10 @@ const DeleteUser = ({setShowDelete}) => {
     })
 
     const delSubmit=async(values, onSubmitProps)=>{
+        setSubmitting(true)
         await delUserApi(values)
         onSubmitProps.resetForm()
+        setSubmitting(false)
     }
     return (
         <Formik initialValues={delInit} validationSchema={delSchema} onSubmit={delSubmit}>
@@ -24,8 +26,8 @@ const DeleteUser = ({setShowDelete}) => {
                     <Form>
                         <InputField name={'delUser'} label={'Username to delete:'} type={'text'} placeholder={'username to be deleted'} />
                         <InputField name={'password'} label={'Admin password:'} type={'password'} placeholder={'your admin password'} />
-                        <ButtonComponent type={'submit'} label={'Delete username'} />
-                        <Link onClick={()=>setShowDelete(false)} to='#'>Hide this form</Link>
+                        <ButtonComponent type={'submit'} disabled={submitting} label={submitting?'please wait...': 'Delete username'} />
+                        <Link onClick={()=>setShowDelete(false)} to='#'>Hide form</Link>
                     </Form>
                 )
             }

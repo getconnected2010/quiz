@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import axios from 'axios'
 import{removeCookie, fetchCookie} from './cookies'
 
@@ -126,46 +127,32 @@ export const resetPasswordApi= async(data)=>{
 export const signInApi=async (data)=>{
     try {
         const response= await axios.post('http://localhost:8000/user/signin', data, {withCredentials:true})
-        if(response.status===200){
-            return response.status
-        }
-    } catch (error) {
+        if(response.status===200) return response.status
+    }catch(error){
         removeCookie()
-        if (error.response && error.response.data && error.response.data.msg) {
-            alert(error.response.data.msg)
-        } else {
-            alert('error to log you in. If error persists, contact site admin.')
-        }
+        if (error.response && error.response.data) return error.response.data.msg
+        return 'error logging you in'
     }
 }
 
 export const signoutApi=async()=>{
     try {
-        await axios.post('http://localhost:8000/user/signout', {withCredentials: true})
+        await axios.get('http://localhost:8000/user/signout', {withCredentials: true})
         removeCookie()
     } catch (error) {
         removeCookie()
-        if(error.response && error.response.data && error.response.data.msg){
-            alert(error.response.data.msg)
-        }else{
-            alert('error logging you out. If error persists, contact admin.')
-        }       
+        if(error.response && error.response.data) return alert(error.response.data.msg)
+        alert('error logging you out. If error persists, contact admin.')  
     }
 }
 
 export const signUpApi=async(data)=>{
     try {
         const result= await axios.post('http://localhost:8000/user/signup', data, {withCredentials: true})
-        if(result.data.msg){
-            alert(result.data.msg)
-        }
-        if(result.status===200){
-            return result.status
-        }
+        if(result.data.msg) return alert(result.data.msg)
+        if(result.status===200) return result.status
     } catch (error) {
-        if(error.response.data.msg){
-            alert(error.response.data.msg)
-        }
+        if(error.response&& error.response.data.msg)return alert(error.response.data.msg)
         console.log(error)
     }
 }

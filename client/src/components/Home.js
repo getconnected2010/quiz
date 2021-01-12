@@ -1,7 +1,7 @@
 import React from 'react'
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
-import './css/home.css';
+import '../css/home.css';
 import{ButtonComponent} from './FormComponents'
 import {fetchQuizAction} from '../actions/listActions'
 

@@ -31,19 +31,26 @@ exports.assign = async (req, res)=>{
     }
 }
 
-exports.delete=(req, res)=>{
+exports.delete=async (req, res)=>{
     try {
-        res.cookie('accessToken', '', {
-            maxAge: 0
+        res.cookie('accessToken', '',{
+            maxAge: 0,
+            httpOnly: true,
+            secure: false
         })
         res.cookie('refreshToken', '', {
-            maxAge: 0
+            maxAge: 0,
+            httpOnly: true,
+            secure: false
         })
-        res.cookie('userToken', '',{
-            maxAge: 0
+        res.cookie('userToken', '', {
+            maxAge: 0,
+            httpOnly: false,
+            secure: false
         })
-        res.status(200).json({msg:'You have been logged out'})
+        res.status(200).json({msg:'successfully logged out'})
     } catch (error) {
+        console.log(error)
         res.status(500).json({msg:'server error deleting cookies'})
     }
 }

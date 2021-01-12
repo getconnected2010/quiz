@@ -1,4 +1,4 @@
-import './css/paginate.css'
+import '../css/paginate.css'
 
 const Paginate=({list, setStartIndex, startIndex, listPerPage})=>{
     const pages = Math.ceil(list.length / listPerPage) 
