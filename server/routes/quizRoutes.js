@@ -1,20 +1,20 @@
 const express = require('express')
 const router = express.Router()
 const db= require('../config/db')
-const quizController= require('../controller/quizController')
-const {validateInputs, inputValidatoinResult} = require('../util/addRouteValidator')
-const cookies= require('../util/cookies')
-const verify = require('../util/verify')
+const QC= require('../controller/quizController')
+const VAL = require('../util/inputValidator')
+const CK= require('../util/cookies')
+const VER = require('../util/verify')
 
 
-router.post('/add', cookies.verifyAdmin, cookies.refresh, verify.adminDB, validateInputs, inputValidatoinResult, quizController.addQa)
+router.post('/add', CK.verifyAdmin, CK.refresh, VER.adminDB, VAL.addQA, VAL.validatorResult, QC.addQa)
 
-router.delete('/delete/:id/:user_id', cookies.verifyAdmin, cookies.refresh, verify.adminDB, quizController.deleteQa)
+router.delete('/delete/:id/:user_id', CK.verifyAdmin, CK.refresh, VER.adminDB, QC.deleteQa)
 
-router.get('/list/:subject', quizController.getQa)
+router.get('/list/:subject', QC.getQa)
 
-router.get('/scores/:user_id', cookies.verifyLoggedUser, cookies.refresh, verify.userInDB, quizController.fetchScores)
+router.get('/scores/:user_id', CK.verifyLoggedUser, CK.refresh, VER.userInDB, QC.fetchScores)
 
-router.post('/score', cookies.verifyLoggedUser, cookies.refresh, verify.userInDB, quizController.recordScore)
+router.post('/score', CK.verifyLoggedUser, CK.refresh, VER.userInDB, VAL.recordScore, VAL.validatorResult, QC.recordScore)
 
 module.exports= router

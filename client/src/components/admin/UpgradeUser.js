@@ -11,9 +11,9 @@ const UpgradeUser = ({setShowUpgrade, submitting, setSubmitting}) => {
     const [styleProp, setStyleProp]=useState()
     const [response, setResponse]= useState()
 
-    const upgradeInit={upUser:'', password:''}
+    const upgradeInit={upUsername:'', password:''}
     const upgradeSchema= Yup.object({
-        upUser: Yup.string().required('username to be upgraded is required'),
+        upUsername: Yup.string().required('username to be upgraded is required'),
         password: Yup.string().required('admin password is required')
     })
     const upgradeSubmit=async(values, onSubmitProps)=>{
@@ -37,7 +37,7 @@ const UpgradeUser = ({setShowUpgrade, submitting, setSubmitting}) => {
             {
                 formik=>(
                     <Form>
-                        <InputField name={'upUser'} label={'Username to upgrade:'} type={'text'} placeholder={'username to be upgraded as admin'} />
+                        <InputField name={'upUsername'} label={'Username to upgrade:'} type={'text'} placeholder={'username to be upgraded as admin'} />
                         <InputField name={'password'} label={'Admin password:'} type={'password'} placeholder={'your admin password'} />
                         <ButtonComponent type={'submit'} disabled={submitting} label={submitting?'please wait...': 'Upgrade username'} />
                         <Link onClick={()=>setShowUpgrade(false)} to='#'>Hide form</Link>

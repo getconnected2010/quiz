@@ -24,7 +24,7 @@ export const delUserApi= async(data)=>{
         const result = await axios.post(`${url}/user/admin/delete`, data, {withCredentials: true})
         if(result.status===200) return result.status
         if(result.data.msg) return result.data.msg
-        return 'error deleting usernam'
+        return 'error deleting username'
     } catch (error) {
         if(error.response&& error.response.data.msg) return error.response.data.msg
         return 'error deleting username'
@@ -95,11 +95,11 @@ export const signUpApi=async(data)=>{
     }
 }
 
-export const unflagApi=async(data)=>{
+export const resetApi=async(data)=>{
     try {
         const user = await fetchCookie()
         data.user_id= user.user_id
-        const result = await axios.post(`${url}/user/admin/unflag`, data, {withCredentials: true})
+        const result = await axios.post(`${url}/user/admin/reset`, data, {withCredentials: true})
         if(result.status===200) return result.status
         if(result.data.msg) return result.data.msg
         return 'error unflagging username'

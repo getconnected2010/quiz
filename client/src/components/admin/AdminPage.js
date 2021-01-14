@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import{ButtonComponent} from '../FormComponents'
 import ScoreTable from '../ScoreTable'
-import UnflagUser from './UnflagUser'
+import ResetUser from './ResetUser'
 import DeleteUser from './DeleteUser'
 import UpgradeUser from './UpgradeUser'
 import DowngradeUser from './DowngradeUser'
@@ -20,9 +20,9 @@ const AdminPage = () => {
     return (
         <div className='Admin'>
             {
-                showFlagged ? <UnflagUser submitting={submitting} setSubmitting={setSubmitting} setShowFlagged={setShowFlagged}/>
+                showFlagged ? <ResetUser submitting={submitting} setSubmitting={setSubmitting} setShowFlagged={setShowFlagged}/>
                 :
-                <ButtonComponent disabled={submitting} onClick={()=>setShowFlagged(true)} label={submitting?'please wait...':'Unflag a user? '}/>
+                <ButtonComponent disabled={submitting} onClick={()=>setShowFlagged(true)} label={submitting?'please wait...':'Reset a user? '}/>
             }
             {
                 showDelete ?  <DeleteUser showDelete={showDelete} submitting={submitting} setSubmitting={setSubmitting} setShowDelete={setShowDelete}/>

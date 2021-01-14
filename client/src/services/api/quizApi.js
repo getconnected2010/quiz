@@ -57,10 +57,11 @@ export const recordScoreApi=async(data)=>{
     if(user_id!==null){
         try {
             data.user_id= user_id
-            await axios.post(`${url}/quiz/score`, data, {withCredentials: true})
+            const result = await axios.post(`${url}/quiz/score`, data, {withCredentials: true})
+            return result
         } catch (error) {
-            if(error.response && error.response.data.msg) return alert(error.response.data.msg)
-            alert('error recording your score')
+            if(error.response && error.response.data.msg) return error.response.data.msg
+            return 'error recording your score'
         }
     }
 }

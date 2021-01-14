@@ -11,9 +11,9 @@ const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
     const [styleProp, setStyleProp]=useState()
     const [response, setResponse]= useState()
 
-    const dnGradeInit={dnUser:'', password:''}
+    const dnGradeInit={dnUsername:'', password:''}
     const dnGradeSchema= Yup.object({
-        dnUser: Yup.string().required('username to be up-graded is required'),
+        dnUsername: Yup.string().required('username to be up-graded is required'),
         password: Yup.string().required('admin password is required')
     })
     const dnGradeSubmit=async(values, onSubmitProps)=>{
@@ -37,7 +37,7 @@ const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
             {
                 formik=>(
                     <Form>
-                        <InputField name={'dnUser'} label={'Username to downgrade:'} type={'text'} placeholder={'username to be downgraded from admin'} />
+                        <InputField name={'dnUsername'} label={'Username to downgrade:'} type={'text'} placeholder={'username to be downgraded from admin'} />
                         <InputField name={'password'} label={'Admin password:'} type={'password'} placeholder={'your admin password'} />
                         <ButtonComponent type={'submit'} disabled={submitting} label={submitting?'please wait...': 'Donwgrade username'} />
                         <Link onClick={()=>setShowDowngrade(false)} to='#'>Hide form</Link>

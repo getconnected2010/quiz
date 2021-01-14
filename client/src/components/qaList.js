@@ -37,9 +37,14 @@ const QaList=()=>{
     }
     const checkScore=async()=>{
         setSubmitting(true)
-        await recordScoreApi({subject: subject, score: score})
-        setResponse(`Your score is ${score}`)
-        setStyleProp('Score')
+        const result= await recordScoreApi({subject: subject, score: score})
+        if(result===undefined|| result.status===200){
+            setResponse(`Your score is ${score}`)
+            setStyleProp('Score')
+        }else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
         setOpenModal(true)
         setSubmitting(false)
     }

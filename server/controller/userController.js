@@ -2,20 +2,20 @@ const db= require('../config/db')
 const bcrypt= require('bcrypt')
 const flagUtil = require('../util/flagUtil')
 
-exports.deleteUser=async(req, res)=>{
-    const {delUser}= req.body
+exports.delUser=async(req, res)=>{
+    const {delUsername}= req.body
     const delSql= "DELETE FROM users WHERE username=?"
-    db.query(delSql, [delUser], (err, result)=>{
-        if(err) return res.status(500).json({msg:'error deleting username'})
-        flagUtil.flaggedUserReset(delUser)
+    db.query(delSql, [delUsername], (err, result)=>{
+        if(err) return res.status(500).json({msg:'server error deleting username'})
+        flagUtil.flaggedUserReset(delUsername)
         res.status(200).json({msg:'username successfully deleted'})
     })
 }
 
 exports.dnGradeUser=(req, res)=>{
-    const {dnUser} = req.body
-    const dnGradeSql = "UPDATE users SET admin= 'true' WHERE username=?"
-    db.query(dnGradeSql, [dnUser], (err)=>{
+    const {dnUsername} = req.body
+    const dnGradeSql = "UPDATE users SET admin= 'false' WHERE username=?"
+    db.query(dnGradeSql, [dnUsername], (err)=>{
         if(err) return res.status(500).json({msg:'error down-grading username to admin'})
         res.status(200).json({msg:'if username exits in database, it has been down-graded from admin'})
     })
@@ -59,9 +59,9 @@ exports.getUserId=(req, res, next)=>{
  }
 
  exports.upgradeUser=(req, res)=>{
-     const {upUser} = req.body
+     const {upUsername} = req.body
      const upgradeSql = "UPDATE users SET admin= 'true' WHERE username=?"
-     db.query(upgradeSql, [upUser], (err)=>{
+     db.query(upgradeSql, [upUsername], (err)=>{
          if(err) return res.status(500).json({msg:'error up-grading username to admin'})
          res.status(200).json({msg:'if username exits in database, it has been up-graded to admin'})
      })

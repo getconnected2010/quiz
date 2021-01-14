@@ -5,8 +5,13 @@ exports.addQa = (req, res)=>{
     const {subject, question, answer1, answer2, answer3, answer4, correct} = req.body
     const sqlAdd = "INSERT INTO quiz_list (subject, question, answer1, answer2, answer3, answer4, correct) VALUES (?,?,?,?,?,?,?)";
     db.query(sqlAdd, [subject, question, answer1, answer2, answer3, answer4, correct], (err, result)=>{
-        if(err) return res.status(500).json({msg:'server error adding question to database'})
-        res.status(200).send(result)
+        if(err) {
+            console.log(err)
+            res.status(500).json({msg:'server error adding question to database'})
+        } else{
+            res.status(200).send(result)
+        }
+        
     })
 }
 

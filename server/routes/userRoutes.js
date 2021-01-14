@@ -1,33 +1,34 @@
 const route = require('express').Router()
-const userController=require('../controller/userController')
-const quizController = require('../controller/quizController')
-const cookies= require('../util/cookies')
-const verify = require('../util/verify')
+const CK = require('../util/cookies')
+const QC = require('../controller/quizController')
+const UC = require('../controller/userController')
+const VAL = require('../util/inputValidator')
+const VER = require('../util/verify')
 
-const cookieParser=require('cookie-parser')
+const cookieParser = require('cookie-parser')
 
 route.use(cookieParser())
 
-route.get('/admin/scores/:user_id/:userScore', cookies.verifyAdmin, cookies.refresh, verify.adminDB, userController.getUserId, quizController.fetchScores)
+route.get('/admin/scores/:user_id/:userScore', CK.verifyAdmin, CK.refresh, VER.adminDB, UC.getUserId, QC.fetchScores)
 
-route.post('/admin/delete', cookies.verifyAdmin, cookies.refresh, verify.adminDB, verify.password, userController.deleteUser)
+route.post('/admin/delete', CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, VAL.delUser, VAL.validatorResult, UC.delUser)
 
-route.post('/admin/dngrade', cookies.verifyAdmin, cookies.refresh, verify.adminDB, verify.password, userController.dnGradeUser)
+route.post('/admin/dngrade', CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, VAL.dnGradeUser, VAL.validatorResult, UC.dnGradeUser)
 
-route.post('/admin/upgrade', cookies.verifyAdmin, cookies.refresh, verify.adminDB, verify.password, userController.upgradeUser)
+route.post('/admin/upgrade', CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, VAL.upgradeUser, VAL.validatorResult, UC.upgradeUser)
 
-route.post('/admin/unflag', cookies.verifyAdmin, cookies.refresh, verify.adminDB, verify.password, userController.userAdminReset)
+route.post('/admin/reset', CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, VAL.userAdminReset, VAL.validatorResult, UC.userAdminReset)
 
-route.post('/self/reset', verify.userNotTimeout, verify.usernameDobMatchDb, userController.userSelfReset)
+route.post('/self/reset', VER.userNotTimeout, VER.usernameDobMatchDb,VAL.userSelfReset, VAL.validatorResult, UC.userSelfReset)
 
-route.post('/signin', verify.userNotFlagged, userController.userSignIn, verify.password, cookies.assign)
+route.post('/signin', VER.userNotFlagged, UC.userSignIn, VER.password, CK.assign)
 
-route.get('/signout', cookies.delete)
+route.get('/signout', CK.delete)
 
-route.post('/signup', verify.usernameAvailable, userController.userSignUp)
+route.post('/signup', VER.usernameAvailable, UC.userSignUp)
 
-route.post('/update/password', cookies.verifyLoggedUser, cookies.refresh, verify.userInDB, verify.userNotFlagged, verify.password, userController.updatePassword)
+route.post('/update/password', CK.verifyLoggedUser, CK.refresh, VER.userInDB, VER.userNotFlagged, VER.password, UC.updatePassword)
 
-route.post('/update/username', cookies.verifyLoggedUser, cookies.refresh, verify.userInDB, verify.userNotFlagged, verify.password, verify.newUsernameAvailable, userController.updateUsername)
+route.post('/update/username', CK.verifyLoggedUser, CK.refresh, VER.userInDB, VER.userNotFlagged, VER.password, VER.newUsernameAvailable, UC.updateUsername)
 
-module.exports= route
+module.exports = route
