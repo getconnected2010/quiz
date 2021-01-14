@@ -1,6 +1,7 @@
 .Paginate{
     display: flex;
     padding-bottom: 15px;
+    margin-bottom: 0px;
 }
 .Paginate li {
     list-style-type: none;

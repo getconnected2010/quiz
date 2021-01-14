@@ -1,13 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import{useDispatch} from 'react-redux';
 import {addAction} from '../actions/listActions';
 import {Formik, Form} from 'formik';
 import * as Yup from 'yup';
 import '../css/add.css';
 import{InputField, ButtonComponent, SelectField} from './FormComponents'
+import {addToListApi} from '../services/api/quizApi'
+import ModalPage from './ModalPage'
 
 function Add() {
     const dispatch = useDispatch()
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
+    const[submitting, setSubmitting] = useState(false)
+
     const initialValues={question:'', answer1:'', answer2:'', answer3:'', answer4:'', correct:'', subject:''}
     const selectOptions= ['', 'Geography', 'General', 'Science', 'History']
     const validationSchema= Yup.object({
@@ -21,12 +28,25 @@ function Add() {
         subject: Yup.string().required('required')
                     .oneOf(selectOptions)
     })
-    const onSubmit=(values, onSubmitProps)=>{
-        dispatch(addAction(values))
+    const onSubmit= async (values, onSubmitProps)=>{
+        const result = await addToListApi(values)
+        if(result.status===200){
+            values.id = result.data.insertId
+            dispatch(addAction(values))
+            setResponse('successfully added question to database')
+            setStyleProp('Success')
+        }else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        setOpenModal(true)
         onSubmitProps.resetForm()
+        setSubmitting(false)
     }
     return (
-       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+    <>
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} message={response} styleProp={styleProp}/>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         <div className='Form'>
             <h1>Enter Question and Answers</h1>
             <Form>
@@ -49,6 +69,7 @@ function Add() {
             </Form>
         </div>
        </Formik>
+    </>
     )
 }
 

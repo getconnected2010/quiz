@@ -8,7 +8,7 @@
     min-height: 100vh;
     width: 100vw;
     padding-top: 1px;
-    animation: pageLoad 1s linear;
+    animation: pageLoad 800ms linear;
 }
 .Form h1{
     color: rgb(182, 182, 182);

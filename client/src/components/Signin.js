@@ -6,29 +6,29 @@ import {useDispatch} from 'react-redux';
 import {signInApi} from '../services/api/userApi'
 import {signInAction} from '../actions/userActions'
 import {InputField, ButtonComponent} from './FormComponents'
-import AlertModal from './AlertModal';
+import ModalPage from './ModalPage';
 
 
 const Signin=()=>{
     const dispatch = useDispatch()
     const history = useHistory()
     const [openModal, setOpenModal] = useState(false)
-    const [status, setStatus] = useState()
+    const [response, setResponse] = useState()
     const initialValues={username:'', password:''}
     const validationSchema= Yup.object({
         username: Yup.string().required('please enter username'),
         password: Yup.string().required('please enter password')
     })
     const handleSubmit=async(values, onSubmitProps)=>{
-        setStatus(await signInApi(values))
+        setResponse(await signInApi(values))
         dispatch(signInAction())
         onSubmitProps.resetForm()
-        if(status===200) return history.push('/')
+        if(response===200) return history.push('/')
         setOpenModal(true)
     }
     return(
         <>
-        <AlertModal openModal={openModal} setOpenModal={setOpenModal} message={status} style={'Error'} />
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} message={response} styleProp={'Error'} />
         <Formik initialValues={initialValues} validationSchema={validationSchema}
         onSubmit={handleSubmit}>
             {

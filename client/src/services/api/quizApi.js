@@ -8,23 +8,23 @@ export const addToListApi=async(data)=>{
     try {
         const user = await fetchCookie()
         data.user_id= user.user_id
-        return await axios.post(`${url}/quiz/add`, data, {withCredentials: true})
+        const result = await axios.post(`${url}/quiz/add`, data, {withCredentials: true})
+        if(result.status===200) return result
+        return 'error adding question to database'
     } catch (error) {
-        if(error.response&& error.response.data.msg){
-            alert(error.response.data.msg)
-            return error.response.data.msg
-        }
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error adding question to database'
     }
 }
 
-export const deleteQaApi =async(delData)=>{
+export const deleteQaApi =async(data)=>{
     try {
         const user = await fetchCookie()
         const user_id= user.user_id
-        return await axios.delete(`${url}/quiz/delete/${delData}/${user_id}`, {withCredentials: true}, {headers: {"Content-type":"application/json"}} )
+        return await axios.delete(`${url}/quiz/delete/${data}/${user_id}`, {withCredentials: true}, {headers: {"Content-type":"application/json"}} )
     } catch (error) {
-        if(error.response&&error.response.data.msg) return alert(error.response.data.msg)
-        alert('error deleting question')
+        if(error.response&&error.response.data.msg) return error.response.data.msg
+        return 'error deleting question'
     }
 }
 
@@ -32,8 +32,8 @@ export const fetchQuizApi =async(subject)=>{
     try {
         return await axios.get(`${url}/quiz/list/${subject}`, {withCredentials: true})
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error fetching questions from database')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error fetching questions from database'
     }
 }
 
@@ -45,8 +45,8 @@ export const fetchMyScoresApi=async()=>{
             const result= await axios.get(`${url}/quiz/scores/${user_id}`, {withCredentials: true})
             return result.data.result
         } catch (error){
-            if(error.response && error.response.data.msg) return alert(error.response.data.msg)
-            alert('error retrieving your scores')
+            if(error.response && error.response.data.msg) return error.response.data.msg
+            return 'error retrieving scores'
         }
     }
 }

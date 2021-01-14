@@ -1,11 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
 import {dnGradeApi} from '../../services/api/userApi'
+import ModalPage from '../ModalPage'
 
 const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
+
     const dnGradeInit={dnUser:'', password:''}
     const dnGradeSchema= Yup.object({
         dnUser: Yup.string().required('username to be up-graded is required'),
@@ -13,11 +18,21 @@ const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
     })
     const dnGradeSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)
-        await dnGradeApi(values)
+        const result = await dnGradeApi(values)
+        if(result===200){
+            setResponse('successfully down-graded username')
+            setStyleProp('Success')
+        } else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        setOpenModal(true)
         onSubmitProps.resetForm()
         setSubmitting(false)
     }
     return (
+    <>
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} styleProp={styleProp} message={response} />
         <Formik initialValues={dnGradeInit} validationSchema={dnGradeSchema} onSubmit={dnGradeSubmit}>
             {
                 formik=>(
@@ -30,6 +45,7 @@ const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
                 )
             }
         </Formik>
+    </>
     )
 }
 

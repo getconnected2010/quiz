@@ -13,7 +13,7 @@ exports.updateScore=(req, res)=>{
     const {user_id, subject, score} = req.body
     updateScoreSql= "UPDATE score SET score=? WHERE user_id=? AND subject=?"
     db.query(updateScoreSql, [score, user_id, subject], (err)=>{
-        if(err) return res.status(500).json({msg:'server error updating your score.'})
+        if(err) return res.status(500).json({msg:'server error updating your score'})
         res.status(200).json({msg:'score sussfully recorded in database'})
     })
 }

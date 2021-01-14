@@ -1,4 +1,4 @@
-const quizReducer=(state=[], action, payload)=>{
+const quizReducer=(state=[], action)=>{
     switch(action.type){
         case 'ADD':
             return [action.payload, ...state]

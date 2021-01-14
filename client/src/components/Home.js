@@ -1,44 +1,51 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import '../css/home.css';
 import{ButtonComponent} from './FormComponents'
 import {fetchQuizAction} from '../actions/listActions'
+import {fetchQuizApi} from '../services/api/quizApi'
+import ModalPage from './ModalPage'
 
 const Home = () => {
     const history= useHistory()
     const dispatch = useDispatch()
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
+    const[submitting, setSubmitting] = useState(false)
 
-    const fetchGeneral=(e)=>{
-        dispatch(fetchQuizAction(e.target.id))
-        history.push('/list')
+    const fetchQuiz=async(e)=>{
+        setSubmitting(true)
+        const result= await (fetchQuizApi(e.target.id))
+        if(Array.isArray(result.data)){
+            dispatch(fetchQuizAction(result.data))
+            history.push('/list')
+        }else{
+            setResponse(result)
+            setStyleProp('Error')
+            setOpenModal(true)
+        }
+        setSubmitting(false)
     }
-    const fetchGeography=(e)=>{
-        dispatch(fetchQuizAction(e.target.id))
-        history.push('/list')
-    }
-    const fetchScience=(e)=>{
-        dispatch(fetchQuizAction(e.target.id))
-        history.push('/list')
-    }
-    const fetchHistory=(e)=>{
-        dispatch(fetchQuizAction(e.target.id))
-        history.push('/list')
-    }
+
     return (
+    <>
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} message={response} styleProp={styleProp}/>
         <div className='HomePage'>
             <h1>Welcome to quiz app</h1>  
             <div className='buttons'>
                 <h2>Pick a subject area from options below</h2>
-                <ButtonComponent onClick={fetchGeneral} id={'general'} label={'General'} />
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'general'} label={submitting?'Please wait...':'General'} />
 
-                <ButtonComponent onClick={fetchGeography} id={'geography'} label={'Geography'} />
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'geography'} label={submitting?'Please wait...':'Geography'} />
                 
-                <ButtonComponent onClick={fetchScience} id={'science'} label={'Science'}/>
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'science'} label={submitting?'Please wait...':'Science'}/>
 
-                <ButtonComponent onClick={fetchHistory} id={'history'} label={'History'}/>
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'history'} label={submitting?'Please wait...':'History'}/>
             </div>
         </div>
+    </>
     )
 }
 

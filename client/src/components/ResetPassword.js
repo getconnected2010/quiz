@@ -1,13 +1,15 @@
-import React from 'react'
-import{useHistory} from 'react-router-dom'
+import React,{useState} from 'react'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import {InputField, ButtonComponent} from './FormComponents'
 import {resetPasswordApi} from '../services/api/userApi'
+import ModalPage from './ModalPage'
 
 
 const ResetPassword = () => {
-    const history = useHistory()
+    const [response, setResponse]= useState()
+    const [styleProp, setStyleProp] = useState()
+    const [openModal, setOpenModal] = useState(false)
     const initialValues={username:'', password:'', confirm:'', dob:''}
     const validationSchema= Yup.object({
         username: Yup.string().required('please enter username'),
@@ -19,11 +21,20 @@ const ResetPassword = () => {
                 .matches(/^[0-9]+$/, 'enter your birthday in two digit month and two digit date format')
     })
     const onSubmit=async(values, onSubmitProps)=>{
-        const status = await resetPasswordApi(values) 
+        const result = await resetPasswordApi(values) 
+        if(result===200){
+            setResponse('Sign up Success. Continue to Login page')
+            setStyleProp('Success')
+        }else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        setOpenModal(true)
         onSubmitProps.resetForm()
-        if(status===200){history.push('/signin')}
     }
     return (
+    <>
+        <ModalPage styleProp={styleProp} openModal={openModal} message={response} setOpenModal={setOpenModal}/>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {
                 formik=>(
@@ -40,6 +51,7 @@ const ResetPassword = () => {
                 )
             }
         </Formik>
+    </>
     )
 }
 

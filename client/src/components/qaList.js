@@ -4,14 +4,18 @@ import{Link} from 'react-router-dom'
 import '../css/qaList.css';
 import {deleteAction} from '../actions/listActions'
 import Paginate from './Paginate'
-import {recordScoreApi} from '../services/api/quizApi'
-import AlertModal from './AlertModal';
+import {recordScoreApi, deleteQaApi} from '../services/api/quizApi'
+import ModalPage from './ModalPage';
 
 const QaList=()=>{
     const dispatch = useDispatch()
     const list= useSelector(state=>state.qa)
     const user = useSelector(state=>state.user)
     const {admin} = user
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
+    const[submitting, setSubmitting] = useState(false)
     const [startIndex, setStartIndex] = useState(0)
     const listPerPage = 5
     const endIndex = startIndex + listPerPage
@@ -19,7 +23,7 @@ const QaList=()=>{
     const [answers, setAnswers] = useState({})
     const [subject, setSubject] = useState(null)
     const [score, setScore] = useState(0)
-    const [openModal, setOpenModal] = useState(false)
+    
     const handleChange =(e)=>{
         setAnswers({...answers, [e.target.name]: e.target.value})
         setSubject(e.target.id)
@@ -32,66 +36,82 @@ const QaList=()=>{
         setStartIndex(endIndex)
     }
     const checkScore=async()=>{
+        setSubmitting(true)
         await recordScoreApi({subject: subject, score: score})
+        setResponse(`Your score is ${score}`)
+        setStyleProp('Score')
         setOpenModal(true)
+        setSubmitting(false)
     }
-    const deleteQA=(e)=>{
+    const deleteQA=async (e)=>{
         e.preventDefault()
-        dispatch(deleteAction(e.target.id))
+        setSubmitting(true)
+        const result= await deleteQaApi(e.target.id)
+        if(result.status===200) {
+            dispatch(deleteAction(e.target.id))
+            setStyleProp('Success')
+            setResponse(result.data.msg)
+        }else{
+            setStyleProp('Error')
+            setResponse(result)
+        } 
+        setOpenModal(true) 
+        setSubmitting(false)
     }
-    //Modal.setAppElement('#root')
     return(
-    <div className='qaList'>
-        <AlertModal style={'Score'} openModal={openModal} setOpenModal={setOpenModal} message={`Your score is ${score}`}/>
-        {/* <Modal isOpen={openModal} >
-            <div className='Modal'>
-                <h1>Your score is {score}</h1>
-                <button onClick={()=>setOpenModal(false)}>Close</button>
-            </div>
-        </Modal> */}
-        {
-            list.length===0&& 
-                <h1>
-                    Questions unavailable. Choose another subject from
-                    {<Link to='/'> Home page</Link>}
-                </h1>
-        }
-        <form onChange={handleChange}>
+    <>
+        <ModalPage styleProp={styleProp} openModal={openModal} setOpenModal={setOpenModal} message={response}/>
+        <div className='qaList'>
             {
-                quiz.map(qa=>(
-                    <div key={qa.id} className='qa'>
-                        {/* question */}
-                        <div className='q'>
-                           {qa.question}
-                           {admin==='true' && <button id={qa.id} onClick={deleteQA}>Delete</button>}
-                        </div> 
-                        {/* answers */}
-                        <div className='a-parent'>
-                            <div className='a'>
-                                <label>{qa.answer1}</label>
-                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer1===qa.correct}/>
-                            </div>
-                            <div className='a'>
-                                <label>{qa.answer2}</label>
-                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer2===qa.correct} />
-                            </div>
-                            <div className='a'>
-                                <label>{qa.answer3}</label>
-                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer3===qa.correct} />
-                            </div>
-                            <div className='a'>
-                                <label>{qa.answer4}</label>
-                                <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer4===qa.correct} />
+                list.length===0&& 
+                    <h1>
+                        Questions unavailable. 
+                        <br/> Please choose another subject from the
+                        <br/>
+                        {<Link to='/'> Home page</Link>}
+                    </h1>
+            }
+            <form onChange={handleChange}>
+                {
+                    quiz.map(qa=>(
+                        <div key={qa.id} className='qa'>
+                            {/* question */}
+                            <div className='q'>
+                            {qa.question}
+                            {admin==='true' && <button id={qa.id} onClick={deleteQA}>Delete</button>}
+                            </div> 
+                            {/* answers */}
+                            <div className='a-parent'>
+                                <div className='a'>
+                                    <label>{qa.answer1}</label>
+                                    <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer1===qa.correct}/>
+                                </div>
+                                <div className='a'>
+                                    <label>{qa.answer2}</label>
+                                    <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer2===qa.correct} />
+                                </div>
+                                <div className='a'>
+                                    <label>{qa.answer3}</label>
+                                    <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer3===qa.correct} />
+                                </div>
+                                <div className='a'>
+                                    <label>{qa.answer4}</label>
+                                    <input type="radio" name={qa.question+qa.id} id={qa.subject} value={qa.answer4===qa.correct} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))
+                    ))
+                }
+                {quiz.length>0 && <button type='submit' onClick={handleSubmit}>Submit Answers >>> </button>}
+            </form>
+            {startIndex>=list.length && list.length>0 && 
+                    <button disabled={!subject||submitting} onClick={checkScore}>
+                        {subject? 'Check Your Score':'You have to answer atleast one question...'}
+                    </button>
             }
-            {quiz.length>0 && <button type='submit' onClick={handleSubmit}>Submit Answers >>> </button>}
-        </form>
-        {startIndex>list.length && <button onClick={checkScore}>Check Your Score</button>}
+        </div>
         <Paginate list={list} setStartIndex={setStartIndex} startIndex={startIndex} listPerPage={listPerPage} />   
-    </div>
+    </>
     )
 }
 export default QaList;

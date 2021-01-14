@@ -1,14 +1,17 @@
-import React from 'react'
+import React, {useState} from 'react'
 import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
 import {delUserApi} from '../../services/api/userApi'
-import {Transition} from 'react-transition-group'
+import ModalPage from '../ModalPage'
 
 const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
-    const delInit={delUser:'', password:''}
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
 
+    const delInit={delUser:'', password:''}
     const delSchema= Yup.object({
         delUser: Yup.string().required('a username to delete is required'),
         password: Yup.string().required('your admin password is required')
@@ -16,12 +19,22 @@ const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
 
     const delSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)
-        await delUserApi(values)
+        const result = await delUserApi(values)
+        if(result===200){
+            setResponse('successfully deleted user')
+            setStyleProp('Success')
+        } else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        setOpenModal(true)
         onSubmitProps.resetForm()
         setSubmitting(false)
     }
-    const duration = 30000
+   
     return (  
+    <>
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} styleProp={styleProp} message={response} />
         <Formik initialValues={delInit} validationSchema={delSchema} onSubmit={delSubmit}>
             {
                 formik=>(
@@ -34,6 +47,7 @@ const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
                 )
             }
         </Formik>
+</>
     )
 }
 

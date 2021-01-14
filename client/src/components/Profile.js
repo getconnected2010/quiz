@@ -7,8 +7,17 @@ import {updateUsernameApi, updatePasswordApi} from '../services/api/userApi'
 import '../css/profile.css'
 import { Link } from 'react-router-dom'
 import ScoreTable from './ScoreTable'
+import ModalPage from './ModalPage'
 
 const Profile = () => {
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
+    const[submitting, setSubmitting] = useState(false)
+    const [scores, setScores] = useState([])
+    const [hideUsernameForm, setHideUsernameForm] = useState(true)
+    const [hidePasswordForm, setHidePasswordForm] = useState(true)
+
     const initialValuesUsername={newUsername:'', password:''}
     const initialValuesPass={password:'', newPassword:'', confirm:''}
     const validationSchemaUsername= Yup.object({
@@ -20,31 +29,52 @@ const Profile = () => {
         newPassword: Yup.string().required('Required'),
         confirm: Yup.string().required('Required').oneOf([Yup.ref('newPassword'),''], "passwords don't match")
     })
-    const[submitting, setSubmitting] = useState(false)
-    const [scores, setScores] = useState([])
-    const [hideUsernameForm, setHideUsernameForm] = useState(true)
-    const [hidePasswordForm, setHidePasswordForm] = useState(true)
+    
     const fetchScores= async()=>{
         setSubmitting(true)
         const result = await fetchMyScoresApi()
-        if(result){setScores( result)}
+        if(Array.isArray(result)){
+            setScores(result)
+        }else{
+            setResponse(result)
+            setStyleProp('Error')
+            setOpenModal(true)
+        }
         setSubmitting(false)
     }
     const updateUsername=async(values, onSubmitProps)=>{
         setSubmitting(true)
-        await updateUsernameApi(values)
+        const result = await updateUsernameApi(values)
         onSubmitProps.resetForm()
         setHideUsernameForm(true)
+        if(result===200){
+            setResponse('successfully upgdated username')
+            setStyleProp('Success')
+        } else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        setOpenModal(true)
         setSubmitting(false)
     }
     const updatePassword=async(values, onSubmitProps)=>{
         setSubmitting(true)
-        await updatePasswordApi(values)
-        onSubmitProps.resetForm()
+        const result = await updatePasswordApi(values)
         setHidePasswordForm(true)
+        if(result===200){
+            setResponse('successfully upgdated password')
+            setStyleProp('Success')
+        } else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        onSubmitProps.resetForm()
+        setOpenModal(true)
         setSubmitting(false)
     }
     return (
+    <>
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} message={response} styleProp={styleProp}/>
         <div className='Profile'>
             {
                 scores.length>0 &&  <>
@@ -91,6 +121,7 @@ const Profile = () => {
                 </Formik>
              }
         </div>
+    </>
     )
 }
 

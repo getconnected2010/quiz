@@ -9,6 +9,11 @@ const Nav = () => {
     const history= useHistory()
     const dispatch=useDispatch()
     const user = useSelector(state=>state.user)
+    // const modalMessage = useSelector(state=>state.modalMessage)
+    // console.log('in modal', modalMessage)
+    // if(Object.keys(modalMessage).length !==0) {
+    //     console.log('not empry')
+    // }
     const user_id= user.user_id
     const admin= user.admin
     const logout=async()=>{

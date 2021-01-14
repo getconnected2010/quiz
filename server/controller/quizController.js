@@ -5,7 +5,7 @@ exports.addQa = (req, res)=>{
     const {subject, question, answer1, answer2, answer3, answer4, correct} = req.body
     const sqlAdd = "INSERT INTO quiz_list (subject, question, answer1, answer2, answer3, answer4, correct) VALUES (?,?,?,?,?,?,?)";
     db.query(sqlAdd, [subject, question, answer1, answer2, answer3, answer4, correct], (err, result)=>{
-        if(err) return res.status(500).json({msg:'server error'})
+        if(err) return res.status(500).json({msg:'server error adding question to database'})
         res.status(200).send(result)
     })
 }
@@ -29,11 +29,10 @@ exports.fetchScores=(req, res)=>{
 }
 
 exports.getQa = (req, res)=>{
-    const { refreshToken} = req.cookies
     const subject = req.params.subject
     const listSql= "SELECT * FROM quiz_list WHERE subject=? ORDER BY id DESC";
     db.query(listSql,[subject], (err, results)=>{
-        if(err) return res.status(400).json(err)
+        if(err) return res.status(400).json({msg:'error fetching questions'})
         res.status(200).json(results)
     })
 }

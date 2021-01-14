@@ -10,13 +10,10 @@ export const adminFetchScoreApi=async(data)=>{
         const {userScore} = data
         const result= await axios.get(`${url}/user/admin/scores/${user_id}/${userScore}`, {withCredentials: true})
         if(result && result.data.result) return result.data.result
+        return 'error fetching scores'
     } catch (error) {
-        if(error.response&& error.response.data.msg) {
-            alert(error.response.data.msg)
-            return[]
-        }
-        alert('error down grading username')
-        return[]
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error fetching scores'
     }
 }
 
@@ -25,10 +22,12 @@ export const delUserApi= async(data)=>{
         const user = await fetchCookie()
         data.user_id = user.user_id
         const result = await axios.post(`${url}/user/admin/delete`, data, {withCredentials: true})
-        if(result.status===200) return alert('username successfully deleted')
+        if(result.status===200) return result.status
+        if(result.data.msg) return result.data.msg
+        return 'error deleting usernam'
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error deleting username')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error deleting username'
     }
 }
 
@@ -37,21 +36,23 @@ export const dnGradeApi= async(data)=>{
         const user= await fetchCookie()
         data.user_id = user.user_id
         const result= await axios.post(`${url}/user/admin/dngrade`, data, {withCredentials: true})
-        if(result && result.data.msg) return alert(result.data.msg)
+        if(result.status===200) return result.status
+        if(result.data.msg) return result.data.msg
+        return 'error down grading username'
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error down grading username')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error down grading username'
     }
 }
 
 export const resetPasswordApi= async(data)=>{
     try {
         const response = await axios.post(`${url}/user/self/reset`, data, {withCredentials: true})
-        if(response.data.msg) return alert(response.data.msg)
         if(response.status===200) return response.status
+        if(response.data.msg) return response.data.msg
     } catch (error) {
-        if(error.response && error.response.data.msg) return alert(error.response.data.msg)
-        alert('error resetting password')
+        if(error.response && error.response.data.msg) return error.response.data.msg
+        return 'error resetting password'
     }
 }
 
@@ -68,23 +69,29 @@ export const signInApi=async (data)=>{
 
 export const signoutApi=async()=>{
     try {
-        await axios.get(`${url}/user/signout`, {withCredentials: true})
-        removeCookie()
+        const result = await axios.get(`${url}/user/signout`, {withCredentials: true})
+        if(result.status===200){
+            removeCookie()
+            return result.status
+        } else {
+            removeCookie()
+            return result.data.msg
+        }
     } catch (error) {
         removeCookie()
-        if(error.response && error.response.data) return alert(error.response.data.msg)
-        alert('error logging you out. If error persists, contact admin.')  
+        if(error.response && error.response.data) return error.response.data.msg
+        return 'error logging you out. If error persists, contact admin.'
     }
 }
 
 export const signUpApi=async(data)=>{
     try {
         const result= await axios.post(`${url}/user/signup`, data, {withCredentials: true})
-        if(result.data.msg) return alert(result.data.msg)
         if(result.status===200) return result.status
+        if(result.data.msg) return result.data.msg
     } catch (error) {
-        if(error.response&& error.response.data.msg)return alert(error.response.data.msg)
-        alert('error signing you up')
+        if(error.response&& error.response.data.msg)return error.response.data.msg
+        return 'error signing you up'
     }
 }
 
@@ -93,10 +100,12 @@ export const unflagApi=async(data)=>{
         const user = await fetchCookie()
         data.user_id= user.user_id
         const result = await axios.post(`${url}/user/admin/unflag`, data, {withCredentials: true})
-        if(result.status===200) alert('username successfully unflagged')
+        if(result.status===200) return result.status
+        if(result.data.msg) return result.data.msg
+        return 'error unflagging username'
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error unflagging username')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error unflagging username'
     }
 }
 
@@ -105,10 +114,11 @@ export const updatePasswordApi=async(data)=>{
         const user= await fetchCookie()
         data.user_id = user.user_id
         const result = await axios.post(`${url}/user/update/password`, data, {withCredentials: true})
-        alert(result.data.msg)
+        if(result.status===200) return result.status
+        if(result.data.msg) return result.data.msg
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error updating password')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error updating password'
     }
 }
 
@@ -117,10 +127,11 @@ export const updateUsernameApi=async(data)=>{
         const user= await fetchCookie()
         data.user_id = user.user_id
         const result= await axios.post(`${url}/user/update/username`, data, {withCredentials: true})
-        alert(result.data.msg)
+        if(result.status===200)return result.status
+        if(result.data.msg) return result.data.msg
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error updating username')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error updating username'
     }
 }
 
@@ -129,9 +140,11 @@ export const upgradeApi= async(data)=>{
         const user= await fetchCookie()
         data.user_id = user.user_id
         const result= await axios.post(`${url}/user/admin/upgrade`, data, {withCredentials: true})
-        alert(result.data.msg)
+        if(result.status===200) return result.status
+        if(result.data.msg) return result.data.msg
+        return 'error upgrading username'
     } catch (error) {
-        if(error.response&& error.response.data.msg) return alert(error.response.data.msg)
-        alert('error upgrading username')
+        if(error.response&& error.response.data.msg) return error.response.data.msg
+        return 'error upgrading username'
     }
 }

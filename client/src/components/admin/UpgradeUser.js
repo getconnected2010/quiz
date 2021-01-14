@@ -1,24 +1,38 @@
-import React from 'react'
+import React, {useState} from 'react'
 import{Link} from 'react-router-dom'
 import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import{ButtonComponent, InputField} from '../FormComponents'
 import {upgradeApi} from '../../services/api/userApi'
+import ModalPage from '../ModalPage'
 
 const UpgradeUser = ({setShowUpgrade, submitting, setSubmitting}) => {
-    const upgradeInit={upUser:'', password:''}
+    const [openModal, setOpenModal]= useState(false)
+    const [styleProp, setStyleProp]=useState()
+    const [response, setResponse]= useState()
 
+    const upgradeInit={upUser:'', password:''}
     const upgradeSchema= Yup.object({
         upUser: Yup.string().required('username to be upgraded is required'),
         password: Yup.string().required('admin password is required')
     })
     const upgradeSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)
-        await upgradeApi(values)
+        const result = await upgradeApi(values)
+        if(result===200){
+            setResponse('successfully upgraded username')
+            setStyleProp('Success')
+        } else{
+            setResponse(result)
+            setStyleProp('Error')
+        }
+        setOpenModal(true)
         onSubmitProps.resetForm()
         setSubmitting(false)
     }
     return (
+    <>
+        <ModalPage openModal={openModal} setOpenModal={setOpenModal} styleProp={styleProp} message={response} />
         <Formik initialValues={upgradeInit} validationSchema={upgradeSchema} onSubmit={upgradeSubmit}>
             {
                 formik=>(
@@ -31,6 +45,7 @@ const UpgradeUser = ({setShowUpgrade, submitting, setSubmitting}) => {
                 )
             }
         </Formik>
+    </>
     )
 }
 
