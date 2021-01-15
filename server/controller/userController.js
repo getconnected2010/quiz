@@ -1,30 +1,32 @@
 const db= require('../config/db')
 const bcrypt= require('bcrypt')
 const flagUtil = require('../util/flagUtil')
+const scoreUtil = require('../util/scoreUtil')
 
 exports.delUser=async(req, res)=>{
-    const {delUsername}= req.body
+    const {username}= req.body
     const delSql= "DELETE FROM users WHERE username=?"
-    db.query(delSql, [delUsername], (err, result)=>{
+    db.query(delSql, [username], (err)=>{
         if(err) return res.status(500).json({msg:'server error deleting username'})
-        flagUtil.flaggedUserReset(delUsername)
+        flagUtil.flaggedUserReset(username)
+        scoreUtil.delNullScore()
         res.status(200).json({msg:'username successfully deleted'})
     })
 }
 
 exports.dnGradeUser=(req, res)=>{
-    const {dnUsername} = req.body
+    const {username} = req.body
     const dnGradeSql = "UPDATE users SET admin= 'false' WHERE username=?"
-    db.query(dnGradeSql, [dnUsername], (err)=>{
+    db.query(dnGradeSql, [username], (err)=>{
         if(err) return res.status(500).json({msg:'error down-grading username to admin'})
         res.status(200).json({msg:'if username exits in database, it has been down-graded from admin'})
     })
 }
 
 exports.getUserId=(req, res, next)=>{
-    const userScore = req.params.userScore
+    const username = req.params.username
     const getUserIdSql="SELECT user_id FROM users WHERE username=?"
-    db.query(getUserIdSql, [userScore], (err, result)=>{
+    db.query(getUserIdSql, [username], (err, result)=>{
         if(err) return res.status(500).json({msg:'server error fetching scores'})
         if(result.length===0) return res.status(401).json({msg:"that username doesn't exist in database"})
         if(result.length===1){
@@ -59,25 +61,26 @@ exports.getUserId=(req, res, next)=>{
  }
 
  exports.upgradeUser=(req, res)=>{
-     const {upUsername} = req.body
+     const {username} = req.body
      const upgradeSql = "UPDATE users SET admin= 'true' WHERE username=?"
-     db.query(upgradeSql, [upUsername], (err)=>{
+     db.query(upgradeSql, [username], (err)=>{
          if(err) return res.status(500).json({msg:'error up-grading username to admin'})
          res.status(200).json({msg:'if username exits in database, it has been up-graded to admin'})
      })
  }
 exports.userAdminReset=async (req, res)=>{
     try {
-        const {unflagUser}= req.body
-        await flagUtil.flaggedUserReset(unflagUser)
+        const {username}= req.body
+        await flagUtil.flaggedUserReset(username)
         res.status(200).json({msg:'success resetting username'})
     } catch (error) {
         res.status(500).json({msg:'server error resetting username'})
     }
 }
+
 exports.userSelfReset=async(req, res)=>{
     try {
-        const{username, password} = req.body
+        const{password, username} = req.body
         const salt= Number(process.env.SALT)
         const hashedPass= await bcrypt.hash(password, salt)
         const resetSql="UPDATE users SET password=? WHERE username=?"
@@ -92,7 +95,7 @@ exports.userSelfReset=async(req, res)=>{
 }
 
 exports.userSignIn= (req, res, next)=>{
-    const {username, password} = req.body
+    const {username} = req.body
     const userSql= "SELECT * FROM users WHERE username=?"
     db.query(userSql, [username], (err, result)=>{
         if(err) return res.status(500).json({msg:'server error. If error persists, contact site admin.'})

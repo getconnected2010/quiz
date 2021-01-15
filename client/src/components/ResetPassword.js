@@ -23,7 +23,7 @@ const ResetPassword = () => {
     const onSubmit=async(values, onSubmitProps)=>{
         const result = await resetPasswordApi(values) 
         if(result===200){
-            setResponse('Sign up Success. Continue to Login page')
+            setResponse('Account has been reset. You may continue to Login page')
             setStyleProp('Success')
         }else{
             setResponse(result)

@@ -55,20 +55,34 @@ exports.addQA= [
         })
 ]
 
-exports.delUser =[
-    check('delUsername')
-        .escape()
+exports.dob=[
+    check('dob')
         .trim()
-        .notEmpty().withMessage('value is required for a username to be deleted')
-        .isLength({max:45}).withMessage('maximum of 45 characters allowed as a username')
+        .notEmpty().withMessage('birth month and date as MMDD format required')
+        .isLength({min:4, max:4}).withMessage('birth month and date as MMDD format required')
+        .isInt().withMessage('only numbers allowed as date of birth as MMDD')
 ]
 
-exports.dnGradeUser=[
-    check('dnUsername')
+exports.newPassword=[
+    check('newPassword')
+        .trim()
+        .notEmpty().withMessage('new password is required')
+        .isLength({min:4, max:12}).withMessage('new password must be 4 to 12 characters long')
+]
+
+exports.newUsername=[
+    check('newUsername')
         .escape()
         .trim()
-        .notEmpty().withMessage('value is required for a username to be down-graded')
-        .isLength({max:45}).withMessage('maximum of 45 characters allowed as a username')
+        .notEmpty().withMessage('new username required')
+        .isLength({min:4, max: 40}).withMessage('new username must be 4 to 40 characters long')
+]
+
+exports.password =[
+    check('password')
+        .trim()
+        .notEmpty().withMessage('password is required')
+        .isLength({min: 4, max: 12}).withMessage('password must be 4 to 12 characters long')
 ]
 
 exports.recordScore =[
@@ -86,31 +100,10 @@ exports.recordScore =[
         })
 ]
 
-exports.upgradeUser =[
-    check('upUsername')
-        .escape()
-        .trim()
-        .notEmpty().withMessage('value is required for a username to be upgraded')
-        .isLength({max:45}).withMessage('maximum of 45 characters allowed as a username')
-]
-
-exports.userAdminReset = [
-    check('unflagUser')
-        .escape()
-        .trim()
-        .notEmpty().withMessage('value is required for a username to be reset')
-        .isLength({max:45}).withMessage('maximum of 45 characters allowed as a username')
-]
-
-exports.userSelfReset =[
+exports.username=[
     check('username')
         .escape()
         .trim()
-        .notEmpty().withMessage('username is required')
-        .isLength({max:45}).withMessage('maximum of 45 characters allowed as a username'),
-    check('password')
-        .escape()
-        .trim()
-        .notEmpty().withMessage('password is required')
-        .isLength({min:6, max:12}).withMessage('password must be 6 to 12 characters long')
+        .notEmpty().withMessage('a username value is required')
+        .isLength({min:4, max:40}).withMessage('username must be 4 to 40 characters long')
 ]

@@ -11,9 +11,9 @@ const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
     const [styleProp, setStyleProp]=useState()
     const [response, setResponse]= useState()
 
-    const delInit={delUsername:'', password:''}
+    const delInit={username:'', password:''}
     const delSchema= Yup.object({
-        delUsername: Yup.string().required('a username to delete is required'),
+        username: Yup.string().required('a username to delete is required'),
         password: Yup.string().required('your admin password is required')
     })
 
@@ -39,7 +39,7 @@ const DeleteUser = ({setShowDelete, submitting, setSubmitting}) => {
             {
                 formik=>(
                     <Form>
-                        <InputField name={'delUsername'} label={'Username to delete:'} type={'text'} placeholder={'username to be deleted'} />
+                        <InputField name={'username'} label={'Username to delete:'} type={'text'} placeholder={'username to be deleted'} />
                         <InputField name={'password'} label={'Admin password:'} type={'password'} placeholder={'your admin password'} />
                         <ButtonComponent type={'submit'} disabled={submitting} label={submitting?'please wait...': 'Delete username'} />
                         <Link onClick={()=>setShowDelete(false)} to='#'>Hide form</Link>

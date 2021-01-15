@@ -7,8 +7,8 @@ export const adminFetchScoreApi=async(data)=>{
     try {
         const user= await fetchCookie()
         const user_id= user.user_id
-        const {userScore} = data
-        const result= await axios.get(`${url}/user/admin/scores/${user_id}/${userScore}`, {withCredentials: true})
+        const {username} = data
+        const result= await axios.get(`${url}/user/admin/scores/${user_id}/${username}`, {withCredentials: true})
         if(result && result.data.result) return result.data.result
         return 'error fetching scores'
     } catch (error) {

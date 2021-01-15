@@ -11,9 +11,9 @@ const AdminFetchScores = ({setScores, setShowScores, submitting, setSubmitting})
     const [styleProp, setStyleProp]=useState()
     const [response, setResponse]= useState()
 
-    const gtScoreInit={userScore:''}
+    const gtScoreInit={username:''}
     const gtScoreSchema= Yup.object({
-        userScore: Yup.string().required('Scores of which username?')
+        username: Yup.string().required('Scores of which username?')
     })
     const gtScoreSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)
@@ -36,7 +36,7 @@ const AdminFetchScores = ({setScores, setShowScores, submitting, setSubmitting})
             {
                 formik=>(
                     <Form>
-                        <InputField name={'userScore'} label={'Scores of which username?'} type={'text'} placeholder={'scores of which username to fetch?'} />
+                        <InputField name={'username'} label={'Scores of which username?'} type={'text'} placeholder={'scores of which username to fetch?'} />
                         <ButtonComponent type={'submit'} disabled={submitting} label={submitting?'please wait...': 'Fetch scores'} />
                         <Link onClick={()=>setShowScores(false)} to='#'>Hide form</Link>
                     </Form>

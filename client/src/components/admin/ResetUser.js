@@ -6,14 +6,14 @@ import{ButtonComponent, InputField} from '../FormComponents'
 import {resetApi} from '../../services/api/userApi'
 import ModalPage from '../ModalPage'
 
-const UnflagUser = ({setShowFlagged, submitting, setSubmitting}) => {
+const ResetUser = ({setShowFlagged, submitting, setSubmitting}) => {
     const [openModal, setOpenModal]= useState(false)
     const [styleProp, setStyleProp]=useState()
     const [response, setResponse]= useState()
 
-    const unflagInit={unflagUser:'', password:''}
+    const unflagInit={username:'', password:''}
     const unflagSchema= Yup.object({
-        unflagUser: Yup.string().required('a username to unflag is required'),
+        username: Yup.string().required('a username to unflag is required'),
         password: Yup.string().required('your admin password is required')
     })
     const unflagSubmit=async(values, onSubmitProps)=>{
@@ -37,7 +37,7 @@ const UnflagUser = ({setShowFlagged, submitting, setSubmitting}) => {
         {
             formik=>(
                 <Form>
-                    <InputField name={'unflagUser'} label={'Username to unflag:'} type={'text'} placeholder={'username to be unflagged'} />
+                    <InputField name={'username'} label={'Username to unflag:'} type={'text'} placeholder={'username to be unflagged'} />
                     <InputField name={'password'} label={'Admin password:'} type={'password'} placeholder={'your admin password'} />
                     <ButtonComponent type={'submit'} disabled={submitting} label={submitting?'please wait...': 'Unflag username'} />
                     <Link onClick={()=>setShowFlagged(false)} to='#'>Hide form</Link>
@@ -49,4 +49,4 @@ const UnflagUser = ({setShowFlagged, submitting, setSubmitting}) => {
     )
 }
 
-export default UnflagUser
+export default ResetUser

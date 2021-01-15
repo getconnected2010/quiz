@@ -13,7 +13,7 @@ exports.adminDB=(req, res, next)=>{
             res.status(401).json({msg:"you don't have admin priviledge"})
         }
         if(result.length===1 && result[0].admin==='true') {
-            req.body.username = result[0].username
+            req.body.dbusername = result[0].username
             req.body.dbPassword = result[0].password
             next()
         }else{
@@ -106,7 +106,7 @@ exports.userNotTimeout = (req, res, next)=>{
     timeoutSql= "SELECT COUNT(*) AS flaggedCount FROM flagged WHERE username=? AND unix_timestamp(time)> unix_timestamp(now())-1800"
     db.query(timeoutSql, [username], (err, result)=>{
         if(err) return res.status(500).json({msg:'server error. Try again later or notify admin'})
-        if(result[0].flaggedCount>3) return res.status(401).json({msg:'Too many failed reset attempts. Your account is locked for 30 minutes.'})
+        if(result[0].flaggedCount>4) return res.status(401).json({msg:'Too many failed reset attempts. Your account is locked for 30 minutes.'})
         next()
     })
 }
