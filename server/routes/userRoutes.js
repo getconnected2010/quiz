@@ -9,15 +9,15 @@ const cookieParser = require('cookie-parser')
 
 route.use(cookieParser())
 
-route.get('/admin/scores/:user_id/:username', CK.verifyAdmin, CK.refresh, VAL.username, VAL.validatorResult, VER.adminDB, UC.getUserId, QC.fetchScores)
+route.get('/admin/scores/:user_id/:username', VAL.user_id, VAL.username, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, UC.getUserId, QC.fetchScores)
 
-route.post('/admin/delete', CK.verifyAdmin, CK.refresh, VAL.username, VAL.password, VAL.validatorResult, VER.adminDB, VER.password, UC.delUser)
+route.post('/admin/delete', VAL.user_id, VAL.username, VAL.password, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, UC.delUser)
 
-route.post('/admin/dngrade', CK.verifyAdmin, CK.refresh, VAL.username, VAL.password, VAL.validatorResult, VER.adminDB, VER.password, UC.dnGradeUser)
+route.post('/admin/dngrade', VAL.user_id, VAL.username, VAL.password, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, UC.dnGradeUser)
 
-route.post('/admin/upgrade', CK.verifyAdmin, CK.refresh, VAL.username, VAL.password, VAL.validatorResult, VER.adminDB, VER.password, UC.upgradeUser)
+route.post('/admin/upgrade', VAL.user_id, VAL.username, VAL.password, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, UC.upgradeUser)
 
-route.post('/admin/reset', CK.verifyAdmin, CK.refresh, VAL.username, VAL.password, VAL.validatorResult, VER.adminDB, VER.password, UC.userAdminReset)
+route.post('/admin/reset', VAL.user_id, VAL.username, VAL.password, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, VER.password, UC.userAdminReset)
 
 route.post('/self/reset', VAL.username, VAL.password, VAL.validatorResult, VER.userNotTimeout, VER.usernameDobMatchDb, UC.userSelfReset)
 
@@ -27,8 +27,8 @@ route.get('/signout', CK.delete)
 
 route.post('/signup', VAL.username, VAL.password, VAL.dob, VAL.validatorResult, VER.usernameAvailable, UC.userSignUp)
 
-route.post('/update/password', CK.verifyLoggedUser, CK.refresh, VAL.password, VAL.newPassword, VAL.validatorResult, VER.userInDB, VER.userNotFlagged, VER.password, UC.updatePassword)
+route.post('/update/password', VAL.user_id, VAL.password, VAL.newPassword, VAL.validatorResult, CK.verifyLoggedUser, CK.refresh, VER.userInDB, VER.userNotFlagged, VER.password, UC.updatePassword)
 
-route.post('/update/username', CK.verifyLoggedUser, CK.refresh, VAL.password, VAL.newUsername, VAL.validatorResult, VER.userInDB, VER.userNotFlagged, VER.password, VER.newUsernameAvailable, UC.updateUsername)
+route.post('/update/username', VAL.user_id, VAL.password, VAL.newUsername, VAL.validatorResult, CK.verifyLoggedUser, CK.refresh, VER.userInDB, VER.userNotFlagged, VER.password, VER.newUsernameAvailable, UC.updateUsername)
 
 module.exports = route

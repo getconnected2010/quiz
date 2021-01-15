@@ -36,13 +36,13 @@ const Home = () => {
             <h1>Welcome to quiz app</h1>  
             <div className='buttons'>
                 <h2>Pick a subject area from options below</h2>
-                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'general'} label={submitting?'Please wait...':'General'} />
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'General'} label={submitting?'Please wait...':'General'} />
 
-                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'geography'} label={submitting?'Please wait...':'Geography'} />
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'Geography'} label={submitting?'Please wait...':'Geography'} />
                 
-                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'science'} label={submitting?'Please wait...':'Science'}/>
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'Science'} label={submitting?'Please wait...':'Science'}/>
 
-                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'history'} label={submitting?'Please wait...':'History'}/>
+                <ButtonComponent disabled={submitting} onClick={fetchQuiz} id={'History'} label={submitting?'Please wait...':'History'}/>
             </div>
         </div>
     </>

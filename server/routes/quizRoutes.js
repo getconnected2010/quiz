@@ -7,14 +7,14 @@ const CK= require('../util/cookies')
 const VER = require('../util/verify')
 
 
-router.post('/add', CK.verifyAdmin, CK.refresh, VER.adminDB, VAL.addQA, VAL.validatorResult, QC.addQa)
+router.post('/add', VAL.user_id, VAL.addQA, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, QC.addQa)
 
-router.delete('/delete/:id/:user_id', CK.verifyAdmin, CK.refresh, VER.adminDB, QC.deleteQa)
+router.delete('/delete/:id/:user_id', VAL.id, VAL.user_id, VAL.validatorResult, CK.verifyAdmin, CK.refresh, VER.adminDB, QC.deleteQa)
 
-router.get('/list/:subject', QC.getQa)
+router.get('/list/:subject', VAL.subject, VAL.validatorResult, QC.getQa)
 
-router.get('/scores/:user_id', CK.verifyLoggedUser, CK.refresh, VER.userInDB, QC.fetchScores)
+router.get('/scores/:user_id', VAL.user_id, VAL.validatorResult, CK.verifyLoggedUser, CK.refresh, VER.userInDB, QC.fetchScores)
 
-router.post('/score', CK.verifyLoggedUser, CK.refresh, VER.userInDB, VAL.recordScore, VAL.validatorResult, QC.recordScore)
+router.post('/score', VAL.user_id, VAL.subject, VAL.validatorResult, CK.verifyLoggedUser, CK.refresh, VER.userInDB, QC.recordScore)
 
 module.exports= router

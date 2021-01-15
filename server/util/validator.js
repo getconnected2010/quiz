@@ -63,6 +63,13 @@ exports.dob=[
         .isInt().withMessage('only numbers allowed as date of birth as MMDD')
 ]
 
+exports.id=[
+    check('id')
+        .trim()
+        .notEmpty().withMessage('id required')
+        .isInt().withMessage('id must be a number')
+]
+
 exports.newPassword=[
     check('newPassword')
         .trim()
@@ -85,7 +92,7 @@ exports.password =[
         .isLength({min: 4, max: 12}).withMessage('password must be 4 to 12 characters long')
 ]
 
-exports.recordScore =[
+exports.subject =[
     check('subject')
         .escape()
         .trim()
@@ -98,6 +105,13 @@ exports.recordScore =[
                 return value
             }
         })
+]
+
+exports.user_id=[
+    check('user_id')
+        .trim()
+        .notEmpty().withMessage('a user id required')
+        .isInt().withMessage('user id must be a number')
 ]
 
 exports.username=[
