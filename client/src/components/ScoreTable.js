@@ -2,21 +2,29 @@ import React from 'react'
 
 const ScoreTable = ({array, onClick}) => {
     return (
-        <table>
-            <tbody >
-            {
-                array.map(score=>(
-                        <tr key={score.subject}>
-                            <td>{score.subject}</td>
-                            <td>{score.score}</td>
+        <div>
+            <table>
+                <tbody>
+                    <>
+                        {
+                            array.map(score=>(
+                                    <tr key={score.subject}>
+                                        <td>{score.subject}</td>
+                                        <td>{score.score}</td>
+                                    </tr>
+                            ))
+                        }
+                        <tr>
+                            <td>
+                                <button onClick={onClick}>Clear scores</button>
+                            </td>
                         </tr>
-                ))
-            }
-            </tbody>
-            { 
-                onClick && <button onClick={onClick}>Clear scores</button>
-            }
-        </table>
+                    </>
+                </tbody>
+                
+            </table>
+            
+        </div>
     )
 }
 
