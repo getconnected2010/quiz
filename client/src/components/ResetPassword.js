@@ -12,8 +12,14 @@ const ResetPassword = () => {
     const [openModal, setOpenModal] = useState(false)
     const initialValues={username:'', password:'', confirm:'', dob:''}
     const validationSchema= Yup.object({
-        username: Yup.string().required('please enter username'),
-        password: Yup.string().required('please enter a password'),
+        username: Yup.string().required('please enter username')
+                    .min(4)
+                    .max(40)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
+        password: Yup.string().required('please enter a password')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.'),
         confirm: Yup.string().required('please confirm your password')
                     .oneOf([Yup.ref('password'),''],"passwords dont't match"),
         dob: Yup.string().required('enter your birthday in two digit month and two digit date format')

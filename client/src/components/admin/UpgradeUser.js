@@ -13,8 +13,14 @@ const UpgradeUser = ({setShowUpgrade, submitting, setSubmitting}) => {
 
     const upgradeInit={username:'', password:''}
     const upgradeSchema= Yup.object({
-        username: Yup.string().required('username to be upgraded is required'),
+        username: Yup.string().required('username to be upgraded is required')
+                    .min(4)
+                    .max(40)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
         password: Yup.string().required('admin password is required')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.')
     })
     const upgradeSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)

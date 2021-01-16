@@ -13,8 +13,14 @@ const DowngradeUser = ({setShowDowngrade, submitting, setSubmitting}) => {
 
     const dnGradeInit={username:'', password:''}
     const dnGradeSchema= Yup.object({
-        username: Yup.string().required('username to be up-graded is required'),
+        username: Yup.string().required('username to be up-graded is required')
+                    .min(4)
+                    .max(40)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
         password: Yup.string().required('admin password is required')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.')
     })
     const dnGradeSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)

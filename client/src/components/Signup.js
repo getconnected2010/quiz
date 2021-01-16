@@ -11,9 +11,14 @@ const Signup = () => {
     const [openModal, setOpenModal] = useState(false)
     const initialValues={username:'', password:'', confirm:'', dob:''}
     const validationSchema= Yup.object({
-        username: Yup.string()
-                    .required('username required'),
-        password: Yup.string().required('password field required'),
+        username: Yup.string().required('username required')
+                    .min(4)
+                    .max(40)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
+        password: Yup.string().required('password field required')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.'),
         confirm: Yup.string().required('password confirmation fielf required')
                     .oneOf([Yup.ref('password')], "password fields don't match"),
         dob: Yup.string().required('a four digit number required').length(4)

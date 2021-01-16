@@ -14,6 +14,9 @@ const AdminFetchScores = ({setScores, setShowScores, submitting, setSubmitting})
     const gtScoreInit={username:''}
     const gtScoreSchema= Yup.object({
         username: Yup.string().required('Scores of which username?')
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.')
+                    .min(4)
+                    .max(40)
     })
     const gtScoreSubmit=async(values, onSubmitProps)=>{
         setSubmitting(true)
@@ -28,6 +31,11 @@ const AdminFetchScores = ({setScores, setShowScores, submitting, setSubmitting})
         }
         onSubmitProps.resetForm()
         setSubmitting(false)
+    }
+    const clear=()=>{
+        const inp= document.getElementsByTagName('input')
+        console.log(inp)
+        console.log('clearing')
     }
     return (
     <>

@@ -16,8 +16,14 @@ const Signin=()=>{
     const [response, setResponse] = useState()
     const initialValues={username:'', password:''}
     const validationSchema= Yup.object({
-        username: Yup.string().required('please enter username'),
+        username: Yup.string().required('please enter username')
+                    .min(4)
+                    .max(40)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
         password: Yup.string().required('please enter password')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.')
     })
     const handleSubmit=async(values, onSubmitProps)=>{
         setResponse(await signInApi(values))

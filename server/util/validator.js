@@ -82,7 +82,7 @@ exports.newPassword=[
         .trim()
         .notEmpty().withMessage('new password is required')
         .isLength({min:4, max:12}).withMessage('new password must be 4 to 12 characters long')
-        .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/).withMessage('only letters, numbers and special characters !@#$*+=:. allowed in password')
+        .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/).withMessage('password can only contain letters, numbers and special characters !@#$*+=:.')
 ]
 
 exports.newUsername=[
@@ -91,7 +91,7 @@ exports.newUsername=[
         .trim()
         .notEmpty().withMessage('new username required')
         .isLength({min:4, max: 40}).withMessage('new username must be 4 to 40 characters long')
-        .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/).withMessage('only letters, numbers and special characters ~!@$^*()_+={}:;. allowed in username')
+        .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/).withMessage('username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.')
 ]
 
 exports.password =[
@@ -99,7 +99,7 @@ exports.password =[
         .trim()
         .notEmpty().withMessage('password is required')
         .isLength({min: 4, max: 12}).withMessage('password must be 4 to 12 characters long')
-        .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/).withMessage('only letters, numbers and special characters !@#$*+=:. allowed in password')
+        .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/).withMessage('password can only contain letters, numbers and special characters !@#$*+=:.')
 ]
 
 exports.subject =[
@@ -131,5 +131,5 @@ exports.username=[
         .trim()
         .notEmpty().withMessage('a username value is required')
         .isLength({min:4, max:40}).withMessage('username must be 4 to 40 characters long')
-        .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/).withMessage('only letters, numbers and special characters ~!@$^*()_+={}:;. allowed in username')
+        .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/).withMessage('username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.')
     ]

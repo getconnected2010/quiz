@@ -18,11 +18,21 @@ function Add() {
     const initialValues={question:'', answer1:'', answer2:'', answer3:'', answer4:'', correct:'', subject:''}
     const selectOptions= ['', 'Geography', 'General', 'Science', 'History']
     const validationSchema= Yup.object({
-        question: Yup.string().required('required'),
-        answer1: Yup.string().required('required'),
-        answer2: Yup.string().required('required'),
-        answer3: Yup.string().required('required'),
-        answer4: Yup.string().required('required'),
+        question: Yup.string().required('required')
+                    .max(45)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.?|#%&-]+$/, 'question can only contain letters, numbers and special characters ~!@$^*()_+={}:;.?|#%&-'),
+        answer1: Yup.string().required('required')
+                    .max(45)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.?|#%&-]+$/, 'answer #1 can only contain letters, numbers and special characters ~!@$^*()_+={}:;.?|#%&-'),
+        answer2: Yup.string().required('required')
+                    .max(45)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.?|#%&-]+$/, 'answer #2 can only contain letters, numbers and special characters ~!@$^*()_+={}:;.?|#%&-'),
+        answer3: Yup.string().required('required')
+                    .max(45)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.?|#%&-]+$/, 'answer #3 can only contain letters, numbers and special characters ~!@$^*()_+={}:;.?|#%&-'),
+        answer4: Yup.string().required('required')
+                    .max(45)
+                    .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.?|#%&-]+$/, 'answer #4 can only contain letters, numbers and special characters ~!@$^*()_+={}:;.?|#%&-'),
         correct: Yup.string().required('required')
                     .oneOf([Yup.ref('answer1'), Yup.ref('answer2'), Yup.ref('answer3'), Yup.ref('answer4')],'the correct answer must match one of the answer options'),
         subject: Yup.string().required('required')

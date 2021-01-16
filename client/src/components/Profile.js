@@ -21,12 +21,24 @@ const Profile = () => {
     const initialValuesUsername={newUsername:'', password:''}
     const initialValuesPass={password:'', newPassword:'', confirm:''}
     const validationSchemaUsername= Yup.object({
-        newUsername: Yup.string().required('Required'),
+        newUsername: Yup.string().required('Required')
+                        .min(4)
+                        .max(40)
+                        .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
         password: Yup.string().required('Required')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.')
     })
     const validationSchemaPass= Yup.object({
-        password: Yup.string().required('Required'),
-        newPassword: Yup.string().required('Required'),
+        password: Yup.string().required('Required')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.'),
+        newPassword: Yup.string().required('Required')
+                    .min(4)
+                    .max(12)
+                    .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.'),
         confirm: Yup.string().required('Required').oneOf([Yup.ref('newPassword'),''], "passwords don't match")
     })
     
