@@ -81,7 +81,8 @@ exports.newPassword=[
     check('newPassword')
         .trim()
         .notEmpty().withMessage('new password is required')
-        .isLength({min:4, max:12}).withMessage('new password must be 4 to 12 characters long')
+        .isLength({min:6, max:12}).withMessage('new password must be 6 to 12 characters long')
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$*+=:.])/).withMessage('password must contain lower case letter, upper case letter, number and special character from !@#$*+=:.')
         .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/).withMessage('password can only contain letters, numbers and special characters !@#$*+=:.')
 ]
 

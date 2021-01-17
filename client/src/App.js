@@ -12,7 +12,7 @@ import Signup from './components/Signup'
 import Signin from './components/Signin'
 import { AdminOnly, LoggedOnly, UnloggedOnly } from './services/ProtectedRoutes';
 import ResetPassword from './components/ResetPassword';
-import Profile from './components/Profile'
+import ProfilePage from './components/profile/ProfilePage'
 import AdminPage from './components/admin/AdminPage'
 
 
@@ -34,7 +34,7 @@ const App = () => {
         <AdminOnly path='/admin' component={AdminPage} />
         <Route path='/list' component={QaList} />
         <UnloggedOnly path='/login' component={Signin} />
-        <LoggedOnly path='/profile' component={Profile} />
+        <LoggedOnly path='/profile' component={ProfilePage} />
         <UnloggedOnly path='/reset' component={ResetPassword} />
         <UnloggedOnly path='/signin' component={Signin} />
         <Route path='/signup' component={Signup} />

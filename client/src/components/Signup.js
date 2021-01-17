@@ -9,20 +9,21 @@ const Signup = () => {
     const [response, setResponse] = useState()
     const [styleProp, setStyleProp] = useState()
     const [openModal, setOpenModal] = useState(false)
-    const initialValues={username:'', password:'', confirm:'', dob:''}
+    const initialValues={username:'', newPassword:'', confirm:'', dob:''}
     const validationSchema= Yup.object({
         username: Yup.string().required('username required')
                     .min(4)
                     .max(40)
                     .matches(/^[ a-zA-Z0-9~!@$^*()_+={}:;.]+$/, 'username can only contain letters, numbers and special characters ~!@$^*()_+={}:;.'),
-        password: Yup.string().required('password field required')
-                    .min(4)
+        newPassword: Yup.string().required('password field required')
+                    .min(6)
                     .max(12)
+                    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$*+=:.])/, 'password must contain lower case letter, upper case letter, number and special character from !@#$*+=:.')
                     .matches(/^[a-zA-Z0-9!@#$*+=:.]+$/, 'password can only contain letters, numbers and special characters !@#$*+=:.'),
         confirm: Yup.string().required('password confirmation fielf required')
-                    .oneOf([Yup.ref('password')], "password fields don't match"),
+                    .oneOf([Yup.ref('newPassword')], "password fields don't match"),
         dob: Yup.string().required('a four digit number required').length(4)
-                .matches(/^[0-9]+$/, "enter your birthday in two digit month and two digit day format")
+                    .matches(/^[0-9]+$/, "enter your birthday in two digit month and two digit day format")
     })
     const handleSubmit= async(values, onSubmitProps)=>{
         const result = await signUpApi(values)
@@ -48,7 +49,7 @@ const Signup = () => {
                             <Form>
                                 <InputField label={'User name: '} name={'username'} type={'text'} placeholder={'username'} />
 
-                                <InputField label={'Password: '} name={'password'} type={'password'} placeholder={'password'} />
+                                <InputField label={'Password: '} name={'newPassword'} type={'password'} placeholder={'password'} />
                                 
                                 <InputField label={'Confirm password: '} name={'confirm'} type={'password'} placeholder={'confirm password'} />
                                 

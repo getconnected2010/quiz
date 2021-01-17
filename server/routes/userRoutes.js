@@ -25,7 +25,7 @@ route.post('/signin', VAL.username, VAL.password, VAL.validatorResult, VER.userN
 
 route.get('/signout', CK.delete)
 
-route.post('/signup', VAL.username, VAL.password, VAL.dob, VAL.validatorResult, VER.usernameAvailable, UC.userSignUp)
+route.post('/signup', VAL.username, VAL.newPassword, VAL.dob, VAL.validatorResult, VER.usernameAvailable, UC.userSignUp)
 
 route.post('/update/password', VAL.user_id, VAL.password, VAL.newPassword, VAL.validatorResult, CK.verifyLoggedUser, CK.refresh, VER.userInDB, VER.userNotFlagged, VER.password, UC.updatePassword)
 
