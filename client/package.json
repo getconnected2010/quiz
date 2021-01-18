@@ -1,5 +1,5 @@
 {
-  "name": "quiz",
+  "name": "y",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,7 +16,7 @@
     "react-modal": "^3.12.1",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
+    "react-scripts": "^4.0.1",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
@@ -47,5 +47,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "its a quiz app in progress. Enter a question and four possible answers. Designate which answer is correct. Enter as many questions as you like. Then let your friend take a test based on your questions...you created a quiz.\r  the app will only have a react front end and will use redux to store the QA values.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
