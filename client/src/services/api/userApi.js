@@ -60,6 +60,7 @@ export const signInApi=async (data)=>{
     try {
         const response= await axios.post(`${url}/user/signin`, data, {withCredentials:true})
         if(response.status===200) return response.status
+        return 'error logging you in'
     }catch(error){
         removeCookie()
         if (error.response && error.response.data) return error.response.data.msg

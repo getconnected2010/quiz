@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const db= require('../config/db')
 const QC= require('../controller/quizController')
 const VAL = require('../util/validator')
 const CK= require('../util/cookies')
